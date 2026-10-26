@@ -1,0 +1,14 @@
+{
+  "appId": "com.xiaokun.learn.v2",
+  "appName": "小坤学编程",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "android": {
+    "allowMixedContent": true,
+    "webContentsDebuggingEnabled": true,
+    "adjustMarginsForEdgeToEdge": "auto"
+  },
+  "server": {
+    "androidScheme": "https"
+  }
+}

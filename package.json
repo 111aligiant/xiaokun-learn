@@ -1,0 +1,30 @@
+{
+  "name": "xiaokun-learn",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "description": "小坤学编程 - 可换课程与人设的手机端编程 AI 私教模板",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "test:qa": "node scripts/qa-check.mjs",
+    "validate:course": "node scripts/validate-course.mjs",
+    "test:e2e": "node scripts/session-test.mjs && node scripts/session-isolation-test.mjs && node scripts/profile-persona-test.mjs",
+    "test:ui": "node scripts/ui-test.mjs",
+    "cap:sync": "npm run build && cap sync android",
+    "apk": "npm run build && cap sync android && cd android && gradlew.bat assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.0.0",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "vite": "^6.0.7"
+  }
+}

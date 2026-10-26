@@ -1,0 +1,32 @@
+# 依赖与构建产物
+node_modules/
+dist/
+.vite/
+
+# 本地配置 / 密钥
+.env
+.env.*
+*.local
+
+# Android 构建产物
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/capacitor-cordova-android-plugins/build/
+*.apk
+*.aab
+*.jks
+*.keystore
+
+# 测试与工具缓存
+.workbuddy/
+playwright-report/
+test-results/
+*.log
+
+# 编辑器 / 系统
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
