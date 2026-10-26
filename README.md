@@ -35,7 +35,7 @@
 
 ---
 
-## 它和"用 AI 学编程"的常见做法有什么不同
+## 它和「用 AI 学编程」的常见做法有什么不同
 
 | | 通用聊天 AI | 视频课 / 刷题 App | 小坤学编程 |
 | --- | --- | --- | --- |
@@ -64,7 +64,7 @@
 - **分层提示词**：人设（稳定）→ 学员背景（半静态）→ 当前课程（动态），稳定段在前，方便模型侧上下文缓存
 - **三种人设**：严谨私教 / 陪练搭子 / 面试官，可自行增删
 - **会话隔离**：每段对话有自己的上下文，换话题不串台，历史随时切回
-- **不给答案，先问思路**：写进人设约束，避免变成"代写作业机"
+- **不给答案，先问思路**：写进人设约束，避免变成「代写作业机」
 
 ### 3. 真省钱：0 后端，自带模型
 
@@ -144,7 +144,7 @@ Release 里的 APK 是 debug 签名，只适合自己安装体验；正式分发
 
 ## 为什么会有这个项目
 
-它最初是一个只服务一位学员的私教版：学员画像写死在代码里，例子全来自他的行业。做完之后发现，真正稀缺的不是"再做一个聊天框"，而是把「因材施教」变成可以配置的东西。
+它最初是一个只服务一位学员的私教版：学员画像写死在代码里，例子全来自学员自己的行业。做完之后发现，真正稀缺的不是「再做一个聊天框」，而是把「因材施教」变成可以配置的东西。
 
 于是有了这个模板：默认助教叫「小坤」，但名字、语气、学员背景和课程都可以换。你拿到的是一个能直接用的 App，也是一份可以拆开改的教学结构。
 
@@ -359,7 +359,7 @@ PLAYWRIGHT_NODE_MODULES=/path/to/node_modules npm run test:e2e
 
 **Xiaokun Learn** is a phone-first AI coding tutor that runs **real Python (Pyodide)** and **SQL (SQLite)** locally on your device. Bring your own OpenAI-compatible API key — there is no backend, no account, and no server cost.
 
-Courses, persona, and the learner profile are plain JS data, so you can fork it into a tutor for any subject with a "explain → practice → feedback" loop. Ships as a PWA and an Android app via Capacitor.
+Courses, persona, and the learner profile are plain JS data, so you can fork it into a tutor for any subject with a cycle of explain → practice → feedback. Ships as a PWA and an Android app via Capacitor.
 
 > The UI is currently Simplified Chinese.
 
