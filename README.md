@@ -1,49 +1,107 @@
-# 小坤学编程
+<div align="center">
 
-**手机上的 AI 编程私教，也是一个可换课程、可换人设的教学 App 模板。**
+<img src="./public/icon-192.png" width="88" alt="小坤学编程" />
 
-内置 Python 与 MySQL 两条路线（各 17 节），课程、练习、进度、笔记全部离线；只有向大模型提问时才联网。
-代码用 Pyodide 在手机本地执行，SQL 用 SQLite 内核本地执行——代码不经过任何服务器。
+<h1>小坤学编程</h1>
 
-> 默认助教叫「小坤」。名字、语气、教学方式、学员背景、课程内容都可以替换，改成你自己的学科和风格。
+<p><strong>手机上的 AI 编程私教。代码在手机上真跑，模型用你自己的 Key，课程和人设可以整个换掉。</strong></p>
 
-[![CI](https://github.com/111aligiant/xiaokun-learn/actions/workflows/ci.yml/badge.svg)](https://github.com/111aligiant/xiaokun-learn/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
-[![Vue 3](https://img.shields.io/badge/Vue-3-42b883.svg)](https://vuejs.org/)
-[![PWA](https://img.shields.io/badge/PWA-ready-5a0fc8.svg)](./public/manifest.webmanifest)
+<p>Python / MySQL 各 17 节 · 本地执行 · 0 后端 · 离线优先 · PWA + Android</p>
 
-[在线体验](https://111aligiant.github.io/xiaokun-learn/) · [下载 Android APK](https://github.com/111aligiant/xiaokun-learn/releases/latest) · [课程包格式](./docs/course-pack.md)
+<p>
+  <a href="https://github.com/111aligiant/xiaokun-learn/actions/workflows/ci.yml"><img src="https://github.com/111aligiant/xiaokun-learn/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT" /></a>
+  <a href="./public/manifest.webmanifest"><img src="https://img.shields.io/badge/PWA-ready-5a0fc8.svg" alt="PWA" /></a>
+  <a href="https://github.com/111aligiant/xiaokun-learn/releases/latest"><img src="https://img.shields.io/badge/Android-APK-3ddc84.svg" alt="Android APK" /></a>
+  <img src="https://img.shields.io/badge/backend-none-0f5132.svg" alt="No backend" />
+</p>
 
----
+<p>
+  <a href="https://111aligiant.github.io/xiaokun-learn/"><strong>在线体验</strong></a> ·
+  <a href="https://github.com/111aligiant/xiaokun-learn/releases/latest">下载 Android APK</a> ·
+  <a href="./docs/course-pack.md">课程包格式</a> ·
+  <a href="#english">English</a>
+</p>
 
-## 界面
+</div>
 
-![小坤学编程首页](./docs/screenshots/home.png)
-
-| 课程 | 课时 | 助教对话 | 实操台 |
-| --- | --- | --- | --- |
-| ![课程列表](./docs/screenshots/learn.png) | ![课时内容](./docs/screenshots/lesson.png) | ![助教对话](./docs/screenshots/chat.png) | ![Python 实操台](./docs/screenshots/lab.png) |
+<div align="center">
+<img src="./docs/screenshots/home.png" width="250" alt="学习首页：连续学习、进度、学习路线" />
+<img src="./docs/screenshots/chat.png" width="250" alt="助教对话：摸底、出题、批改、找 bug" />
+<img src="./docs/screenshots/lab.png" width="250" alt="实操台：在手机上真跑 Python" />
+</div>
 
 > 截图为演示数据。应用本身不含任何预置账号或 API Key。
 
 ---
 
-## 功能
+## 它和"用 AI 学编程"的常见做法有什么不同
 
-- **手机优先**：竖屏单列、底部导航，为碎片时间设计
-- **真环境练习**：Pyodide（CPython/WASM）跑 Python，sql.js 跑 SQL，代码块可一键送进实操台
-- **会话隔离**：每段对话有自己的课程上下文；新对话不承接旧对话，历史随时切回
-- **分层提示词**：人设（稳定）→ 学员背景（半静态）→ 当前课程（动态），稳定段在前，利于模型侧上下文缓存
-- **学员画像**：称呼、目标、基础、举例领域、每周时间、偏好、约束，全部注入 system prompt；举例领域可选预设，也可自由填写；留空则明确告诉模型「别猜」
-- **三种人设预设**：严谨私教 / 陪练搭子 / 面试官，可自行增删
-- **首次引导**：3 步向导，可跳过；老用户数据自动迁移
-- **离线优先**：课程与进度存 localStorage；备份 JSON 不包含 API Key
-- **任意 OpenAI 兼容平台**：Key、base_url、模型名都可手填；内置 DeepSeek / OpenAI / 通义千问 / 智谱 GLM / Kimi / 硅基流动快捷填充
-- **PWA + Android**：同一套代码可加桌面图标，也可用 Capacitor 打 APK
+| | 通用聊天 AI | 视频课 / 刷题 App | 小坤学编程 |
+| --- | --- | --- | --- |
+| 代码在哪运行 | 只给文本，报错靠猜 | 平台沙箱，离开就没了 | **手机本地** CPython / SQLite，真跑真报错 |
+| 是否记得你 | 每次重新交代背景 | 千人一面 | **学员画像**常驻每一轮对话 |
+| 学习闭环 | 你问它答 | 固定目录，缺少追问 | 17 节路线 + 进度 + 笔记 + 随时追问 |
+| 成本 | 订阅 | 订阅 | **0 后端**，只付模型 API 用量 |
+| 能否改成自己的 | 不能 | 不能 | **人设、画像、课程**都是普通 JS 数据 |
+
+一句话：它不是套壳聊天框，而是把「因材施教」拆成了可配置的三层，再配上一个真的能跑代码的实操台。
 
 ---
 
-## 快速开始
+## 四个亮点
+
+### 1. 真环境：代码在你的手机上执行
+
+- Python 用 **Pyodide**（CPython/WASM），SQL 用 **sql.js**（SQLite/WASM），不需要服务器
+- 课程里的代码块可以一键送进实操台，改一行马上看结果
+- 报错信息是真的，调试过程也是真的；代码不上传
+- 手机上竖屏写代码、点「运行」、看输出，界面就是为这个流程设计的
+
+### 2. 真私教：先懂你，再讲课
+
+- **3 步摸底**：称呼、目标、基础、每周时间、举例领域
+- **分层提示词**：人设（稳定）→ 学员背景（半静态）→ 当前课程（动态），稳定段在前，方便模型侧上下文缓存
+- **三种人设**：严谨私教 / 陪练搭子 / 面试官，可自行增删
+- **会话隔离**：每段对话有自己的上下文，换话题不串台，历史随时切回
+- **不给答案，先问思路**：写进人设约束，避免变成"代写作业机"
+
+### 3. 真省钱：0 后端，自带模型
+
+- 没有服务器、账号、数据库要维护
+- 支持任意 **OpenAI 兼容平台**：DeepSeek / OpenAI / 通义千问 / 智谱 GLM / Kimi / 硅基流动，内置快捷填充
+- Key、base_url、模型名三项都可手填，随时换平台
+- 只有你主动提问时才联网；课程、进度、笔记、对话全部离线
+- API Key 只存本机 localStorage；导出的备份 JSON **不包含** Key
+
+### 4. 真模板：换个学科就能用
+
+- 换人设：`src/data/persona.js`
+- 换学员字段：`src/data/profile.js`
+- 加课程：在 `src/data/courses.js` 注册一条路线
+- 自带课程包校验 CLI、提示词单测、Playwright E2E 和 GitHub Actions
+- 同一套代码可发网页（PWA）、可打 Android APK
+
+---
+
+## 界面
+
+| 课程列表 | 课时与练习 |
+| --- | --- |
+| ![课程列表](./docs/screenshots/learn.png) | ![课时内容](./docs/screenshots/lesson.png) |
+
+底部五个入口：首页 / 课程 / 助教 / 实操 / 我的。首页会记住你上次学到哪，助教对话里可以直接出题、批改、找 bug。
+
+---
+
+## 30 秒上手
+
+### 直接体验
+
+- **网页版**：<https://111aligiant.github.io/xiaokun-learn/>（可加到手机桌面，像 App 一样用）
+- **Android**：到 [Releases](https://github.com/111aligiant/xiaokun-learn/releases) 下载最新 APK
+
+### 本地跑起来
 
 需要 Node.js 20+（CI 使用 Node 22）。
 
@@ -56,10 +114,13 @@ npm run dev
 
 打开终端里打印的地址，首次进入会走 3 步引导。
 
-配置模型：底部「我的 → 模型接入」填 API Key、base_url 和模型名，三者都可在任意 OpenAI 兼容平台间自由替换。
-默认 `https://api.deepseek.com` + `deepseek-chat`，也可以点预设一键切换平台。
+### 接上模型
 
-构建与打包：
+底部「我的 → 模型接入」，填 API Key、base_url 和模型名。
+
+默认 `https://api.deepseek.com` + `deepseek-chat`，也可以点预设一键切换平台。三者都可自由替换，不绑定任何一家。
+
+### 打包
 
 ```bash
 npm run build      # 网页版 → dist/
@@ -69,20 +130,29 @@ npm run apk        # debug APK → android/app/build/outputs/apk/debug/app-debug
 
 打包 Android 需要 JDK 21 与 Android SDK；只想跑网页版可以忽略 `android/`。
 
----
-
-## 下载与在线体验
-
-- **网页版**：<https://111aligiant.github.io/xiaokun-learn/>（推送到 `main` 后由 GitHub Pages 自动发布）
-- **Android**：到 [Releases](https://github.com/111aligiant/xiaokun-learn/releases) 下载最新 APK
-
-Release 里的 APK 是 debug 签名，只适合自己安装体验；要正式分发请自行生成签名密钥并配置 release 构建。
+Release 里的 APK 是 debug 签名，只适合自己安装体验；正式分发请自行生成签名密钥并配置 release 构建。
 
 ---
 
-## 定制成你自己的 App
+## 适合谁
 
-模板的定制点都在 `src/data/`，不需要动视图层。
+- **自学编程的人**：每天 10 分钟，跟着 17 节路线走，卡住随时问，不用在教程、搜索和编辑器之间来回切
+- **家长 / 老师**：给一个具体的孩子或学生配专属助教，它会记得基础、目标和每周能投入的时间
+- **做 AI 教育产品的人**：fork 成英语、数学、考证……任何具备「讲解 + 练习 + 反馈」结构的学科，不用从零搭脚手架
+
+---
+
+## 为什么会有这个项目
+
+它最初是一个只服务一位学员的私教版：学员画像写死在代码里，例子全来自他的行业。做完之后发现，真正稀缺的不是"再做一个聊天框"，而是把「因材施教」变成可以配置的东西。
+
+于是有了这个模板：默认助教叫「小坤」，但名字、语气、学员背景和课程都可以换。你拿到的是一个能直接用的 App，也是一份可以拆开改的教学结构。
+
+---
+
+## 把它改成你自己的 App
+
+定制点都在 `src/data/` 和少量配置里，不需要动视图层。
 
 ### 1. 换助教人设
 
@@ -110,6 +180,8 @@ export const PERSONA_PRESETS = {
 `src/data/profile.js` 定义字段、举例领域与渲染方式。
 `ProfileWizard.vue` 与 `Settings.vue` 会自动读取这些常量；如果新增字段，需要在向导里补一个输入项。
 
+举例领域支持预设（AI 应用、数据分析、办公自动化、后端/数据库等），也可以自由填写；留空时会明确告诉模型「别猜」。
+
 ### 3. 换课程
 
 课程是普通 JS 数据，结构见 `src/data/python-course.js`，完整字段说明见 [docs/course-pack.md](./docs/course-pack.md)。
@@ -118,17 +190,19 @@ export const PERSONA_PRESETS = {
 
 ```js
 {
-  id: 'js',
-  name: 'JavaScript',
-  icon: '🟨',
-  lang: 'python',     // 复用哪个实操台运行时
-  extension: 'js',
-  course: JS_COURSE,
-  lessons: JS_LESSONS,
+  id: 'data',
+  name: 'Python 数据分析',
+  icon: 'Py',
+  lang: 'python',     // 复用哪个实操台运行时：python | sql
+  extension: 'py',
+  course: DATA_COURSE,
+  lessons: DATA_LESSONS,
 }
 ```
 
 `Home.vue` / `Learn.vue` / `Lesson.vue` 会自动读取注册表。
+`lang` 目前只有 `python` 和 `sql` 两个运行时；接新语言需要在 `src/runtime/` 里补适配层。
+
 课程写完后跑：
 
 ```bash
@@ -137,7 +211,7 @@ npm run validate:course
 
 会按 P0/P1/P2 分级报告结构问题。
 
-### 4. 换名字
+### 4. 换名字与品牌
 
 用户可见名称在三处：
 
@@ -258,18 +332,38 @@ PLAYWRIGHT_NODE_MODULES=/path/to/node_modules npm run test:e2e
 - 首次加载 Python 运行时约 10MB；`pandas`、`openpyxl` 等第三方包在手机端装不了
 - SQL 实操台跑的是 SQLite，MySQL 专属语法会报错（课程中已标注）
 - 无后端：数据换设备需手动导出 / 导入
+- 界面目前只有简体中文
 
 ---
 
 ## 参与贡献
 
-欢迎提 Issue 和 PR，尤其是新的课程包、人设预设与文档改进。
+欢迎提 Issue 和 PR，尤其是这些方向：
+
+- 新的课程包（其他学科 / 其他语言）
+- 新人设预设与更好的提示词
+- 英文界面与文档
+- iOS 适配、更多运行时
 
 1. Fork 本仓库并新建分支
 2. 修改后本地跑 `npm run validate:course && npm run test:qa`
 3. 提交 PR，说明改了什么、为什么改
 
 提交前请确认没有把 API Key、个人学习数据或 `.env` 文件带进仓库。
+
+如果这个项目帮你省下了一次翻教程的时间，点个 **Star** 就是最好的支持。
+
+---
+
+## English
+
+**Xiaokun Learn** is a phone-first AI coding tutor that runs **real Python (Pyodide)** and **SQL (SQLite)** locally on your device. Bring your own OpenAI-compatible API key — there is no backend, no account, and no server cost.
+
+Courses, persona, and the learner profile are plain JS data, so you can fork it into a tutor for any subject with a "explain → practice → feedback" loop. Ships as a PWA and an Android app via Capacitor.
+
+> The UI is currently Simplified Chinese.
+
+[Live demo](https://111aligiant.github.io/xiaokun-learn/) · [Download APK](https://github.com/111aligiant/xiaokun-learn/releases/latest) · [Course pack format](./docs/course-pack.md)
 
 ---
 
