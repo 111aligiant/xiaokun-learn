@@ -1,6 +1,6 @@
 /* 零基础适配性启发式检查：语法特征在"教学之前"是否被正文/练习代码使用 */
 import { PY_LESSONS } from '../src/data/python-course.js'
-import { MY_LESSONS } from '../src/data/mysql-course.js'
+import { SQL_LESSONS } from '../src/data/sql-course.js'
 
 // 特征 → 首次正式教学的课时号（按上方 objectives 大纲）
 const FEATURES = [
@@ -43,7 +43,7 @@ for (const l of PY_LESSONS) {
     }
   }
 }
-// MySQL: 检查 SQL 代码是否用了尚未教的子句（粗粒度）
+// SQL: 检查 SQL 代码是否用了尚未教的子句（粗粒度）
 const SQL_FEATURES = [
   { name: 'JOIN', re: /\bJOIN\b/i, taughtAt: 5 },
   { name: 'GROUP BY', re: /\bGROUP\s+BY\b/i, taughtAt: 9 },
@@ -53,7 +53,7 @@ const SQL_FEATURES = [
   { name: 'UPDATE', re: /\bUPDATE\b/i, taughtAt: 8 },
   { name: 'CREATE TABLE', re: /\bCREATE\s+TABLE\b/i, taughtAt: 3 },
 ]
-for (const l of MY_LESSONS) {
+for (const l of SQL_LESSONS) {
   const codeBlocks = []
   for (const b of l.blocks) if (b[0] === 'code' && b[1] === 'sql') codeBlocks.push(b[2])
   if (l.exercise?.starter) codeBlocks.push(l.exercise.starter)
@@ -62,7 +62,7 @@ for (const l of MY_LESSONS) {
   if (!code.trim()) continue
   for (const f of SQL_FEATURES) {
     if (f.taughtAt <= l.no) continue
-    if (f.re.test(code)) problems.push(`My 第${l.no}节《${l.title}》用了「${f.name}」（第${f.taughtAt}节才教）`)
+    if (f.re.test(code)) problems.push(`SQL 第${l.no}节《${l.title}》用了「${f.name}」（第${f.taughtAt}节才教）`)
   }
 }
 

@@ -11,7 +11,7 @@ export const PYTHON_COURSE = {
   name: 'Python',
   icon: '🐍',
   tagline: '从零到能写自动化小工具',
-  desc: '面向零基础。学完能看懂别人的代码、能自己写脚本处理 Excel/文本/销售数据。',
+  desc: '面向零基础。学完能看懂别人的代码、能自己写脚本处理表格、文本和日常重复工作。',
   chapters: [
     /* ================= 第 1 章 ================= */
     {
@@ -63,7 +63,7 @@ print("这行会输出")   # 行尾也能写注释`],
 `,
             answer: `print("小林")
 print("正在学 Python")
-# 三个月后我要用 Python 把销售数据处理全自动化`,
+# 三个月后我要用 Python 把重复的表格工作全自动化`,
             note: '注意引号必须是英文引号。中文引号""看起来一样，但 Python 不认识，会报 SyntaxError。',
           },
           quiz: [
@@ -91,10 +91,10 @@ print("正在学 Python")
           summary: '变量是带名字的存储位置；用 = 赋值；命名要见名知意，不能数字开头、不能有空格。',
           blocks: [
             ['p', '程序要处理数据，就得先把数据存起来。变量就是"带名字的盒子"。'],
-            ['code', 'python', `price = 128000          # 把 128000 装进名为 price 的盒子
+            ['code', 'python', `price = 299            # 把 299 装进名为 price 的盒子
 name = "蓝牙耳机"
 print(name, price)`],
-            ['p', '这里的 = 不是数学里的"等于"，而是"赋值"：把右边的值放进左边的名字里。读作"把 128000 赋给 price"。'],
+            ['p', '这里的 = 不是数学里的"等于"，而是"赋值"：把右边的值放进左边的名字里。读作"把 299 赋给 price"。'],
             ['h', '命名规则（必须遵守）'],
             ['ul', [
               '只能用字母、数字、下划线，不能有空格、不能有中文标点',
@@ -105,11 +105,11 @@ print(name, price)`],
             ['h', '命名习惯（决定代码能不能给别人看）'],
             ['code', 'python', `# 差：看不出是什么
 a = 86.5
-b = "SoundBox mini"
+b = "张三"
 
 # 好：一眼知道含义
-temp_celsius = 86.5
-model = "SoundBox mini"`],
+score = 86.5
+name = "张三"`],
             ['p', 'Python 圈子的约定是「小写字母 + 下划线」，叫蛇形命名法（snake_case）。'],
             ['h', '变量可以反复使用'],
             ['code', 'python', `count = 1
@@ -123,17 +123,17 @@ x = "十"        # 现在变成字符串了，完全合法
 print(type(x))  # <class 'str'>  type() 用来查看类型`],
           ],
           exercise: {
-            task: '定义三个变量：商品名称、进货销售额、数量。计算总销售额并输出成「蓝牙耳机 共 2 台，总销售额 256000 元」。',
-            hint: '用 print 一次输出多个值，逗号隔开；总销售额用 销售额 * 数量。',
+            task: '定义三个变量：商品名称、单价、数量。计算总价并输出成「蓝牙耳机 共 2 件，总价 598 元」。',
+            hint: '用 print 一次输出多个值，逗号隔开；总价用 单价 * 数量。',
             starter: `name = "蓝牙耳机"
-price = 128000
+price = 299
 qty = 2
 # 补全下面这行
 `,
             answer: `name = "蓝牙耳机"
-price = 128000
+price = 299
 qty = 2
-print(name, "共", qty, "台，总销售额", price * qty, "元")`,
+print(name, "共", qty, "件，总价", price * qty, "元")`,
             note: 'print 用逗号分隔多个值时，会自动在中间插入空格，正好符合中文习惯。',
           },
           quiz: [
@@ -158,7 +158,7 @@ print(name, "共", qty, "台，总销售额", price * qty, "元")`,
             ['kv', [
               ['int 整数', '10、-3、0，没有小数点'],
               ['float 浮点数', '3.14、-0.5、1.0，带小数点'],
-              ['str 字符串', '"你好"、"SKU-001"，用引号包起来的都是'],
+              ['str 字符串', '"你好"、"2026-10-26"，用引号包起来的都是'],
               ['bool 布尔值', '只有 True 和 False 两个值'],
             ]],
             ['h', '字符串：三种引号都能用'],
@@ -167,22 +167,22 @@ b = '单引号'        # 效果一样
 c = """三引号可以
 跨很多行"""`],
             ['p', '常用技巧：引号里面还要用引号时，内外换着用。'],
-            ['code', 'python', `msg = '他说"这件商品合格"'`],
+            ['code', 'python', `msg = '他说"这本书不错"'`],
             ['h', 'f-string：拼接字符串的最佳方式'],
             ['p', '要在文字里插入变量值，最推荐 f-string：在引号前加个 f，变量用花括号 {} 包起来。'],
-            ['code', 'python', `name = "机械键盘"
-value = 12.4
-print(f"{name} 实测 {value} g")     # 机械键盘 实测 12.4 g`],
+            ['code', 'python', `city = "北京"
+temp = 26.5
+print(f"{city} 今天 {temp} ℃")     # 北京 今天 26.5 ℃`],
             ['p', '对比一下老写法，你就知道 f-string 好在哪：'],
             ['code', 'python', `# 老写法：容易漏空格、搞错顺序
-print(name + " 实测 " + str(value) + " g")
+print(city + " 今天 " + str(temp) + " ℃")
 
 # f-string：所见即所得
-print(f"{name} 实测 {value} g")`],
+print(f"{city} 今天 {temp} ℃")`],
             ['h', 'f-string 还能格式化小数位'],
             ['code', 'python', `rate = 0.6666666
-print(f"合格率 {rate:.2%}")     # 合格率 66.67%
-print(f"销售额 {128000:.2f} 元")  # 销售额 128000.00 元`],
+print(f"完成率 {rate:.2%}")     # 完成率 66.67%
+print(f"单价 {299:.2f} 元")     # 单价 299.00 元`],
             ['warn', '数字和字符串不能直接相加：10 + "个" 会报 TypeError。要么先把数字转成字符串 str(10) + "个"，要么用 f-string。'],
             ['h', '布尔值：判断的结果'],
             ['code', 'python', `print(3 > 2)        # True
@@ -191,18 +191,18 @@ print(True and False)  # False`],
             ['note', 'bool 看起来简单，但它是程序中所有"分支"的源头 —— 下一章的条件判断全靠它。'],
           ],
           exercise: {
-            task: '给定商品名 name，实测值 value=38.2，目标值 limit_=42。用 f-string 输出一行：「销售额：38.2 万元（目标值 42），合格」。',
-            hint: '合格与否可以先写死 "合格"；判断逻辑下节课就学。',
-            starter: `name = "销售额"
+            task: '给定书名 name，价格 value=38.2，预算 limit_=42。用 f-string 输出一行：「Python 入门：38.2 元（预算 42），预算内」。',
+            hint: '结论可以先写死 "预算内"；判断逻辑下节课就学。',
+            starter: `name = "Python 入门"
 value = 38.2
 limit_ = 42
 # 用 f-string 输出
 `,
-            answer: `name = "销售额"
+            answer: `name = "Python 入门"
 value = 38.2
 limit_ = 42
-print(f"{name}：{value} 万元（目标值 {limit_}），合格")`,
-            note: '变量名 limit_ 末尾加下划线，是为了避开 Python 内置的 limit 相关写法——这是一种常见约定，当你必须用某个名字但又怕冲突时就加个下划线。',
+print(f"{name}：{value} 元（预算 {limit_}），预算内")`,
+            note: '变量名末尾加下划线是常见约定，用来避开和关键字、内置名字冲突，比如 class_。',
           },
           quiz: [
             {
@@ -247,10 +247,10 @@ print("收到：" + name)`],
 print(type(age))     # <class 'str'>，不是 int！`],
             ['h', '类型转换：str / int / float'],
             ['p', '要参与数学计算，必须先"转"过来。'],
-            ['code', 'python', `n = int(input("请输入台数："))       # 转整数
-p = float(input("请输入销售额："))     # 转小数
+            ['code', 'python', `n = int(input("请输入数量："))       # 转整数
+p = float(input("请输入单价："))     # 转小数
 total = n * p
-print(f"总销售额 {total:.2f} 元")`],
+print(f"总价 {total:.2f} 元")`],
             ['kv', [
               ['int("12")', '字符串 → 整数，得到 12'],
               ['float("3.14")', '字符串 → 小数，得到 3.14'],
@@ -265,7 +265,7 @@ print(f"总销售额 {total:.2f} 元")`],
             ['note', '在「练习台」里运行带 input() 的代码时，App 会自动弹出输入框，你把要输入的内容按行填进去即可。'],
           ],
           exercise: {
-            task: '写一个程序：问用户商品名称和进货数量，然后输出「XX 需要进货 N 台」。',
+            task: '写一个程序：问用户商品名称和购买数量，然后输出「XX 需要买 N 件」。',
             hint: '第一个用普通 input()，第二个要参与运算或直接用，按需求决定要不要转换。',
             starter: `name = input("商品名称：")
 qty = input("数量：")
@@ -273,7 +273,7 @@ qty = input("数量：")
 `,
             answer: `name = input("商品名称：")
 qty = input("数量：")
-print(f"{name} 需要进货 {qty} 台")`,
+print(f"{name} 需要买 {qty} 件")`,
             note: '这里 qty 不需要参与计算，所以不用转 int，直接用在 f-string 里就行。这就是"按需转换"。',
           },
           quiz: [
@@ -295,24 +295,24 @@ print(f"{name} 需要进货 {qty} 台")`,
           summary: 'if 条件为真就执行缩进的代码块；elif 处理多种情况；缩进在 Python 里是语法，不是排版。',
           blocks: [
             ['p', '程序要"做决定"，靠的就是 if。'],
-            ['code', 'python', `value = 38.2
-limit_ = 42
+            ['code', 'python', `score = 78
+pass_line = 60
 
-if value <= limit_:
-    print("合格")
+if score >= pass_line:
+    print("及格")
 else:
-    print("不合格")`],
+    print("不及格")`],
             ['warn', '两个硬性规定：条件后面必须有冒号 :，下面必须缩进（4 个空格）。缩进在 Python 里是语法，缩错就报 IndentationError。'],
             ['h', '多种情况：elif'],
             ['p', 'elif 是 else if 的缩写，用来处理"还有其他可能"。它从上往下依次判断，命中一个就跳过后面所有分支。'],
-            ['code', 'python', `status = "维修"
+            ['code', 'python', `status = "已发货"
 
-if status == "在用":
-    print("正常使用")
-elif status == "维修":
-    print("送修中，注意清单更新")
-elif status == "报废":
-    print("应清理出资产清单")
+if status == "待付款":
+    print("等待买家付款")
+elif status == "已发货":
+    print("包裹在路上")
+elif status == "已完成":
+    print("交易完成")
 else:
     print("状态未知，需要核查")`],
             ['note', '顺序很重要：elif 判断是从上到下的。如果把最宽的条件放最前面，后面的分支永远不会被执行 —— 这叫"死代码"。'],
@@ -325,36 +325,36 @@ else:
               ['or', '或者，有一个为真就为真'],
               ['not', '取反'],
             ]],
-            ['code', 'python', `temp = 86.5
+            ['code', 'python', `temp = 26.5
 humidity = 45
 
-if 84 <= temp <= 88 and humidity < 60:
-    print("销售条件满足")
+if 20 <= temp <= 28 and humidity < 60:
+    print("体感舒适")
 
 is_valid = temp > 0 and not (humidity > 90)
 print(is_valid)`],
             ['h', '配合 in 判断包含'],
-            ['code', 'python', `dept = "数码配件"
+            ['code', 'python', `city = "北京"
 
-if dept in ["数码配件", "影音商品", "电脑外设"]:
-    print("这是一线销售品类")`],
+if city in ["北京", "上海", "广州"]:
+    print("这是一线城市")`],
             ['tip', '注意 Python 用 True / False（首字母大写），写 true / false 会报 NameError。'],
           ],
           exercise: {
-            task: '给定温度 temp 和电压 voltage：温度在 -40~85 之间且电压在 22~29 之间算「正常工作」，否则「异常」。写 if 判断并输出。',
-            hint: '用 and 把两个条件连起来，区间判断可以写成 -40 <= temp <= 85。',
-            starter: `temp = 86.5
-voltage = 27.5
+            task: '给定温度 temp 和湿度 humidity：温度在 15~28 之间且湿度在 30~70 之间算「适合出门」，否则「不太适合」。写 if 判断并输出。',
+            hint: '用 and 把两个条件连起来，区间判断可以写成 15 <= temp <= 28。',
+            starter: `temp = 26.5
+humidity = 45
 # 补全判断
 `,
-            answer: `temp = 86.5
-voltage = 27.5
+            answer: `temp = 26.5
+humidity = 45
 
-if -40 <= temp <= 85 and 22 <= voltage <= 29:
-    print("正常工作")
+if 15 <= temp <= 28 and 30 <= humidity <= 70:
+    print("适合出门")
 else:
-    print("异常")`,
-            note: 'Python 支持链式比较 -40 <= temp <= 85，比写成 temp >= -40 and temp <= 85 更接近数学习惯。',
+    print("不太适合")`,
+            note: 'Python 支持链式比较 15 <= temp <= 28，比写成 temp >= 15 and temp <= 28 更接近数学习惯。',
           },
           quiz: [
             {
@@ -381,11 +381,11 @@ else:
           blocks: [
             ['p', '重复劳动交给循环。Python 有两种循环：for 和 while。'],
             ['h', 'for：对一批数据逐个处理'],
-            ['code', 'python', `equipments = ["耳机", "无线耳机", "机械键盘"]
+            ['code', 'python', `fruits = ["苹果", "香蕉", "橙子"]
 
-for name in equipments:
-    print(f"检查商品：{name}")`],
-            ['p', '读法：从 equipments 里逐个取出元素，每次赋给 name，然后执行缩进里的代码。'],
+for name in fruits:
+    print(f"我喜欢吃：{name}")`],
+            ['p', '读法：从 fruits 里逐个取出元素，每次赋给 name，然后执行缩进里的代码。'],
             ['h', 'range()：生成一串数字'],
             ['code', 'python', `for i in range(5):        # 0 1 2 3 4
     print(i)
@@ -399,38 +399,38 @@ for i in range(1, 10, 2): # 1 3 5 7 9，步长 2
             ['h', 'while：条件为真就一直转'],
             ['code', 'python', `count = 0
 while count < 3:
-    print(f"第 {count + 1} 次采样")
+    print(f"第 {count + 1} 次打卡")
     count += 1        # 忘了这行就是死循环！`],
             ['warn', 'while 循环里必须有一行能改变条件，否则程序会卡死。这是新手最容易犯的错。'],
             ['h', '怎么选？'],
             ['kv', [
               ['for', '知道要循环多少次，或者要遍历一批数据 → 首选'],
-              ['while', '"只要…就一直做"，次数事先不确定（如等结果稳定） → 用 while'],
+              ['while', '"只要…就一直做"，次数事先不确定（如等水烧开） → 用 while'],
             ]],
             ['h', '带下标的遍历：enumerate'],
-            ['code', 'python', `items = ["电压", "电流", "温度"]
+            ['code', 'python', `items = ["语文", "数学", "英语"]
 
 for idx, name in enumerate(items, start=1):
     print(f"{idx}. {name}")`],
             ['tip', 'enumerate 比 range(len(items)) 更 Pythonic，能少写很多方括号。'],
           ],
           exercise: {
-            task: '给定测量值列表 values = [38.2, 55.4, 62.0, 18]，用 for 循环逐个输出，并统计超过 50 的个数。',
+            task: '给定成绩列表 scores = [58, 72, 91, 45]，用 for 循环逐个输出，并统计及格（≥60）的个数。',
             hint: '循环外先 count = 0，循环里用 if 判断，满足就 count += 1。',
-            starter: `values = [38.2, 55.4, 62.0, 18]
+            starter: `scores = [58, 72, 91, 45]
 count = 0
 # 补全循环
 `,
-            answer: `values = [38.2, 55.4, 62.0, 18]
+            answer: `scores = [58, 72, 91, 45]
 count = 0
 
-for v in values:
-    print(f"测量值 {v}")
-    if v > 50:
+for s in scores:
+    print(f"成绩 {s}")
+    if s >= 60:
         count += 1
 
-print(f"超过 50 的有 {count} 个")`,
-            note: '总共 4 个值，55.4 和 62.0 超过 50，所以输出 2。这种"边遍历边统计"是数据处理的基本模式。',
+print(f"及格的有 {count} 个")`,
+            note: '总共 4 个成绩，72 和 91 及格，所以输出 2。这种"边遍历边统计"是数据处理的基本模式。',
           },
           quiz: [
             {
@@ -458,64 +458,64 @@ print(f"超过 50 的有 {count} 个")`,
           blocks: [
             ['p', '有时候循环要"提前收工"。break 和 continue 就是两个刹车。'],
             ['h', 'break：整个循环到此为止'],
-            ['code', 'python', `values = [38.2, 55.4, 48.0, 61.2]
+            ['code', 'python', `scores = [58, 72, 48, 61]
 
-for v in values:
-    if v > 60:
-        print(f"发现超目标值 {v}，停止识别")
+for s in scores:
+    if s >= 60:
+        print(f"发现及格成绩 {s}，停止检查")
         break
-    print(f"{v} 正常")`],
-            ['p', '输出顺序是：38.2 正常 → 55.4 正常 → 48.0 正常 → 发现超目标值 61.2，停止识别。后面的元素不再处理。'],
+    print(f"{s} 不及格")`],
+            ['p', '输出顺序是：58 不及格 → 发现及格成绩 72，停止检查。后面的元素不再处理。'],
             ['h', 'continue：跳过这一个，继续下一个'],
             ['code', 'python', `for v in [0, 12, 38.2, -1]:
     if v <= 0:
         continue          # 无效值跳过，不参与统计
     print(f"有效值 {v}")`],
             ['h', 'for … else：一个很多人不知道的语法'],
-            ['code', 'python', `for v in [0, 12, 38.2]:
-    if v > 60:
-        print("发现异常")
+            ['code', 'python', `for s in [58, 72, 48]:
+    if s == 100:
+        print("找到满分")
         break
 else:
     # 只有循环"正常跑完"（没被 break 打断）才执行
-    print("全部正常，无异常值")`],
+    print("没有满分")`],
             ['note', 'else 在这里不是"否则"，而是"如果没被打断"。用在"查找不存在元素"这类场景特别顺手。'],
             ['h', '嵌套循环：处理表格数据'],
             ['p', '外层循环走行，内层循环走列 —— 这就是 Excel 表格的处理逻辑。'],
-            ['code', 'python', `# 每件商品有 3 个测量点
-test_data = [
-    ("SKU-001", [1.2, 3.4, 5.6]),
-    ("SKU-002", [2.1, 4.3, 6.5]),
+            ['code', 'python', `# 每个学生有 3 门成绩
+students = [
+    ("小林", [78, 85, 92]),
+    ("小周", [66, 71, 80]),
 ]
 
-for code, points in test_data:
+for name, scores in students:
     total = 0
-    for p in points:
-        total += p
-    print(f"{code} 平均值 {total / len(points):.2f}")`],
+    for s in scores:
+        total += s
+    print(f"{name} 平均分 {total / len(scores):.2f}")`],
             ['tip', '嵌套超过 3 层就该重构了（用函数拆开）。看到 4 层嵌套的循环，基本可以判定代码需要重写。'],
           ],
           exercise: {
-            task: '遍历列表 [12, 0, 45, -3, 88, 60]，跳过所有小于等于 0 的值，遇到大于 80 的立即停止，最后输出处理过的有效值数量。',
-            hint: 'continue 处理 <=0，break 处理 >80，用一个 count 变量累加。',
-            starter: `data = [12, 0, 45, -3, 88, 60]
+            task: '遍历成绩列表 [88, 0, 95, -1, 120, 60]，跳过所有小于等于 0 的值，遇到大于 100 的立即停止，最后输出处理过的有效成绩数量。',
+            hint: 'continue 处理 <=0，break 处理 >100，用一个 count 变量累加。',
+            starter: `scores = [88, 0, 95, -1, 120, 60]
 count = 0
 # 补全
 `,
-            answer: `data = [12, 0, 45, -3, 88, 60]
+            answer: `scores = [88, 0, 95, -1, 120, 60]
 count = 0
 
-for v in data:
-    if v <= 0:
+for s in scores:
+    if s <= 0:
         continue
-    if v > 80:
-        print(f"遇到异常值 {v}，中止")
+    if s > 100:
+        print(f"遇到异常分数 {s}，中止")
         break
     count += 1
-    print(f"有效值 {v}")
+    print(f"有效成绩 {s}")
 
-print(f"共处理有效值 {count} 个")`,
-            note: '结果：12、45 被统计，88 触发 break，所以 count = 2。60 根本没被遍历到。',
+print(f"共处理有效成绩 {count} 个")`,
+            note: '结果：88、95 被统计，120 触发 break，所以 count = 2。60 根本没被遍历到。',
           },
           quiz: [
             {
@@ -551,16 +551,16 @@ print(f"共处理有效值 {count} 个")`,
           summary: '列表是有序可变的一串数据，用下标从 0 开始访问，支持切片取子集。',
           blocks: [
             ['p', '一个变量只能装一个值。要装一批数据，用列表。'],
-            ['code', 'python', `prices = [128000, 456000, 86000, 372000]
-names = ["耳机", "手表", "销售箱"]
-mixed = ["SKU-001", 128000, True]      # 可以混装，但不推荐`],
+            ['code', 'python', `prices = [299, 89, 159, 45]
+names = ["蓝牙耳机", "笔记本", "台灯"]
+mixed = ["A-001", 299, True]      # 可以混装，但不推荐`],
             ['h', '下标：从 0 开始数'],
-            ['code', 'python', `names = ["耳机", "手表", "销售箱"]
+            ['code', 'python', `names = ["苹果", "香蕉", "橙子"]
 
-print(names[0])      # 耳机，第一个
-print(names[2])      # 销售箱，第三个
-print(names[-1])     # 销售箱，倒数第一个
-print(names[-2])     # 手表`],
+print(names[0])      # 苹果，第一个
+print(names[2])      # 橙子，第三个
+print(names[-1])     # 橙子，倒数第一个
+print(names[-2])     # 香蕉`],
             ['warn', '访问不存在的下标会报 IndexError: list index out of range。有 3 个元素时，最大下标是 2，names[3] 就崩了。'],
             ['h', '切片：取一段'],
             ['code', 'python', `nums = [0, 1, 2, 3, 4, 5, 6]
@@ -572,44 +572,44 @@ print(nums[::2])     # [0, 2, 4, 6] 步长 2
 print(nums[::-1])    # [6, 5, 4, 3, 2, 1, 0] 反转`],
             ['tip', '切片超出范围不会报错！nums[1:100] 只会返回能取到的部分。这点和下标访问完全不同。'],
             ['h', '增删改'],
-            ['code', 'python', `e = ["耳机", "手表"]
+            ['code', 'python', `cart = ["耳机", "台灯"]
 
-e.append("机械键盘")        # 末尾追加 → ["耳机", "手表", "机械键盘"]
-e.insert(1, "数据线")     # 插到下标 1 → 耳机, 数据线, 手表, 机械键盘
-e.remove("手表")        # 按值删除
-last = e.pop()            # 弹出末尾并返回
-e[0] = "蓝牙耳机"       # 按下标改
-print(e, last)`],
+cart.append("水杯")        # 末尾追加 → ["耳机", "台灯", "水杯"]
+cart.insert(1, "笔记本")   # 插到下标 1 → 耳机, 笔记本, 台灯, 水杯
+cart.remove("台灯")        # 按值删除
+last = cart.pop()          # 弹出末尾并返回
+cart[0] = "蓝牙耳机"       # 按下标改
+print(cart, last)`],
             ['h', '不改变原列表的常用函数'],
-            ['code', 'python', `prices = [128000, 456000, 86000]
+            ['code', 'python', `prices = [299, 89, 159]
 
 print(len(prices))          # 3  长度
-print(sum(prices))          # 670000  求和
-print(max(prices))          # 456000  最大
-print(min(prices))          # 86000
+print(sum(prices))          # 547  求和
+print(max(prices))          # 299  最大
+print(min(prices))          # 89
 print(sorted(prices))       # 返回从小到大排序的新列表`],
             ['warn', 'sort() 和 sorted() 不一样：prices.sort() 直接改原列表、返回 None；sorted(prices) 返回新列表、原列表不变。把 sort() 的返回值赋给变量是经典错误。'],
             ['code', 'python', `result = prices.sort()     # 错！result 是 None
 result = sorted(prices)    # 对，result 是新列表`],
             ['h', '判断元素在不在'],
-            ['code', 'python', `if "耳机" in names:
+            ['code', 'python', `if "苹果" in names:
     print("找到了")
 
-print(names.index("机械键盘"))   # 返回下标，找不到会报 ValueError`],
+print(names.index("香蕉"))   # 返回下标，找不到会报 ValueError`],
           ],
           exercise: {
-            task: '给定测量值列表 [38.2, 55.4, 62.0, 18.0, 71.5]，输出最大值、最小值、平均值，以及最大值所在的下标。',
+            task: '给定成绩列表 [58, 72, 91, 45, 88]，输出最高分、最低分、平均分，以及最高分所在的下标。',
             hint: '求和用 sum，长度用 len，最大下标用 index(max(...))。',
-            starter: `values = [38.2, 55.4, 62.0, 18.0, 71.5]
+            starter: `scores = [58, 72, 91, 45, 88]
 # 补全
 `,
-            answer: `values = [38.2, 55.4, 62.0, 18.0, 71.5]
+            answer: `scores = [58, 72, 91, 45, 88]
 
-print(f"最大值 {max(values)}")
-print(f"最小值 {min(values)}")
-print(f"平均值 {sum(values) / len(values):.2f}")
-print(f"最大值下标 {values.index(max(values))}")`,
-            note: '平均值 = 总和 / 个数，这是最基础也最常用的统计操作。',
+print(f"最高分 {max(scores)}")
+print(f"最低分 {min(scores)}")
+print(f"平均分 {sum(scores) / len(scores):.2f}")
+print(f"最高分下标 {scores.index(max(scores))}")`,
+            note: '平均分 = 总分 / 个数，这是最基础也最常用的统计操作。',
           },
           quiz: [
             {
@@ -635,58 +635,58 @@ print(f"最大值下标 {values.index(max(values))}")`,
           objectives: ['创建与访问字典', '安全访问 get()', '遍历字典的键值对'],
           summary: '字典是"键 → 值"的映射，用名字取值而不是位置。适合表示一条有多个字段的记录。',
           blocks: [
-            ['p', '列表用位置取值。但如果一件商品有 8 个属性，用列表很难记哪个位置是什么。这时该用字典。'],
-            ['code', 'python', `device = {
-    "code": "SKU-001",
+            ['p', '列表用位置取值。但如果一个商品有 8 个属性，用列表很难记哪个位置是什么。这时该用字典。'],
+            ['code', 'python', `product = {
+    "code": "A-001",
     "name": "蓝牙耳机",
-    "model": "TWS-40h",
-    "price": 128000,
-    "status": "在用",
+    "brand": "SoundX",
+    "price": 299,
+    "status": "在售",
 }
 
-print(device["name"])      # 蓝牙耳机
-print(device["price"])     # 128000`],
-            ['p', '这就是数据库里"一行记录"的样子。前面那个 equipment 表，每一行本质就是一个字典。'],
+print(product["name"])      # 蓝牙耳机
+print(product["price"])     # 299`],
+            ['p', '这就是数据库里"一行记录"的样子：表里每一行，本质就是一个字典。'],
             ['h', '增删改'],
-            ['code', 'python', `device["dept"] = "智能穿戴"     # 键不存在就是新增
-device["status"] = "维修"          # 键已存在就是修改
+            ['code', 'python', `product["category"] = "数码配件"   # 键不存在就是新增
+product["status"] = "缺货"              # 键已存在就是修改
 
-del device["model"]               # 删除某个键
+del product["brand"]                    # 删除某个键
 
-print(len(device))                # 还剩几个键`],
+print(len(product))                     # 还剩几个键`],
             ['h', '安全取值：get()'],
             ['warn', '直接访问不存在的键会报 KeyError。这是字典最高频的崩溃原因。'],
             ['code', 'python', `# 危险写法
-# print(device["maker"])   → KeyError
+# print(product["maker"])   → KeyError
 
 # 安全写法：取不到返回 None
-print(device.get("maker"))
+print(product.get("maker"))
 
 # 给个默认值
-print(device.get("maker", "未知品牌"))`],
+print(product.get("maker", "未知厂商"))`],
             ['tip', '从接口或 Excel 读来的数据，字段经常缺失。养成用 get() 的习惯能省掉一堆崩溃。'],
             ['h', '遍历字典'],
-            ['code', 'python', `for key in device:
+            ['code', 'python', `for key in product:
     print(key)                       # 只遍历键
 
-for key, value in device.items():    # 键和值都要
+for key, value in product.items():   # 键和值都要
     print(f"{key} = {value}")`],
             ['h', '字典列表：最常见的数据结构'],
             ['p', '真正处理数据时，几乎都是"一个列表，里面装一堆字典"。'],
-            ['code', 'python', `equipments = [
-    {"code": "SKU-001", "name": "蓝牙耳机", "price": 128000, "status": "在用"},
-    {"code": "SKU-003", "name": "便携音箱", "price": 86000, "status": "维修"},
-    {"code": "SKU-005", "name": "无线耳机", "price": 512000, "status": "在用"},
+            ['code', 'python', `products = [
+    {"code": "A-001", "name": "蓝牙耳机", "price": 299, "status": "在售"},
+    {"code": "A-002", "name": "机械键盘", "price": 459, "status": "缺货"},
+    {"code": "A-003", "name": "显示器", "price": 1299, "status": "在售"},
 ]
 
 total = 0
-for eq in equipments:
-    if eq["status"] == "在用":
-        total += eq["price"]
-        print(f"{eq['name']} 销售额 {eq['price']}")
+for p in products:
+    if p["status"] == "在售":
+        total += p["price"]
+        print(f"{p['name']} 价格 {p['price']}")
 
-print(f"在用商品总值 {total}")`],
-            ['note', "注意 f-string 里嵌套引号的问题：外层用双引号，里层就用单引号 eq['name']。反过来也行，但别两个都用双引号。"]  ,
+print(f"在售商品总价 {total}")`],
+            ['note', "注意 f-string 里嵌套引号的问题：外层用双引号，里层就用单引号 p['name']。反过来也行，但别两个都用双引号。"]  ,
             ['h', '键的要求'],
             ['ul', [
               '键必须是不可变的：字符串、数字、元组可以；列表不行',
@@ -695,24 +695,22 @@ print(f"在用商品总值 {total}")`],
             ]],
           ],
           exercise: {
-            task: '用字典表示一条销售记录（商品编号、项目名、实测值、目标值、结论），然后输出格式化的报告行。',
-            hint: '结论可以先写死，或者简单判断一下。',
+            task: '用字典表示一条消费记录（分类、金额、预算、是否超支），然后输出格式化的报告行。',
+            hint: '是否超支可以先写死，或者简单判断一下。',
             starter: `record = {
-    "code": "SKU-002",
-    "item": "销售额",
+    "category": "餐饮",
     # 补全其余字段
 }
 `,
             answer: `record = {
-    "code": "SKU-002",
-    "item": "销售额",
-    "value": 38.2,
-    "limit_": 42,
-    "verdict": "合格",
+    "category": "餐饮",
+    "amount": 86.5,
+    "budget": 100,
+    "over": False,
 }
 
-print(f"[{record['code']}] {record['item']}：实测 {record['value']}，目标值 {record['limit_']}，结论 {record['verdict']}")`,
-            note: '试着把 value 改成 45 再跑一次，观察输出。下一步可以自己加个 if 让结论自动判断。',
+print(f"[{record['category']}] 花费 {record['amount']} 元，预算 {record['budget']} 元，超支：{record['over']}")`,
+            note: '试着把 amount 改成 120 再跑一次，观察输出。下一步可以自己加个 if 让结论自动判断。',
           },
           quiz: [
             {
@@ -732,81 +730,81 @@ print(f"[{record['code']}] {record['item']}：实测 {record['value']}，目标�
           objectives: ['用推导式一行完成筛选和转换', '掌握 sum/len/max 的配合', '会用 zip 并行遍历'],
           summary: '列表推导式把"循环 + 判断 + 追加"压缩成一行，是 Python 最标志性的写法。',
           blocks: [
-            ['p', '先看老写法，再看新写法，你就理解列表推导式的销售额了。'],
-            ['code', 'python', `values = [38.2, 55.4, 62.0, 18.0, 71.5]
+            ['p', '先看老写法，再看新写法，你就理解列表推导式的价值了。'],
+            ['code', 'python', `scores = [58, 72, 91, 45, 88]
 
 # 老写法：四行
-over = []
-for v in values:
-    if v > 50:
-        over.append(v)
+passed = []
+for s in scores:
+    if s >= 60:
+        passed.append(s)
 
 # 列表推导式：一行
-over = [v for v in values if v > 50]
+passed = [s for s in scores if s >= 60]
 
-print(over)     # [55.4, 62.0, 71.5]`],
+print(passed)     # [72, 91, 88]`],
             ['p', '结构是：[对每个元素做什么 for 元素 in 数据 if 条件]。'],
             ['h', '带转换的推导式'],
-            ['code', 'python', `raw = ["  SKU-001 ", "SKU-002  ", " SKU-003"]
+            ['code', 'python', `raw = ["  A-001 ", "A-002  ", " A-003"]
 
 clean = [s.strip() for s in raw]           # .strip() 去掉两端空格——下一节专门讲，这里先照着用
-print(clean)     # ['SKU-001', 'SKU-002', 'SKU-003']
+print(clean)     # ['A-001', 'A-002', 'A-003']
 
-prices = ["128000", "86000"]
+prices = ["299", "89"]
 nums = [int(p) for p in prices]            # 批量转数字
-print(nums)      # [128000, 86000]
+print(nums)      # [299, 89]
 
 squares = [n ** 2 for n in range(1, 6)]
 print(squares)   # [1, 4, 9, 16, 25]`],
             ['h', '字典推导式'],
-            ['code', 'python', `equipments = [
-    {"code": "SKU-001", "price": 128000},
-    {"code": "SKU-003", "price": 86000},
+            ['code', 'python', `products = [
+    {"code": "A-001", "price": 299},
+    {"code": "A-003", "price": 1299},
 ]
 
-# 商品编号 → 销售额，快速查找
-price_map = {e["code"]: e["price"] for e in equipments}
-print(price_map["SKU-003"])     # 86000，O(1) 查找`],
+# 商品编号 → 价格，快速查找
+price_map = {p["code"]: p["price"] for p in products}
+print(price_map["A-003"])     # 1299，O(1) 查找`],
             ['tip', '字典按 key 查找是"瞬间"的（哈希），列表要一个个比对。数据量大时差距明显。'],
             ['h', 'zip：两个列表并排走'],
-            ['code', 'python', `items = ["电压", "电流", "温度"]
-values = [27.5, 1.2, 86.5]
+            ['code', 'python', `items = ["语文", "数学", "英语"]
+values = [78, 92, 85]
 
 for name, v in zip(items, values):
     print(f"{name} = {v}")
 
 # 合成字典
 data = dict(zip(items, values))
-print(data["温度"])     # 86.5`],
+print(data["英语"])     # 85`],
             ['warn', '推导式里不要塞太复杂的逻辑。如果需要超过一个 if + 一个 else，老老实实写循环更清楚。'],
             ['h', '和统计函数配合'],
-            ['code', 'python', `values = [38.2, 55.4, 62.0, 18.0, 71.5]
+            ['code', 'python', `scores = [58, 72, 91, 45, 88]
 
-over = [v for v in values if v > 50]
-print(f"超限 {len(over)} 个，平均 {sum(over) / len(over):.2f}")`],
+passed = [s for s in scores if s >= 60]
+print(f"及格 {len(passed)} 个，平均 {sum(passed) / len(passed):.2f}")`],
           ],
           exercise: {
-            task: '给定商品字典列表，用列表推导式取出所有"在用"商品的名称，并计算它们的总销售额值。',
+            task: '给定商品字典列表，用列表推导式取出所有"在售"商品的名称，并计算它们的总价。',
             hint: '先推导出 names 列表，再推导出 prices 列表用 sum() 相加。',
-            starter: `equipments = [
-    {"name": "蓝牙耳机", "price": 128000, "status": "在用"},
-    {"name": "便携音箱", "price": 86000, "status": "维修"},
-    {"name": "无线耳机", "price": 512000, "status": "在用"},
+            starter: `products = [
+    {"name": "蓝牙耳机", "price": 299, "status": "在售"},
+    {"name": "机械键盘", "price": 459, "status": "缺货"},
+    {"name": "显示器", "price": 1299, "status": "在售"},
 ]
 # 补全
 `,
-            answer: `equipments = [
-    {"name": "蓝牙耳机", "price": 128000, "status": "在用"},
-    {"name": "便携音箱", "price": 86000, "status": "维修"},
-    {"name": "无线耳机", "price": 512000, "status": "在用"},
+            answer: `products = [
+    {"name": "蓝牙耳机", "price": 299, "status": "在售"},
+    {"name": "机械键盘", "price": 459, "status": "缺货"},
+    {"name": "显示器", "price": 1299, "status": "在售"},
 ]
 
-in_use = [e for e in equipments if e["status"] == "在用"]
-names = [e["name"] for e in in_use]
-total = sum(e["price"] for e in in_use)
+on_sale = [p for p in products if p["status"] == "在售"]
+names = [p["name"] for p in on_sale]
+total = sum(p["price"] for p in on_sale)
 
-print(f"在用商品：{names}")
-print(f"总销售额值 {total} 元")`,
+print(f"在售商品：{names}")
+print(f"总价 {total} 元")`,
             note: 'sum() 里也可以直接写生成器表达式，省掉一对方括号，更省内存。',
           },
           quiz: [
@@ -827,43 +825,43 @@ print(f"总销售额值 {total} 元")`,
           objectives: ['掌握 strip/split/replace/join', '判断与查找子串', '搞定从文本里提取数据'],
           summary: '文本处理是自动化的第一战场：切分、清洗、拼接、查找是四大基础操作。',
           blocks: [
-            ['p', '工作中大量时间在跟文本打交道：日志、报表、清单导出、销售记录。这节课把字符串工具备齐。'],
+            ['p', '工作中大量时间在跟文本打交道：日志、报表、订单导出、聊天记录。这节课把字符串工具备齐。'],
             ['h', '清洗：strip / replace'],
-            ['code', 'python', `s = "  SKU-001 \\n"
+            ['code', 'python', `s = "  A-001 \\n"
 
-print(s.strip())                  # "SKU-001"  去两端空白（含换行）
+print(s.strip())                  # "A-001"  去两端空白（含换行）
 print(s.lstrip())                 # 只去左边
 print(s.rstrip())                 # 只去右边
 
 t = "2024/03/11"
 print(t.replace("/", "-"))        # 2024-03-11`],
             ['h', '切分：split'],
-            ['code', 'python', `line = "SKU-002,销售额,38.2,42"
+            ['code', 'python', `line = "A-002,蓝牙耳机,299,2"
 
 parts = line.split(",")
-print(parts)          # ['SKU-002', '销售额', '38.2', '42']
-print(parts[0])       # SKU-002
+print(parts)          # ['A-002', '蓝牙耳机', '299', '2']
+print(parts[0])       # A-002
 
 # 按任意空白切（多个空格/制表符都能处理）
 print("a   b\\tc".split())     # ['a', 'b', 'c']`],
             ['h', '拼接：join'],
-            ['code', 'python', `items = ["SKU-001", "SKU-002", "SKU-003"]
+            ['code', 'python', `items = ["A-001", "A-002", "A-003"]
 
-print(", ".join(items))       # SKU-001, SKU-002, SKU-003
+print(", ".join(items))       # A-001, A-002, A-003
 print("\\n".join(items))       # 每行一个
 
 # 写成 CSV 一行
-row = ["SKU-003", "便携音箱", "86000"]
+row = ["A-003", "机械键盘", "459"]
 print(",".join(row))`],
             ['note', 'join 的调用方向容易记反：是"分隔符.join(列表)"，不是"列表.join(分隔符)"。'],
             ['h', '查找与判断'],
-            ['code', 'python', `s = "SKU-001 蓝牙耳机"
+            ['code', 'python', `s = "A-001 蓝牙耳机"
 
-print("EQ" in s)              # True
-print(s.startswith("EQ"))     # True
-print(s.endswith("耳机"))    # True
-print(s.find("数字"))          # 7  返回起始下标，找不到返回 -1
-print(len(s))                 # 13`],
+print("A" in s)               # True
+print(s.startswith("A"))      # True
+print(s.endswith("耳机"))      # True
+print(s.find("蓝牙"))          # 6  返回起始下标，找不到返回 -1
+print(len(s))                 # 10`],
             ['warn', 'find() 找不到返回 -1，不是报错。所以判断"有没有"要用 in，别用 find。'],
             ['h', '大小写与数字判断'],
             ['code', 'python', `print("abc".upper())        # ABC
@@ -871,30 +869,30 @@ print("ABC".lower())        # abc
 print("123".isdigit())      # True
 print("12a".isdigit())      # False
 print("  ".isspace())       # True`],
-            ['h', '实战：解析一行销售记录文本'],
-            ['code', 'python', `raw = "  SKU-002, 销售额, 38.2, <= 42, 合格  "
+            ['h', '实战：解析一行订单文本'],
+            ['code', 'python', `raw = "  A-002, 蓝牙耳机, 299, <= 300, 预算内  "
 
 fields = [f.strip() for f in raw.split(",")]
-code, item, value, limit_, verdict = fields
+code, item, value, budget, verdict = fields
 
 print(f"编号: {code}")
-print(f"项目: {item}")
-print(f"实测: {float(value):.1f}")
+print(f"商品: {item}")
+print(f"价格: {float(value):.1f}")
 print(f"判定: {verdict}")`],
             ['tip', '看到"拆分 + 去空格"，就该条件反射想起 [x.strip() for x in s.split(",")] 这个组合，它能解决 80% 的文本解析问题。'],
           ],
           exercise: {
-            task: '给定多行文本（每行格式：编号,名称,销售额），解析出所有商品，计算平均销售额。',
+            task: '给定多行文本（每行格式：编号,名称,价格），解析出所有商品，计算平均价格。',
             hint: '用 split("\\n") 分行，每行再 split(",")，转成 float 累加。',
-            starter: `text = """SKU-001,蓝牙耳机,128000
-SKU-003,便携音箱,86000
-SKU-005,无线耳机,512000"""
+            starter: `text = """A-001,蓝牙耳机,299
+A-003,机械键盘,459
+A-005,显示器,1299"""
 
 # 补全
 `,
-            answer: `text = """SKU-001,蓝牙耳机,128000
-SKU-003,便携音箱,86000
-SKU-005,无线耳机,512000"""
+            answer: `text = """A-001,蓝牙耳机,299
+A-003,机械键盘,459
+A-005,显示器,1299"""
 
 prices = []
 for line in text.strip().split("\\n"):
@@ -903,7 +901,7 @@ for line in text.strip().split("\\n"):
     prices.append(float(price))
     print(f"{code} {name} {price} 元")
 
-print(f"平均销售额 {sum(prices) / len(prices):.2f} 元")`,
+print(f"平均价格 {sum(prices) / len(prices):.2f} 元")`,
             note: 'text.strip() 先去掉首尾换行，避免 split("\\n") 产生空行。这种"防御性"处理是脚本健壮性的关键。',
           },
           quiz: [
@@ -935,32 +933,27 @@ print(f"平均销售额 {sum(prices) / len(prices):.2f} 元")`,
           summary: '函数把一段逻辑包起来并起个名字，可以反复调用。带默认值的参数让调用更省事。',
           blocks: [
             ['p', '同一个逻辑写第三遍的时候，就该把它变成函数了。'],
-            ['code', 'python', `def judge(value, limit):
-    """判断实测值是否合格"""
-    if value <= limit:
-        return "合格"
-    else:
-        return "不合格"
+            ['code', 'python', `def order_total(price, count):
+    """计算一笔订单的总价"""
+    return price * count
 
-result = judge(38.2, 42)
-print(result)          # 合格
-
-print(judge(45, 42))   # 不合格`],
+print(order_total(299, 2))     # 598
+print(order_total(89, 3))      # 267`],
             ['h', '拆开看每个部分'],
             ['ul', [
               'def —— 声明"我要定义一个函数"',
-              'judge —— 函数名，命名用动词+名词，见名知意',
-              '括号里的 value, limit —— 参数，调用时传进来的值',
+              'order_total —— 函数名，命名用动词+名词，见名知意',
+              '括号里的 price, count —— 参数，调用时传进来的值',
               '"""...""" —— 文档字符串，说明这个函数干什么',
               'return —— 把结果交出去，同时结束函数',
               '冒号 + 缩进 —— 和 if / for 一样，缩进里就是函数体',
             ]],
             ['h', '返回值：一个还是多个'],
             ['code', 'python', `# 没有 return 就返回 None
-def say_hi(name):
+def greet(name):
     print(f"你好 {name}")
 
-x = say_hi("小林")     # 会打印，但 x 是 None
+x = greet("小林")     # 会打印，但 x 是 None
 print(x)              # None
 
 
@@ -968,22 +961,21 @@ print(x)              # None
 def stats(values):
     return min(values), max(values), sum(values) / len(values)
 
-lo, hi, avg = stats([38.2, 55.4, 62.0])
-print(f"最小 {lo} 最大 {hi} 平均 {avg:.2f}")`],
+low, high, avg = stats([299, 89, 159])
+print(f"最低 {low} 最高 {high} 平均 {avg:.2f}")`],
             ['h', '默认值参数'],
-            ['code', 'python', `def judge(value, limit, unit="万元"):
-    flag = "合格" if value <= limit else "不合格"
-    return f"{value} {unit}（目标值 {limit}）→ {flag}"
+            ['code', 'python', `def order_total(price, count, unit="元"):
+    return f"{price * count} {unit}"
 
-print(judge(38.2, 42))                  # 用默认单位
-print(judge(-41.5, -40, "℃"))           # 覆盖单位`],
+print(order_total(299, 2))                  # 用默认单位
+print(order_total(89, 3, "人民币"))          # 覆盖单位`],
             ['warn', '带默认值的参数必须放在不带默认值的后面。def f(a=1, b) 会报 SyntaxError。'],
             ['h', '关键字参数：让调用看得懂'],
             ['code', 'python', `# 位置参数：得记住顺序
-judge(-41.5, -40, "℃")
+order_total(89, 3, "人民币")
 
 # 关键字参数：一眼看懂
-judge(value=-41.5, limit=-40, unit="℃")`],
+order_total(price=89, count=3, unit="人民币")`],
             ['h', '作用域：函数里的变量外面看不见'],
             ['code', 'python', `def calc():
     inner = 100       # 局部变量，函数外访问不到
@@ -994,27 +986,27 @@ calc()
             ['note', '函数应该"一件事一个函数"。如果一个函数超过 30 行、或者需要写"并且"来描述它做什么，就该拆了。'],
           ],
           exercise: {
-            task: '写一个函数 parse_line(line)，把 "SKU-002,销售额,38.2,42" 这样的文本解析成字典返回。再调用它处理两行数据。',
+            task: '写一个函数 parse_line(line)，把 "A-001,蓝牙耳机,299,2" 这样的文本解析成字典返回。再调用它处理两行数据。',
             hint: '函数内 split(",") 后解包赋值，组装成字典 return。',
             starter: `def parse_line(line):
     # 补全
     pass
 
-print(parse_line("SKU-002,销售额,38.2,42"))
+print(parse_line("A-001,蓝牙耳机,299,2"))
 `,
             answer: `def parse_line(line):
     """把一行 CSV 文本解析成字典"""
-    code, item, value, limit_ = [f.strip() for f in line.split(",")]
+    order_id, name, price, qty = [f.strip() for f in line.split(",")]
     return {
-        "code": code,
-        "item": item,
-        "value": float(value),
-        "limit_": float(limit_),
+        "order_id": order_id,
+        "name": name,
+        "price": float(price),
+        "qty": int(qty),
     }
 
-r = parse_line("SKU-002,销售额,38.2,42")
+r = parse_line("A-001,蓝牙耳机,299,2")
 print(r)
-print(f"{r['item']} 实测 {r['value']}，目标值 {r['limit_']}")`,
+print(f"{r['name']} 单价 {r['price']}，共 {r['qty']} 件")`,
             note: 'pass 是"占位符"，表示这里先什么都不做，避免语法错误。写函数骨架时常用。',
           },
           quiz: [
@@ -1037,8 +1029,8 @@ print(f"{r['item']} 实测 {r['value']}，目标值 {r['limit_']}")`,
           blocks: [
             ['p', '前面的程序只要输入不合规范就崩。真实工具不能这样。'],
             ['code', 'python', `try:
-    n = int(input("请输入台数："))
-    print(f"总销售额 {n * 128000} 元")
+    n = int(input("请输入购买数量："))
+    print(f"总价 {n * 299} 元")
 except ValueError:
     print("输入的不是数字，请重新输入")`],
             ['p', '流程：try 里的代码一旦抛异常，立刻跳到 except，后面的 try 代码不再执行。'],
@@ -1053,8 +1045,8 @@ except ValueError:
             ]],
             ['h', '捕获多种异常'],
             ['code', 'python', `try:
-    count = int(input("销售做了几组？"))
-    print("好的，", count, "组数据待处理")
+    count = int(input("要处理几条订单？"))
+    print("好的，", count, "条订单待处理")
 except ValueError:
     print("你输入的不是整数，程序没崩，被 except 兜住了")`],
             ['h', '拿到错误信息'],
@@ -1076,13 +1068,13 @@ finally:
             ['warn', '不要写 except: pass 或者 except Exception: pass —— 这是把错误藏起来。程序看起来不崩了，但结果可能是错的，问题会在更晚的时候以更难查的方式爆发。'],
             ['tip', '写 except 时先问自己："我到底预期哪一种错误？"能回答这个问题，就知道该捕获哪个具体异常。'],
             ['h', '主动抛异常'],
-            ['code', 'python', `def judge(value, limit):
-    if limit is None:
-        raise ValueError("目标值不能为空")
-    return "合格" if value <= limit else "不合格"
+            ['code', 'python', `def average(values):
+    if not values:
+        raise ValueError("列表不能为空")
+    return sum(values) / len(values)
 
 try:
-    judge(38.2, None)
+    average([])
 except ValueError as e:
     print(f"参数错误：{e}")`],
           ],
@@ -1093,7 +1085,7 @@ except ValueError as e:
     # 补全
     pass
 
-print(to_float("38.2"))
+print(to_float("299.9"))
 print(to_float("abc"))        # 应该返回 0.0
 print(to_float("abc", -1))    # 应该返回 -1
 `,
@@ -1104,7 +1096,7 @@ print(to_float("abc", -1))    # 应该返回 -1
     except (ValueError, TypeError):
         return default
 
-print(to_float("38.2"))        # 38.2
+print(to_float("299.9"))       # 299.9
 print(to_float("abc"))         # 0.0
 print(to_float("abc", -1))     # -1
 print(to_float(None))          # 0.0`,
@@ -1131,8 +1123,8 @@ print(to_float(None))          # 0.0`,
             ['p', '自动化的核心往往是"读文件 → 处理 → 写文件"。'],
             ['h', '写文件'],
             ['code', 'python', `with open("结果.txt", "w", encoding="utf-8") as f:
-    f.write("商品编号,结论\\n")
-    f.write("SKU-001,合格\\n")`],
+    f.write("商品,销量\\n")
+    f.write("蓝牙耳机,120\\n")`],
             ['h', '读文件'],
             ['code', 'python', `with open("结果.txt", "r", encoding="utf-8") as f:
     content = f.read()          # 一次性读全部
@@ -1145,7 +1137,7 @@ print(to_float(None))          # 0.0`,
               ['"a"', '追加，在末尾接着写，不覆盖'],
               ['"r+"', '读写都要，用得较少'],
             ]],
-            ['warn', '"w" 模式是清空重写！想保留原内容要加内容时用 "a"。用 "w" 覆盖了重要清单，是新手最惨的翻车之一。'],
+            ['warn', '"w" 模式是清空重写！想保留原内容要加内容时用 "a"。用 "w" 覆盖了重要文件，是新手最惨的翻车之一。'],
             ['h', '逐行读：处理大文件的标准姿势'],
             ['code', 'python', `with open("data.csv", "r", encoding="utf-8") as f:
     for line in f:
@@ -1163,7 +1155,7 @@ if os.path.exists("结果.txt"):
 else:
     print("文件不存在")`],
             ['h', '完整例子：CSV 数据清洗'],
-            ['code', 'python', `# 假设源文件每行是：编号,名称,销售额（销售额可能带空格或为空）
+            ['code', 'python', `# 假设源文件每行是：商品编号,商品名称,单价（价格可能带空格或为空）
 cleaned = []
 
 with open("源数据.csv", "r", encoding="utf-8") as f:
@@ -1177,11 +1169,11 @@ with open("源数据.csv", "r", encoding="utf-8") as f:
         try:
             price = float(price)
         except ValueError:
-            price = 0.0                   # 销售额异常按 0 处理
+            price = 0.0                   # 价格异常按 0 处理
         cleaned.append((code, name, price))
 
 with open("清洗结果.csv", "w", encoding="utf-8") as f:
-    f.write("编号,名称,销售额\\n")
+    f.write("商品编号,商品名称,单价\\n")
     for code, name, price in cleaned:
         f.write(f"{code},{name},{price:.2f}\\n")
 
@@ -1191,17 +1183,17 @@ print(f"处理完成，共 {len(cleaned)} 条")`],
           exercise: {
             task: '把一段文本写入 result.txt，然后读回来按行打印，最后统计行数（不含空行）。',
             hint: '先用 "w" 写，再用 "r" 读，循环里判断 line.strip() 非空才计数。',
-            starter: `text = """SKU-001,合格
+            starter: `text = """A-001,已发货
 
-SKU-003,不合格
-SKU-005,合格"""
+A-002,待付款
+A-003,已发货"""
 
 # 1. 写入文件  2. 读回来按行打印  3. 统计非空行数
 `,
-            answer: `text = """SKU-001,合格
+            answer: `text = """A-001,已发货
 
-SKU-003,不合格
-SKU-005,合格"""
+A-002,待付款
+A-003,已发货"""
 
 with open("result.txt", "w", encoding="utf-8") as f:
     f.write(text)
@@ -1252,9 +1244,9 @@ print(now.strftime("%Y-%m-%d %H:%M:%S"))     # 2026-09-14 12:30:00
 # 字符串 → 日期
 d = datetime.strptime("2024-03-11", "%Y-%m-%d")
 
-# 日期计算：加 90 天（盘点周期）
-next_cal = d + timedelta(days=90)
-print(next_cal.strftime("%Y-%m-%d"))         # 2024-06-09
+# 日期计算：加 90 天（会员有效期）
+next_renew = d + timedelta(days=90)
+print(next_renew.strftime("%Y-%m-%d"))         # 2024-06-09
 
 # 算间隔天数
 diff = datetime(2024, 9, 1) - d
@@ -1264,9 +1256,9 @@ print(diff.days)                             # 174`],
             ['code', 'python', `import json
 
 data = {
-    "code": "SKU-001",
-    "items": ["带宽", "分辨率"],
-    "price": 128000,
+    "order_id": "A-001",
+    "items": ["蓝牙耳机", "数据线"],
+    "total": 358,
 }
 
 # 字典 → JSON 文本
@@ -1290,14 +1282,15 @@ for f in Path("data").glob("*.txt"):
     print(f.name)`],
             ['h', '第三方库：必须先装'],
             ['code', 'bash', `# 在电脑上、命令行里执行（不是 Python 里）
-pip install pandas openpyxl requests pymysql`],
+pip install pandas openpyxl requests rich`],
             ['kv', [
               ['pandas', '表格数据处理（Excel/CSV 的瑞士军刀）'],
               ['openpyxl', '读写 Excel .xlsx 文件'],
               ['requests', '发 HTTP 请求、调接口'],
-              ['pymysql', 'Python 连 MySQL 数据库'],
+              ['rich', '终端里输出彩色表格、进度条'],
               ['python-docx', '读写 Word 文档'],
             ]],
+            ['note', '数据库不用装：Python 标准库自带 sqlite3，直接 import 就能读写 .db 文件（详见 SQLite 路线第 15、17 节）。'],
             ['warn', '手机练习台（网页版 Python）里，pandas / openpyxl 这类库体积太大，可能装不上或很慢，标准库基本都能用。真实项目请在电脑上跑。'],
             ['h', '看一个真实的小工具骨架'],
             ['code', 'python', `from pathlib import Path
@@ -1335,7 +1328,7 @@ print(f"30 天后：{future.strftime('%Y-%m-%d')}")
 
 start = datetime(2026, 1, 1)
 print(f"已过去 {(today - start).days} 天")`,
-            note: '品类商品的盘点周期、销售报告的时效检查，本质都是这种日期运算。',
+            note: '会员到期、活动截止、报表时效检查，本质都是这种日期运算。',
           },
           quiz: [
             {
@@ -1356,34 +1349,34 @@ print(f"已过去 {(today - start).days} 天")`,
           summary: '类是一个"模板"，对象是按模板造出来的实例。数据和行为打包在一起。',
           blocks: [
             ['p', '前面用字典表示商品，但字典没法"自带行为"。类可以把数据和操作绑在一起。'],
-            ['code', 'python', `class Equipment:
+            ['code', 'python', `class Product:
     """商品"""
 
-    def __init__(self, code, name, price):
-        self.code = code         # 每个对象自己的数据
+    def __init__(self, sku, name, price):
+        self.sku = sku           # 每个对象自己的数据
         self.name = name
         self.price = price
 
     def label(self):
         """返回显示用的标签"""
-        return f"[{self.code}] {self.name}"
+        return f"[{self.sku}] {self.name}"
 
-    def is_expensive(self, threshold=100000):
+    def is_expensive(self, threshold=500):
         return self.price > threshold
 
-e1 = Equipment("SKU-001", "蓝牙耳机", 128000)
-e2 = Equipment("SKU-006", "充电宝", 6800)
+p1 = Product("A-001", "蓝牙耳机", 299)
+p2 = Product("A-006", "数据线", 39)
 
-print(e1.label())                # [SKU-001] 蓝牙耳机
-print(e1.is_expensive())         # True
-print(e2.is_expensive())         # False`],
+print(p1.label())                # [A-001] 蓝牙耳机
+print(p1.is_expensive())         # False
+print(p2.is_expensive())         # False`],
             ['h', '三个关键概念'],
             ['kv', [
               ['class', '类，是模板 / 图纸'],
-              ['对象（实例）', '按模板造出来的具体东西，e1 和 e2 是两个不同对象'],
+              ['对象（实例）', '按模板造出来的具体东西，p1 和 p2 是两个不同对象'],
               ['self', '指向"当前这个对象"，所有方法第一个参数都得是它'],
             ]],
-            ['warn', '方法定义时第一个参数 self 不能省。调用时却不用传 e1.label()，Python 会自动把 e1 塞给 self。'],
+            ['warn', '方法定义时第一个参数 self 不能省。调用时却不用传 p1.label()，Python 会自动把 p1 塞给 self。'],
             ['h', '__init__ 是"造对象时自动执行的"""'],
             ['code', 'python', `class Counter:
     def __init__(self, start=0):
@@ -1397,82 +1390,78 @@ c.inc()
 c.inc()
 print(c.count)                   # 12`],
             ['h', '类属性 vs 实例属性'],
-            ['code', 'python', `class Equipment:
-    category = "质检器具"        # 类属性：所有实例共享
+            ['code', 'python', `class Product:
+    category = "在售商品"        # 类属性：所有实例共享
 
     def __init__(self, name):
         self.name = name         # 实例属性：每个对象独有
 
-a = Equipment("耳机")
-b = Equipment("机械键盘")
+a = Product("蓝牙耳机")
+b = Product("数据线")
 
-print(a.category)     # 质检器具
-print(b.category)     # 质检器具
-print(a.name, b.name) # 耳机 机械键盘`],
+print(a.category)     # 在售商品
+print(b.category)     # 在售商品
+print(a.name, b.name) # 蓝牙耳机 数据线`],
             ['h', '继承：复用已有类的行为'],
-            ['code', 'python', `class Device:
-    def __init__(self, code, name):
-        self.code = code
+            ['code', 'python', `class Product:
+    def __init__(self, sku, name, price):
+        self.sku = sku
         self.name = name
+        self.price = price
 
     def describe(self):
-        return f"{self.code} - {self.name}"
+        return f"{self.sku} - {self.name}"
 
 
-class TestDevice(Device):        # 继承 Device
-    def __init__(self, code, name, last_cal):
-        super().__init__(code, name)     # 先调用父类的初始化
-        self.last_cal = last_cal         # 再补自己的字段
+class DiscountedProduct(Product):        # 继承 Product
+    def __init__(self, sku, name, price, discount):
+        super().__init__(sku, name, price)   # 先调用父类的初始化
+        self.discount = discount             # 再补自己的字段
 
-    def need_calibration(self, today):
-        from datetime import datetime
-        days = (today - datetime.strptime(self.last_cal, "%Y-%m-%d")).days
-        return days > 365
+    def final_price(self):
+        return self.price * self.discount
 
 
-from datetime import datetime
-d = TestDevice("SKU-001", "蓝牙耳机", "2024-08-01")
+d = DiscountedProduct("A-001", "蓝牙耳机", 299, 0.8)
 print(d.describe())                          # 继承来的方法，直接能用
-print(d.need_calibration(datetime.now()))`],
+print(d.final_price())                       # 239.2`],
             ['tip', '什么时候该用类？当你有"一堆数据 + 一组专门操作这些数据的函数"，且它们反复成对出现时。否则字典 + 函数就够了，别为了用类而用类。'],
             ['warn', '初学者常见误区：给每个小功能都建一个类。真实工程里，简单的数据用字典/元组，需要行为才上类。'],
           ],
           exercise: {
-            task: '写一个 TestRecord 类：字段有 device_code、item、value、limit_；方法 is_pass() 返回 True/False；方法 report() 返回一行格式化文本。',
-            hint: 'is_pass 里比较 value <= limit_；report 用 f-string。',
-            starter: `class TestRecord:
-    def __init__(self, device_code, item, value, limit_):
+            task: '写一个 Order 类：字段有 product_name、price、qty；方法 total() 返回总价；方法 report() 返回一行格式化文本。',
+            hint: 'total 里返回 price * qty；report 用 f-string 把商品名、数量、总价拼起来。',
+            starter: `class Order:
+    def __init__(self, product_name, price, qty):
         # 补全
         pass
 
-    def is_pass(self):
+    def total(self):
         pass
 
     def report(self):
         pass
 
-r = TestRecord("SKU-002", "销售额", 38.2, 42)
-print(r.report())
+o = Order("蓝牙耳机", 299, 2)
+print(o.report())
 `,
-            answer: `class TestRecord:
-    def __init__(self, device_code, item, value, limit_):
-        self.device_code = device_code
-        self.item = item
-        self.value = value
-        self.limit_ = limit_
+            answer: `class Order:
+    def __init__(self, product_name, price, qty):
+        self.product_name = product_name
+        self.price = price
+        self.qty = qty
 
-    def is_pass(self):
-        return self.value <= self.limit_
+    def total(self):
+        return self.price * self.qty
 
     def report(self):
-        flag = "合格" if self.is_pass() else "不合格"
-        return f"[{self.device_code}] {self.item}: {self.value} (目标值 {self.limit_}) → {flag}"
+        return f"{self.product_name} × {self.qty} = {self.total()} 元"
 
-r = TestRecord("SKU-002", "销售额", 38.2, 42)
-print(r.report())      # [SKU-002] 销售额: 38.2 (目标值 42) → 合格
+o = Order("蓝牙耳机", 299, 2)
+print(o.report())      # 蓝牙耳机 × 2 = 598 元
 
-r2 = TestRecord("SKU-003", "缺货率", -41.5, -40)
-print(r2.report())     # 不合格，因为 -41.5 < -40`,
+o2 = Order("数据线", 39, 3)
+print(o2.report())     # 数据线 × 3 = 117 元`,
           },
           quiz: [
             {
@@ -1486,30 +1475,31 @@ print(r2.report())     # 不合格，因为 -41.5 < -40`,
         {
           id: 'py-17',
           no: 17,
-          title: '综合实战：销售数据批处理脚本',
+          title: '综合实战：账单批处理脚本',
           minutes: 20,
           level: '实战',
           objectives: ['把前面所有知识串成一个完整工具', '掌握 读→清洗→计算→输出 的流程', '学会写可直接复用的脚本结构'],
           summary: '一个完整脚本 = 读取 + 清洗 + 处理 + 输出。按函数拆分，main 里串起来。',
           blocks: [
-            ['p', '这节课把前面 16 节的知识全部用上，做一个你工作中真能用的东西。'],
+            ['p', '这节课把前面 16 节的知识全部用上，做一个你日常真能用的东西。'],
             ['h', '需求'],
-            ['p', '有一份销售记录文本，格式是「商品编号,项目,实测值,目标值」。要完成：'],
+            ['p', '有一份账单文本，格式是「日期,分类,金额,预算」。要完成：'],
             ['ol', [
               '解析每一行数据',
-              '逐条判定合格/不合格（注意：有些项目是"越大越好"，有些是"越小越好"）',
-              '统计合格率',
+              '逐条判断是否在预算/目标内（有些分类是支出上限，有些是收入目标）',
+              '统计正常率',
               '输出一份结构化的报告',
             ]],
             ['h', '关键设计：用方向区分判定规则'],
-            ['p', '销售额是"越小越好"（≤ 目标值），毛利率是"越大越好"（≥ 目标值）。所以要给每条记录带上方向。'],
-            ['code', 'python', `# 项目 → 判定方向
+            ['p', '餐饮、交通这类支出要求金额不超过预算（≤），工资、兼职这类收入要求达到预期（≥）。所以要给每个分类带上方向。'],
+            ['code', 'python', `# 分类 → 判定方向
 LIMIT_TYPE = {
-    "销售额":  "<=",   # 越小越好
-    "销量":  "<=",
-    "毛利率": ">=",   # 越大越好
-    "复购率":       ">=",
-    "缺货率":         ">=",
+    "餐饮": "<=",   # 支出，控制在预算内
+    "交通": "<=",
+    "购物": "<=",
+    "娱乐": "<=",
+    "工资": ">=",   # 收入，达到预期
+    "兼职": ">=",
 }
 
 
@@ -1524,12 +1514,12 @@ def judge(value, limit_, direction):
 
 
 def parse_record(line):
-    """解析一行：SKU-002,销售额,38.2,42  →  字典"""
+    """解析一行：2026-09-01,餐饮,45,50  →  字典"""
     parts = [p.strip() for p in line.split(",")]
     if len(parts) != 4:
         return None                       # 格式不对，放弃这条
 
-    code, item, value_s, limit_s = parts
+    date, category, value_s, limit_s = parts
 
     try:
         value = float(value_s)
@@ -1538,11 +1528,11 @@ def parse_record(line):
         return None                       # 数字解析失败，放弃
 
     return {
-        "code": code,
-        "item": item,
+        "date": date,
+        "category": category,
         "value": value,
         "limit_": limit_,
-        "direction": LIMIT_TYPE.get(item, "<="),
+        "direction": LIMIT_TYPE.get(category, "<="),
     }
 
 
@@ -1564,28 +1554,28 @@ def analyze(records):
 def build_report(records, result):
     """生成文本报告"""
     lines = []
-    lines.append("=" * 34)
-    lines.append("        销售数据汇总报告")
-    lines.append("=" * 34)
+    lines.append("=" * 40)
+    lines.append("          账单预算核对报告")
+    lines.append("=" * 40)
 
     for r in records:
         ok = judge(r["value"], r["limit_"], r["direction"])
-        flag = "合格  " if ok else "不合格"
+        flag = "正常  " if ok else "异常"
         lines.append(
-            f"[{r['code']}] {r['item']:<18} {r['value']:>8.2f}  "
-            f"({r['direction']} {r['limit_']})  {flag}"
+            f"{r['date']} {r['category']:<6} {r['value']:>8.2f}  "
+            f"({r['direction']} {r['limit_']:.2f})  {flag}"
         )
 
-    lines.append("-" * 34)
-    lines.append(f"总计 {result['total']} 项  "
-                 f"合格 {result['pass_count']}  不合格 {result['fail_count']}")
-    lines.append(f"合格率：{result['pass_rate']:.1%}")
+    lines.append("-" * 40)
+    lines.append(f"总计 {result['total']} 条  "
+                 f"正常 {result['pass_count']}  异常 {result['fail_count']}")
+    lines.append(f"正常率：{result['pass_rate']:.1%}")
 
     if result["failed_items"]:
         lines.append("")
         lines.append("需要关注的项：")
         for r in result["failed_items"]:
-            lines.append(f"  · {r['code']} {r['item']} 实测 {r['value']}（要求 {r['direction']} {r['limit_']}）")
+            lines.append(f"  · {r['date']} {r['category']} 实际 {r['value']}（要求 {r['direction']} {r['limit_']}）")
 
     return "\\n".join(lines)
 
@@ -1606,60 +1596,59 @@ def main(raw_text):
 
 
 # ---------- 测试数据 ----------
-DATA = """SKU-002,销售额,38.2,42
-SKU-002,销量,55.4,60
-SKU-002,毛利率,62.0,50
-SKU-009,复购率,4.2,4
-SKU-003,缺货率,-41.5,-40
-SKU-004,客销售额,12.4,15"""
+DATA = """2026-09-01,餐饮,45,50
+2026-09-01,交通,12,30
+2026-09-02,购物,399,300
+2026-09-03,娱乐,680,500
+2026-09-05,工资,12000,10000
+2026-09-08,兼职,800,1000"""
 
 main(DATA)`],
             ['h', '跑起来看结果'],
-            ['p', '把上面代码整个贴进练习台运行。你会看到一份对齐的销售报告，还有合格率和需要关注的项。'],
+            ['p', '把上面代码整个贴进练习台运行。你会看到一份对齐的账单报告，还有正常率和需要关注的项。'],
             ['h', '这个脚本为什么"像个工具"了'],
             ['ul', [
               '函数拆分：parse_record / judge / analyze / build_report 各管一件事',
               '容错：格式不对的数据被跳过而不是让程序崩掉',
-              '可扩展：加新项目只要往 LIMIT_TYPE 里加一行',
+              '可扩展：加新分类只要往 LIMIT_TYPE 里加一行',
               'main() 收口：整个流程一眼能看懂',
             ]],
             ['h', 'f-string 的对齐小技巧'],
-            ['code', 'python', `name = "电压"
-print(f"{name:<10}|")     # 左对齐占 10 位
-print(f"{38.2:>10.2f}|")  # 右对齐占 10 位，保留 2 位小数`],
+            ['code', 'python', `name = "餐饮"
+print(f"{name:<10}|")      # 左对齐占 10 位
+print(f"{45.5:>10.2f}|")   # 右对齐占 10 位，保留 2 位小数`],
             ['tip', '对齐能让文本报告看起来专业很多。ASCII 表格用 < 和 > 就够了，不用装第三方库。'],
             ['h', '下一步怎么把它变成真正可用的工具'],
             ['ol', [
-              '把 DATA 换成从文件读：Path("销售数据.csv").read_text(encoding="utf-8")',
+              '把 DATA 换成从文件读：Path("账单.csv").read_text(encoding="utf-8")',
               '把报告写入文件而不是打印',
               '如果要读 Excel，装 openpyxl 或 pandas',
               '把常用参数（阈值、路径）提到文件顶部，方便修改',
             ]],
-            ['note', '到这里，你已经具备"看懂别人代码 + 写出解决自己工作问题的小工具"的能力了。剩下的靠真实需求去练。'],
+            ['note', '到这里，你已经具备"看懂别人代码 + 写出解决自己日常问题的小工具"的能力了。剩下的靠真实需求去练。'],
           ],
           exercise: {
-            task: '改造上面脚本：新增一个统计——按商品编号分组，输出每件商品的不合格项数量。',
-            hint: '用字典收集：{code: [不合格项列表]}，遍历时 if not judge(...) 就 append 进去。',
+            task: '改造上面脚本：新增一个统计——按分类汇总异常条数，输出每个分类有几条没达标。',
+            hint: '用字典收集：{分类: 异常条数}，遍历时 if not judge(...) 就加 1。',
             starter: `# 基于上面的代码，新增这个函数：
-def by_device_failures(records):
-    """返回 {商品编号: 不合格项名称列表}"""
+def fail_count_by_category(records):
+    """返回 {分类: 异常条数}"""
     # 补全
     pass
 `,
-            answer: `def by_device_failures(records):
-    """返回 {商品编号: 不合格项名称列表}"""
+            answer: `def fail_count_by_category(records):
+    """返回 {分类: 异常条数}"""
     result = {}
     for r in records:
         if not judge(r["value"], r["limit_"], r["direction"]):
-            result.setdefault(r["code"], []).append(r["item"])
+            result[r["category"]] = result.get(r["category"], 0) + 1
     return result
 
 
 # 调用
-fail_map = by_device_failures(records)
-for code, items in fail_map.items():
-    print(f"{code}: 不合格 {len(items)} 项 → {', '.join(items)}")`,
-            note: 'setdefault 是字典的实用技巧：键不存在时先塞个空列表，避免每次都判断"键在不在"。',
+for category, n in fail_count_by_category(records).items():
+    print(f"{category}: 异常 {n} 条")`,
+            note: 'dict.get(key, 0) 在键不存在时返回 0，省掉了"先判断键在不在"这一步。',
           },
           quiz: [
             {

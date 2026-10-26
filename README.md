@@ -6,7 +6,7 @@
 
 <p><strong>手机上的 AI 编程私教。代码在手机上真跑，模型用你自己的 Key，课程和人设可以整个换掉。</strong></p>
 
-<p>Python / MySQL 各 17 节 · 本地执行 · 0 后端 · 离线优先 · PWA + Android</p>
+<p>Python / SQLite 各 17 节 · 本地执行 · 0 后端 · 离线优先 · PWA + Android</p>
 
 <p>
   <a href="https://github.com/111aligiant/xiaokun-learn/actions/workflows/ci.yml"><img src="https://github.com/111aligiant/xiaokun-learn/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
@@ -164,7 +164,7 @@ export const PERSONA_PRESETS = {
     id: 'tutor',
     label: '严谨私教',
     short: '先探底，一次只讲一个概念',
-    role: '一位专精 Python 与 MySQL 的私人编程教练',
+    role: '一位专精 Python 与 SQLite 的私人编程教练',
     voice: '直接、务实、有耐心但不绕弯子。',
     emphasis: ['每个概念配一个「坑」', '结束必留钩子'],
     boundaries: [],
@@ -249,7 +249,7 @@ xiaokun-learn/
 ├─ src/
 │  ├─ views/           Home / Learn / Lesson / Chat / Lab / Settings
 │  ├─ components/      MarkdownLite · ContentBlocks · CodeEditor · ProfileWizard
-│  ├─ data/            courses（注册表）· python/mysql-course · persona · profile · prompts
+│  ├─ data/            courses（注册表）· python/sql-course · persona · profile · prompts
 │  ├─ runtime/         Pyodide / sql.js 封装
 │  ├─ api/llm.js       OpenAI 兼容流式调用
 │  └─ store/           app.js（设置/进度/会话）· lab-bus.js（跨页跳转）
@@ -330,7 +330,7 @@ PLAYWRIGHT_NODE_MODULES=/path/to/node_modules npm run test:e2e
 ## 已知限制
 
 - 首次加载 Python 运行时约 10MB；`pandas`、`openpyxl` 等第三方包在手机端装不了
-- SQL 实操台跑的是 SQLite，MySQL 专属语法会报错（课程中已标注）
+- SQL 实操台跑的是内存 SQLite，数据随会话重置；真实项目用 Python 的 `sqlite3` 写 `.db` 文件（第 17 节有完整流程）
 - 无后端：数据换设备需手动导出 / 导入
 - 界面目前只有简体中文
 

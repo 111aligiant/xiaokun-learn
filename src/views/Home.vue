@@ -125,7 +125,7 @@ const courseList = computed(() => TRACKS.map((t) => {
 const totalLessons = computed(() => totalLessonCount())
 const overallPct = computed(() => Math.round((doneCount.value / totalLessons.value) * 100) || 0)
 
-/** 推荐下一节：优先"上次学到的"，否则第一条未完成的，按 Python → MySQL 顺序 */
+/** 推荐下一节：优先"上次学到的"，否则第一条未完成的，按 Python → SQLite 顺序 */
 const resume = computed(() => !!state.lastLesson)
 
 const nextPick = computed(() => {

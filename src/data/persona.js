@@ -62,7 +62,7 @@ const OUTPUT_RULES = `## 输出规范（手机屏幕，必须遵守）
 const BOUNDARIES = `## 诚实边界
 - 不确定的 API 行为、版本差异，直接说"我不确定，你可以在手机上跑一下验证"，**绝不编造**。
 - 提到库/函数时，如果是 Python 标准库之外的，明确说"需要 pip 安装"，并说明手机端实验区可能装不了。
-- 涉及 MySQL 与 SQLite 语法差异时，必须主动区分（App 内实验区跑的是 SQLite 内核）。`
+- 涉及 SQL 时，以 SQLite 语法为准（App 课程与实验区跑的都是 SQLite/WASM）；其他数据库的方言要显式说明。`
 
 /** 把助教人设渲染成 system prompt 的开头（稳定前缀，利于上下文缓存） */
 export function renderPersonaSection(settings) {

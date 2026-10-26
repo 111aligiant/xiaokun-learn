@@ -4,11 +4,13 @@ JS 里用单引号定界字符串时，内部再出现未转义的单引号会�
 这个脚本用状态机逐字符走，遇到字符串未正常闭合的行就报出来。
 """
 import sys
+from pathlib import Path
 
+ROOT = Path(__file__).resolve().parent.parent
 FILES = [
-    r"C:\Users\ymc\Desktop\手机学习python\xiaokun-learn\src\data\mysql-course.js",
-    r"C:\Users\ymc\Desktop\手机学习python\xiaokun-learn\src\data\python-course.js",
-    r"C:\Users\ymc\Desktop\手机学习python\xiaokun-learn\src\data\prompts.js",
+    str(ROOT / "src" / "data" / "sql-course.js"),
+    str(ROOT / "src" / "data" / "python-course.js"),
+    str(ROOT / "src" / "data" / "prompts.js"),
 ]
 
 

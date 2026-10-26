@@ -4,7 +4,7 @@
    —— 课程包字段：id / name / icon / lang / extension / course / lessons
    ============================================================ */
 import { PYTHON_COURSE, PY_LESSONS } from './python-course.js'
-import { MYSQL_COURSE, MY_LESSONS } from './mysql-course.js'
+import { SQL_COURSE, SQL_LESSONS } from './sql-course.js'
 
 export const TRACKS = [
   {
@@ -19,20 +19,22 @@ export const TRACKS = [
     lessons: PY_LESSONS,
   },
   {
-    id: 'mysql',
-    name: 'MySQL',
+    id: 'sql',
+    name: 'SQLite',
     icon: '🗄️',
     lang: 'sql',
     extension: 'sql',
-    course: MYSQL_COURSE,
-    lessons: MY_LESSONS,
+    course: SQL_COURSE,
+    lessons: SQL_LESSONS,
   },
 ]
 
 export const DEFAULT_TRACK_ID = TRACKS[0].id
 
 export function trackOf(id) {
-  return TRACKS.find((t) => t.id === id) || TRACKS[0]
+  // 兼容旧链接/旧进度里遗留的 mysql 标识
+  const key = id === 'mysql' ? 'sql' : id
+  return TRACKS.find((t) => t.id === key) || TRACKS[0]
 }
 
 export function lessonsOf(id) {

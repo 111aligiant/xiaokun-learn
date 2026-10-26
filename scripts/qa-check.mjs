@@ -47,7 +47,7 @@ const cases = [
   [['完全没碰过', '没接触过', '10 分钟（摸鱼式）'], 'zero'],
   [['知道 int/str，写过打印', '知道 SELECT，写得很生疏', '30 分钟（认真学）'], 'basic'],
   [['能熟练用 list/dict', '能写 JOIN 和 GROUP BY', '1 小时以上（冲刺）'], 'intermediate'],
-  [['都懂，想做项目', '工作中在用 MySQL', '1 小时以上（冲刺）'], 'advanced'],
+  [['都懂，想做项目', '平时工作就在用数据库', '1 小时以上（冲刺）'], 'advanced'],
   [[undefined, undefined, undefined], 'auto'],
 ]
 for (const [ans, expect] of cases) {

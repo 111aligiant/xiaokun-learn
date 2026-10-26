@@ -218,7 +218,7 @@ export const doneCount = computed(() => Object.values(state.progress).filter((x)
 let seq = 0
 
 /**
- * ctx: { track: 'python'|'mysql', lessonId } 或 null
+ * ctx: { track: 'python'|'sql', lessonId } 或 null
  * 课程上下文属于单个会话，不全局共享——新会话默认不带任何上下文。
  */
 export function createSession(title = '新对话', ctx = null) {

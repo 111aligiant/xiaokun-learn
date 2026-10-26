@@ -23,7 +23,7 @@
         <div class="welcome__avatar">{{ s.assistantName.slice(0, 1) }}</div>
         <div class="welcome__title">我是{{ s.assistantName }}</div>
         <div class="welcome__sub">
-          带你从零学 Python 和 MySQL。<br />
+          带你从零学 Python 和 SQLite。<br />
           卡在哪、想学什么，直接说。
         </div>
 

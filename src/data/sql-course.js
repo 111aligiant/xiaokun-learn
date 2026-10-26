@@ -1,19 +1,18 @@
 /* ============================================================
-   MySQL 路线课程内容
-   说明：App 内的实操区跑的是 SQLite 内核（手机跑不动真 MySQL 服务），
-   教学范围内语法一致；MySQL 专属内容（存储引擎、隔离级别、权限、
-   pymysql 连接）由讲义 + 助教覆盖，并明确标注差异。
+   SQLite 路线课程内容
+   说明：课程与实操区使用同一个 SQLite 内核（sql.js / WebAssembly）。
+   学到的语法可以直接用于 Python 内置的 sqlite3 模块和真实 .db 文件。
    ============================================================ */
 
 import { PYTHON_COURSE, PY_LESSONS } from './python-course.js'
 
-export const MYSQL_COURSE = {
-  id: 'mysql',
-  name: 'MySQL',
+export const SQL_COURSE = {
+  id: 'sql',
+  name: 'SQLite',
   icon: '🗄️',
   tagline: '看得懂、写得出、查得快',
-  desc: '从"表长什么样"开始，到能写 JOIN、能加索引、能用 Python 连数据库取数。',
-  notice: '实操区的数据库引擎是 SQLite（手机上跑不了 MySQL 服务）。本课程覆盖的 SELECT / WHERE / JOIN / GROUP BY / 增删改 / 建表语句两边一致；涉及引擎、隔离级别、权限这些 MySQL 专属内容时会有明确标注。',
+  desc: '从"表长什么样"开始，到能写 JOIN、能加索引、能用 Python 的 sqlite3 读写数据库。',
+  notice: '课程与实操区都使用 SQLite。它不需要安装服务，数据就是一个文件，手机上也能完整运行。',
   chapters: [
     /* ================= 第 1 章 ================= */
     {
@@ -87,47 +86,40 @@ export const MYSQL_COURSE = {
         {
           id: 'my-02',
           no: 2,
-          title: 'MySQL 是什么，以及本 App 怎么练',
+          title: 'SQLite 是什么，以及本 App 怎么练',
           minutes: 8,
           level: '入门',
-          objectives: ['知道 MySQL 在技术栈中的位置', '了解客户端/服务端架构', '明确实操区的边界'],
-          summary: 'MySQL 是一个需要安装并常驻运行的服务端程序，客户端连接它才能查询。手机上跑不了完整服务端，本 App 用 SQLite 内核代替练习。',
+          objectives: ['知道 SQLite 是嵌入式数据库', '理解"一个数据库就是一个文件"', '明确实操区的边界'],
+          summary: 'SQLite 是一个嵌入在程序里的关系型数据库引擎，不需要安装服务、不需要账号，数据就是一个 .db 文件。',
           blocks: [
-            ['p', '先说清楚：MySQL 不是"一个能双击打开的软件"，它是一个**服务端程序**。'],
-            ['h', '架构：客户端 ↔ 服务端'],
+            ['p', '先说清楚：SQLite 不是一个要单独启动的服务，而是一个**嵌入到程序里的数据库引擎**。'],
+            ['h', '和"数据库服务器"的区别'],
             ['ul', [
-              '服务端 MySQL Server：装在服务器或你电脑上，7×24 运行，管理数据文件',
-              '客户端：能连上服务端的工具（命令行 mysql、Navicat、DBeaver、DataGrip、或者你写的 Python 程序）',
-              '所有操作都是客户端发 SQL 语句 → 服务端执行 → 返回结果',
+              'SQLite：以库的形式链接进你的程序，直接读写本地文件',
+              '数据库服务器：单独常驻运行，客户端通过网络连上去',
+              'SQLite 不需要账号、端口、安装包，复制一个 .db 文件就是复制整个数据库',
             ]],
-            ['p', '所以在手机上你是没法"装一个 MySQL 然后直接建库"的。'],
-            ['h', '本 App 的方案（以及为什么合理）'],
+            ['p', '因为足够简单可靠，SQLite 被大量用在手机 App、桌面软件、浏览器和嵌入式商品里。'],
+            ['h', '本 App 里的 SQLite'],
             ['table',
-              ['环境', '引擎', '能练什么'],
-              ['本 App 实操区', 'SQLite', 'SELECT / WHERE / JOIN / GROUP BY / 增删改 / 建表'],
-              ['你电脑上的 MySQL', 'MySQL 8.x', '全部，包括引擎、用户权限、隔离级别'],
+              ['环境', '运行方式', '数据在哪'],
+              ['本 App 实操区', 'sql.js（SQLite 编译成 WebAssembly）', '内存，点「重置演示库」会恢复初始数据'],
+              ['电脑上的 Python', '内置 sqlite3 模块', '一个 .db 文件，关掉程序数据仍在'],
+              ['手机 App 内部', 'SQLite 库', 'App 私有目录下的 .db 文件'],
             ],
-            ['warn', 'SQLite 和 MySQL 的差异点（学习时注意区分）'],
+            ['p', '语法是同一套。你在实操区练的 SELECT / WHERE / JOIN / GROUP BY / 增删改 / 建表，换到 Python 的 sqlite3 里可以直接用。'],
+            ['h', '它不适合什么'],
             ['ul', [
-              'SQLite 没有"存储引擎"概念（MySQL 有 InnoDB / MyISAM）',
-              'SQLite 的数据类型宽松（写 TEXT 也能存数字），MySQL 严格',
-              '日期函数名不同：SQLite 用 date()/strftime()，MySQL 用 DATE_FORMAT()/NOW()',
-              'SQLite 默认自动提交，MySQL 的 InnoDB 支持完整事务隔离级别',
-              'LIMIT 语法一致；分页 MySQL 用 LIMIT offset, count 也支持',
+              '高并发、多台机器同时写入的网络服务',
+              '需要按用户分配权限、远程登录的场景',
+              '超大规模数据仓库',
             ]],
-            ['h', '在电脑上装 MySQL 的最短路径'],
-            ['ol', [
-              'Windows：官网下 MySQL Installer，选 "MySQL Server" 一路下一步，端口默认 3306',
-              '或者用 Docker（更干净）：docker run -d --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql:8',
-              '装完用客户端连：mysql -h 127.0.0.1 -P 3306 -u root -p',
-              '图形客户端推荐 DBeaver（免费）或 Navicat（收费，界面友好）',
-            ]],
-            ['tip', '在你没装 MySQL 之前，本 App 的实操区足够你把 SQL 语法练熟。装好 MySQL 后，把这里写的语句原样贴过去，99% 能直接跑。'],
+            ['p', '但个人工具、桌面应用、手机 App、数据分析脚本，SQLite 往往是最省事的选择。'],
             ['h', '几条通用规范（现在就该养成）'],
             ['ul', [
               'SQL 关键字大写：SELECT、FROM、WHERE，可读性好',
               '语句以分号 ; 结尾',
-              '-- 是单行注释，# 也行（MySQL 支持），/* */ 是多行注释',
+              '-- 是单行注释，/* */ 是多行注释',
               '表名/字段名用小写 + 下划线，和 Python 习惯一致',
             ]],
           ],
@@ -146,10 +138,10 @@ SELECT COUNT(*) AS 商品总数 FROM equipment;`,
           },
           quiz: [
             {
-              q: 'MySQL 的本质是？',
-              options: ['一个 Excel 插件', '一个服务端程序，客户端连上去操作', '一个编程语言', '一个文件格式'],
+              q: 'SQLite 的本质是？',
+              options: ['一个需要单独启动的服务', '一个嵌入程序的数据库引擎', '一个编程语言', '一个文件格式'],
               answer: 1,
-              explain: 'MySQL 是客户端/服务端架构。你的程序是"客户端"，通过网络把 SQL 发给服务端执行。',
+              explain: 'SQLite 以库的形式嵌入程序，不需要服务端进程。数据库本身是一个文件，但 SQLite 是读写它的引擎。',
             },
           ],
         },
@@ -176,30 +168,19 @@ SELECT COUNT(*) AS 商品总数 FROM equipment;`,
   status    TEXT    DEFAULT '在用',
   CHECK (price >= 0)                      -- 销售额不能为负
 );`],
-            ['h', 'MySQL 版本长这样（注意差异）'],
-            ['code', 'sql', `-- 在真实 MySQL 里应该这么写
-CREATE TABLE equipment (
-  id        INT AUTO_INCREMENT PRIMARY KEY,
-  code      VARCHAR(32) NOT NULL UNIQUE,
-  name      VARCHAR(128) NOT NULL,
-  model     VARCHAR(64),
-  price     DECIMAL(12, 2) DEFAULT 0,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  status    VARCHAR(16) DEFAULT '在用',
-  INDEX idx_status (status)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`],
-            ['warn', '三处关键差异：INT 对应 INTEGER；VARCHAR(n) 要指定最大长度（SQLite 不需要）；MySQL 表结构末尾要指定 ENGINE 和 CHARSET。'],
+            ['h', 'SQLite 的类型很灵活'],
+            ['p', 'SQLite 只有五种存储类型：INTEGER、REAL、TEXT、BLOB、NULL。建表时写的类型主要决定"亲和性"，不是硬性限制。'],
+            ['warn', '灵活不等于随便：ID 用 INTEGER、数值用 REAL、文本用 TEXT。金额如果要求精确到分，建议用 INTEGER 存"分"，避免浮点误差。'],
             ['h', '数据类型怎么选'],
             ['table',
-              ['用途', 'MySQL 类型', '说明'],
-              ['整数 ID', 'INT / BIGINT', '数据量大用 BIGINT'],
-              ['金额', 'DECIMAL(12,2)', '**绝不用 FLOAT**，浮点会丢精度'],
-              ['短文本', 'VARCHAR(n)', 'n 是最长字符数，按需给，别一律 255'],
-              ['长文本', 'TEXT', '备注、描述类'],
-              ['日期时间', 'DATETIME / DATE', 'DATETIME 精确到秒，DATE 只有日期'],
-              ['布尔', 'TINYINT(1)', 'MySQL 没有真正的 bool'],
+              ['用途', 'SQLite 类型', '说明'],
+              ['整数 ID', 'INTEGER', '配合 PRIMARY KEY 自动增长'],
+              ['金额', 'INTEGER（存分）', '最稳；用 REAL 存元可能有一分钱的误差'],
+              ['短文本 / 长文本', 'TEXT', '不限制长度，按内容存'],
+              ['日期时间', 'TEXT', '推荐 ISO 格式：2026-10-26 或 2026-10-26 12:30:00'],
+              ['布尔', 'INTEGER', '用 0 / 1 表示'],
             ],
-            ['warn', '金额字段用 FLOAT / DOUBLE 是经典事故：0.1 + 0.2 会得到 0.30000000000000004。金额一律用 DECIMAL。'],
+            ['warn', '金额字段用浮点数要小心：0.1 + 0.2 会得到 0.30000000000000004。要精确到分，就用整数存分。'],
             ['h', '约束：让数据库帮你把关'],
             ['kv', [
               ['NOT NULL', '这个字段必须有值，不能留空'],
@@ -223,16 +204,16 @@ CREATE TABLE equipment (
             ['p', '加了外键后，插入一条 equipment_code = "SKU-999" 的记录会被数据库拒绝 —— 因为商品表里没有 SKU-999。这叫**引用完整性**。'],
             ['warn', '生产环境外键有争议：它保证了一致性，但高并发下会带来锁开销。很多互联网公司选择在应用层保证，不加物理外键。面试时这是个可以展开聊的点。'],
             ['h', '改表结构'],
-            ['code', 'sql', `-- MySQL
-ALTER TABLE equipment ADD COLUMN remark VARCHAR(255);
-ALTER TABLE equipment MODIFY COLUMN name VARCHAR(200) NOT NULL;
-ALTER TABLE equipment DROP COLUMN remark;
+            ['code', 'sql', `-- SQLite 常用改表操作
+ALTER TABLE equipment ADD COLUMN remark TEXT;
+ALTER TABLE equipment RENAME COLUMN remark TO memo;
+ALTER TABLE equipment DROP COLUMN memo;   -- 需要 SQLite 3.35+
 
--- SQLite 对 ALTER 支持有限，很多改动要"建新表 + 迁数据 + 删旧表"`],
-            ['note', 'SQLite 的 ALTER TABLE 只能加列、改名，不能删列或改类型。这也是它和 MySQL 的实用差异之一。'],
+-- 改类型仍要"建新表 + 迁数据 + 删旧表"`],
+            ['note', 'SQLite 的 ALTER TABLE 保持克制：加列、改名、删列都有对应语法，但改类型需要重建表。'],
             ['h', '删表（危险）'],
-            ['code', 'sql', `DROP TABLE equipment;        -- 表结构和数据全删，无法恢复
-TRUNCATE TABLE equipment;    -- MySQL 专属：清空数据但保留表结构`],
+            ['code', 'sql', `DROP TABLE equipment;     -- 表结构和数据全删，无法恢复
+DELETE FROM equipment;    -- 清空数据，保留表结构`],
           ],
           exercise: {
             task: '建一张 calibration（盘点记录）表：字段有 id 主键、equipment_code、cal_date、cal_org（盘点机构）、result（结论），其中 equipment_code 和 cal_date 不能为空。再用 INSERT 插一条数据。',
@@ -259,10 +240,10 @@ SELECT * FROM calibration;`,
           },
           quiz: [
             {
-              q: '金额字段最应该用的类型是？',
-              options: ['FLOAT', 'DOUBLE', 'DECIMAL', 'INT'],
-              answer: 2,
-              explain: 'DECIMAL 是定点数，能精确表示小数。FLOAT/DOUBLE 是二进制浮点，存在表示误差，算钱会出错。',
+              q: 'SQLite 里想精确记录金额（到分），最稳的做法是？',
+              options: ['用 REAL 存元', '用 INTEGER 存分', '用 TEXT 存元', '用 BLOB 存元'],
+              answer: 1,
+              explain: '把金额换算成整数分再存，加减求和都不会有浮点误差。REAL 是二进制浮点，算钱可能出现一分钱的偏差；TEXT 则无法直接求和。',
             },
             {
               q: 'UNIQUE 和 PRIMARY KEY 的区别是？',
@@ -318,12 +299,8 @@ INSERT INTO equipment (code, name) VALUES ('SKU-017', '待上架商品');`],
               ['N values for M columns', '值的个数和字段个数不一致'],
             ]],
             ['h', '拿到刚插入的自增 ID'],
-            ['code', 'sql', `-- MySQL
-SELECT LAST_INSERT_ID();
-
--- SQLite
-SELECT last_insert_rowid();`],
-            ['note', '在 Python 里用 pymysql 插入后，可以用 cursor.lastrowid 直接拿到新 ID，比再发一条查询方便。第 15 节会用到。'],
+            ['code', 'sql', `SELECT last_insert_rowid();`],
+            ['note', '在 Python 的 sqlite3 里，插入后可以用 cursor.lastrowid 直接拿到新 ID，比再发一条查询方便。第 15 节会用到。'],
             ['h', '安全的写法：参数化'],
             ['p', '永远不要用字符串拼接把用户输入塞进 SQL —— 这是 SQL 注入的根源。'],
             ['code', 'python', `# 危险！用户输入 ' OR '1'='1 就能删库
@@ -391,22 +368,19 @@ SELECT DISTINCT dept FROM equipment;
 -- 多列组合去重：品类和状态的组合
 SELECT DISTINCT dept, status FROM equipment;`],
             ['h', '拼接字段'],
-            ['code', 'sql', `-- MySQL 用 CONCAT
-SELECT CONCAT(code, ' - ', name) AS 标识 FROM equipment;
-
--- SQLite 用 ||
+            ['code', 'sql', `-- 用 || 拼接字符串
 SELECT code || ' - ' || name AS 标识 FROM equipment;`],
-            ['p', '看到差异了吗？字符串拼接 MySQL 用 CONCAT()，SQLite 用 ||。这是两个引擎最常遇到的小差别之一。'],
+            ['p', 'SQLite 用 || 拼接字符串，数字参与时会自动转成文本。'],
             ['h', '限制返回行数'],
             ['code', 'sql', `SELECT * FROM equipment LIMIT 5;              -- 前 5 行
 SELECT * FROM equipment LIMIT 5 OFFSET 5;     -- 第 6~10 行（第二页）`],
             ['h', '给 NULL 一个兜底显示'],
-            ['code', 'sql', `-- MySQL
+            ['code', 'sql', `-- IFNULL 和 COALESCE 都能兜底
 SELECT name, IFNULL(model, '未填') AS model FROM equipment;
 
--- 通用写法
+-- COALESCE 可以依次尝试多个字段
 SELECT name, COALESCE(model, maker, '未填') AS model FROM equipment;`],
-            ['note', 'COALESCE 是标准 SQL 函数，返回参数里第一个非 NULL 的值。两个引擎都支持，优先用它。'],
+            ['note', 'COALESCE 是标准 SQL 函数，返回参数里第一个非 NULL 的值。SQLite 里和 IFNULL 一样好用。'],
           ],
           exercise: {
             task: '查询所有品类的名称（去重），并按品类名排序。再列出商品名称和销售额，要求销售额放大 10000 倍后除以 10000 显示成「万元」列。',
@@ -541,8 +515,7 @@ FROM equipment
 ORDER BY total DESC;          -- 可以用别名，因为 ORDER BY 在 SELECT 之后执行`],
             ['note', '执行顺序是 FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT。所以 WHERE 里不能用 SELECT 定义的别名，但 ORDER BY 可以。这是 SQL 面试常问的点。'],
             ['h', 'NULL 排在哪？'],
-            ['code', 'sql', `-- MySQL：NULL 视为最小值，升序排最前
--- SQLite：NULL 也是最小
+            ['code', 'sql', `-- SQLite：NULL 视为最小值，升序排最前
 SELECT name, model FROM equipment ORDER BY model ASC;
 
 -- 想让 NULL 排最后：加一个排序键
@@ -554,7 +527,7 @@ SELECT * FROM equipment ORDER BY id LIMIT 5 OFFSET 0;
 -- 第 2 页
 SELECT * FROM equipment ORDER BY id LIMIT 5 OFFSET 5;
 
--- MySQL 的简写：LIMIT offset, count
+-- 简写：LIMIT offset, count
 SELECT * FROM equipment ORDER BY id LIMIT 5, 5;`],
             ['warn', '分页一定要带 ORDER BY！没有排序时数据库返回的顺序在理论上是"不确定"的，翻页会出现重复或漏行。'],
             ['warn', '深分页性能问题：LIMIT 10 OFFSET 1000000 时，数据库仍要扫描并丢弃前 100 万行。优化方式是用"游标分页"（WHERE id > 上次最后一行的 id LIMIT 10）。'],
@@ -620,7 +593,7 @@ DELETE FROM equipment WHERE status = '报废';`],
             ['h', '保命三招'],
             ['ol', [
               '先用同样的 WHERE 跑一次 SELECT COUNT(*)，看清要影响多少行',
-              '在事务里执行：BEGIN; ... 确认无误再 COMMIT;（SQLite / MySQL InnoDB 都支持）',
+              '在事务里执行：BEGIN; ... 确认无误再 COMMIT;（SQLite 支持）',
               '生产库上操作前先备份，或用 UPDATE ... LIMIT 分批小步走',
             ]],
             ['code', 'sql', `-- 第 1 步：先看看会命中几行
@@ -725,11 +698,11 @@ SELECT
   SUM(CASE WHEN price > 100000 THEN 1 ELSE 0 END)   AS 高销售额商品数
 FROM equipment;`],
             ['tip', 'CASE WHEN 是 SQL 里的 if-else，配合 SUM/AVG 能做出很灵活的条件统计，强烈建议掌握。'],
-            ['h', '把多行拼成一行：GROUP_CONCAT（MySQL）/ GROUP_CONCAT（SQLite 也有）'],
+            ['h', '把多行拼成一行：GROUP_CONCAT'],
             ['code', 'sql', `SELECT dept, GROUP_CONCAT(name) AS 商品清单
 FROM equipment
 GROUP BY dept;`],
-            ["note", "MySQL 的 GROUP_CONCAT 支持 SEPARATOR 指定分隔符：GROUP_CONCAT(name SEPARATOR ' / ')。SQLite 用逗号固定分隔。"],
+            ['note', 'GROUP_CONCAT 默认用逗号分隔。SQLite 也支持自定义分隔符：GROUP_CONCAT(name, \' / \')。'],
             ['h', '聚合 + CASE 算占比'],
             ['code', 'sql', `SELECT
   ROUND(100.0 * SUM(CASE WHEN verdict = '合格' THEN 1 ELSE 0 END) / COUNT(*), 2) AS 合格率百分比
@@ -786,7 +759,7 @@ SELECT dept, name, COUNT(*) FROM equipment GROUP BY dept;
 -- 对
 SELECT dept, COUNT(*) FROM equipment GROUP BY dept;
 
--- MySQL 里上面那句"错"的写法可能不报错（取决于 sql_mode），
+-- SQLite 里上面那句"错"的写法通常不报错，
 -- 但结果里的 name 是随机的，千万不要依赖这个行为。`],
             ['h', 'HAVING：对分组结果再筛'],
             ['code', 'sql', `-- 找出商品数超过 2 台的品类
@@ -905,7 +878,7 @@ ORDER BY 销售次数 DESC;`],
               ['INNER JOIN', '两边都匹配', '只要有效数据'],
               ['LEFT JOIN', '左表全部 + 右表匹配的', '主表全列出，看有无关联数据'],
               ['RIGHT JOIN', '右表全部 + 左表匹配的', '少用，改写表顺序用 LEFT 更清晰'],
-              ['FULL OUTER JOIN', '两边都保留', 'MySQL 不直接支持，需 UNION 模拟'],
+              ['FULL OUTER JOIN', '两边都保留', 'SQLite 3.39+ 支持；旧版本用 UNION 模拟'],
             ],
             ['h', '三张表连起来'],
             ['code', 'sql', `SELECT
@@ -1045,7 +1018,7 @@ SELECT * FROM v_equipment_test WHERE 结论 = '不合格';`],
               '只是"拿一个值去比较" → 子查询更直观',
               '需要用到两边的多个字段 → JOIN 更合适',
               '性能上现代优化器对两者经常给出相同计划，不必过度纠结，可读性优先',
-              'MySQL 里 IN 子查询在某些版本优化较差，可以试改写成 JOIN 对比执行时间',
+              '可以用 EXPLAIN QUERY PLAN 对比 IN 子查询和 JOIN 的执行计划',
             ]],
           ],
           exercise: {
@@ -1107,19 +1080,13 @@ WHERE NOT EXISTS (
             ['p', '一张 100 万行的表，执行 SELECT * FROM t WHERE code = \'SKU-99999\'，数据库只能从第一行开始一行行比对 —— 这叫**全表扫描**，最坏情况要读 100 万行。'],
             ['p', '建了索引后，数据库内部维护一棵排序好的 B+ 树结构，找 SKU-99999 只需要几次跳转（约 log₂(100万) ≈ 20 次），速度差几个数量级。'],
             ['h', '创建与删除索引'],
-            ['code', 'sql', `-- MySQL
-CREATE INDEX idx_equipment_code ON equipment(code);
-CREATE UNIQUE INDEX idx_equipment_code ON equipment(code);
+            ['code', 'sql', `CREATE INDEX idx_equipment_code ON equipment(code);
+CREATE UNIQUE INDEX idx_code_unique ON equipment(code);
 CREATE INDEX idx_dept_status ON equipment(dept, status);   -- 复合索引
 
-DROP INDEX idx_equipment_code ON equipment;
+DROP INDEX idx_equipment_code;
 
--- 建表时直接声明
-CREATE TABLE t (
-  id   INT PRIMARY KEY,
-  code VARCHAR(32),
-  INDEX idx_code (code)
-);`],
+-- SQLite 的索引要单独建，不能写在 CREATE TABLE 里`],
             ['h', '索引不是越多越好'],
             ['table',
               ['代价', '说明'],
@@ -1153,19 +1120,19 @@ WHERE c = 3`],
             ['ul', [
               '在索引字段上做运算或函数：WHERE YEAR(buy_date) = 2024 → 改成 WHERE buy_date >= \'2024-01-01\' AND buy_date < \'2025-01-01\'',
               'LIKE 以 % 开头：WHERE name LIKE \'%分析仪\'',
-              '隐式类型转换：code 是 VARCHAR，却写 WHERE code = 123',
+              '隐式类型转换：code 是 TEXT，却写 WHERE code = 123',
               'OR 连接了非索引字段',
               '使用了 != 或 NOT IN（多数情况下无法走索引）',
             ]],
-            ['h', 'EXPLAIN：看数据库怎么执行你的查询'],
-            ['code', 'sql', `EXPLAIN SELECT * FROM equipment WHERE dept = '数码配件';`],
+            ['h', 'EXPLAIN QUERY PLAN：看 SQLite 怎么执行你的查询'],
+            ['code', 'sql', `EXPLAIN QUERY PLAN SELECT * FROM equipment WHERE dept = '数码配件';`],
             ['kv', [
-              ['type', '访问类型。ALL = 全表扫描（需警惕）；ref/eq_ref = 走索引；const = 主键/唯一索引等值查询，最快'],
-              ['key', '实际用到的索引名。显示 NULL 说明没用索引'],
-              ['rows', '预估要扫描的行数，越小越好'],
-              ['Extra', 'Using filesort = 需要额外排序；Using temporary = 用了临时表（都要留意）'],
+              ['SCAN equipment', '全表扫描。数据量大时要警惕'],
+              ['SEARCH equipment USING INDEX …', '走了索引，括号里会写明用哪个索引'],
+              ['USING COVERING INDEX', '查询要的列都在索引里，连表都不用回读，最快'],
+              ['USE TEMP B-TREE FOR ORDER BY', '需要额外排序，考虑给排序字段建索引'],
             ]],
-            ['note', 'SQLite 里用 EXPLAIN QUERY PLAN 看执行计划，输出格式不同但思路一致：关注有没有走索引、扫描行数多少。本 App 实操区可以试试。'],
+            ['note', 'SQLite 的执行计划输出是"一步一行"的树状描述，看两件事就够：有没有 SCAN 大表、有没有用上索引。本 App 实操区可以直接试。'],
             ['warn', '别凭直觉加索引。正确流程是：先 EXPLAIN 找到慢查询 → 判断是否缺索引 → 加索引 → 再 EXPLAIN 对比验证。'],
           ],
           exercise: {
@@ -1204,16 +1171,16 @@ SELECT * FROM equipment WHERE status = '在用';`,
         {
           id: 'my-14',
           no: 14,
-          title: '事务与并发：ACID 与隔离级别',
-          minutes: 13,
+          title: '事务：一组操作要么全成、要么全撤',
+          minutes: 12,
           level: '进阶',
-          objectives: ['理解事务的 ACID', '会写 BEGIN / COMMIT / ROLLBACK', '知道四种隔离级别与脏读/幻读'],
-          summary: '事务保证一组操作"要么全成功、要么全撤销"。MySQL InnoDB 默认隔离级别是 REPEATABLE READ。',
+          objectives: ['理解事务的 ACID', '会写 BEGIN / COMMIT / ROLLBACK', '知道 SQLite 的并发特点'],
+          summary: '事务保证一组操作要么全部生效、要么全部撤销。SQLite 采用单写者模型，写事务会短暂锁住数据库。',
           blocks: [
             ['h', '一个真实场景'],
             ['p', '商品进货流程要同时做两件事：① 在 equipment 表插入新商品 ② 在 purchase_log 表记录进货流水。如果第 ① 步成功、第 ② 步失败，数据就不一致了 —— 有商品却没进货记录。事务就是解决这个的。'],
             ['h', '事务的基本操作'],
-            ['code', 'sql', `BEGIN;            -- 或 START TRANSACTION（MySQL）
+            ['code', 'sql', `BEGIN;
 
 INSERT INTO equipment (code, name, price) VALUES ('SKU-020', '新商品', 100000);
 INSERT INTO purchase_log (equipment_code, amount) VALUES ('SKU-020', 100000);
@@ -1228,52 +1195,35 @@ COMMIT;           -- 两条都成功，一起生效
               ['A 原子性 Atomicity', '事务里的操作要么全做，要么全不做'],
               ['C 一致性 Consistency', '事务前后数据都满足约束（如总额守恒）'],
               ['I 隔离性 Isolation', '并发事务之间互不干扰'],
-              ['D 持久性 Durability', 'COMMIT 后的数据即使断电也不丢（靠 redo log）'],
+              ['D 持久性 Durability', 'COMMIT 后的数据即使断电也不丢'],
             ]],
-            ['h', '并发会引发的问题'],
-            ['table',
-              ['问题', '现象'],
-              ['脏读', '读到了别人还没提交的数据（对方可能回滚）'],
-              ['不可重复读', '同一事务里两次读同一行，结果不一样（被别的事务改了）'],
-              ['幻读', '同一事务里两次查范围，第二次多了几行（被别的事务插入了）'],
-            ],
-            ['h', '四种隔离级别'],
-            ['table',
-              ['级别', '脏读', '不可重复读', '幻读'],
-              ['READ UNCOMMITTED', '可能', '可能', '可能'],
-              ['READ COMMITTED', '不可能', '可能', '可能'],
-              ['REPEATABLE READ', '不可能', '不可能', 'InnoDB 用间隙锁基本避免'],
-              ['SERIALIZABLE', '不可能', '不可能', '不可能'],
-            ],
-            ['note', 'MySQL InnoDB 的默认级别是 REPEATABLE READ（与 SQL 标准不同，多数数据库默认是 READ COMMITTED）。级别越高越安全，但并发性能越低。'],
-            ['h', '查看与设置隔离级别'],
-            ['code', 'sql', `-- MySQL
-SELECT @@transaction_isolation;
-SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
-
--- 查看当前有哪些事务在跑
-SELECT * FROM information_schema.INNODB_TRX;`],
-            ['warn', '长事务是生产事故的常见源头：它持有锁不放，会阻塞其他请求，还会让 undo log 膨胀。原则是"事务要短"——不要在事务里做网络请求、等用户输入、或做大量计算。'],
-            ['h', '本 App 实操区的说明'],
-            ['note', 'SQLite 也支持 BEGIN / COMMIT / ROLLBACK，但它是单写者模型（同一时刻只允许一个写入事务），没有 MySQL 那种细粒度行锁和多级隔离级别。语法可以练，并发行为要理解成"简化版"。'],
+            ['h', 'SQLite 的并发模型'],
+            ['ul', [
+              '同一时刻只允许一个写事务，写入天然是串行的',
+              '读可以并发；开启 WAL 模式后，读写互不阻塞',
+              '没有"每个会话单独设置隔离级别"这种开关，事务语义由 SQLite 统一保证',
+              '需要立刻拿写锁时，可以用 BEGIN IMMEDIATE',
+            ]],
+            ['warn', '长事务会一直占着写锁，其他写入只能排队。原则是"事务要短"——不要在事务里做网络请求、等用户输入或做大量计算。'],
             ['h', 'Python 里怎么用事务'],
-            ['code', 'python', `import pymysql
+            ['code', 'python', `import sqlite3
 
-conn = pymysql.connect(host='127.0.0.1', user='root',
-                       password='***', database='lab', charset='utf8mb4')
+conn = sqlite3.connect("lab.db")
 try:
-    with conn.cursor() as cur:          # with 会自动关闭游标
-        cur.execute("INSERT INTO equipment (code, name) VALUES (%s, %s)",
-                    ('SKU-020', '新商品'))
-        cur.execute("INSERT INTO purchase_log (equipment_code) VALUES (%s)",
-                    ('SKU-020',))
-    conn.commit()                        # 两条一起提交
-except Exception as e:
-    conn.rollback()                      # 出错全部撤销
+    with conn:                      # 成功自动 commit，异常自动 rollback
+        conn.execute(
+            "INSERT INTO equipment (code, name) VALUES (?, ?)",
+            ("SKU-020", "新商品"),
+        )
+        conn.execute(
+            "INSERT INTO purchase_log (equipment_code) VALUES (?)",
+            ("SKU-020",),
+        )
+except sqlite3.Error as e:
     print(f"失败，已回滚：{e}")
 finally:
     conn.close()`],
-            ['tip', 'pymysql 默认不自动提交（autocommit=False），所以必须显式 commit()。这是新手最容易踩的坑："代码没报错但数据没进去"。'],
+            ['tip', 'sqlite3 的占位符是 ?（也支持 :name 命名参数）。值一律走参数占位符，不要拼字符串。'],
           ],
           exercise: {
             task: '在一个事务里：给 equipment 插入一台新商品，然后故意执行一条会报错的语句（如插入重复编号），观察是否整体回滚。',
@@ -1307,193 +1257,168 @@ SELECT * FROM equipment WHERE code = 'SKU-021';`,
           },
           quiz: [
             {
-              q: 'MySQL InnoDB 默认的事务隔离级别是？',
-              options: ['READ UNCOMMITTED', 'READ COMMITTED', 'REPEATABLE READ', 'SERIALIZABLE'],
-              answer: 2,
-              explain: 'InnoDB 默认是 REPEATABLE READ。注意这比 SQL 标准建议的更高，其他数据库（如 Oracle、PostgreSQL、SQL Server）默认多是 READ COMMITTED。',
+              q: 'SQLite 的写入并发模型是？',
+              options: ['允许多个写事务同时进行', '同一时刻只允许一个写事务', '完全不支持事务', '只允许读'],
+              answer: 1,
+              explain: 'SQLite 采用单写者模型：读可以并发，但写是串行的。开启 WAL 模式后读写互不阻塞，但仍然只有一个写者。',
             },
             {
-              q: 'pymysql 里执行完 INSERT 但没调 commit()，会怎样？',
-              options: ['自动保存', '数据不会真正写入，连接关闭后丢失', '报错', '写入但只读'],
+              q: 'Python sqlite3 里 with conn: 的作用是？',
+              options: ['只负责关闭连接', '成功时自动 commit，异常时自动 rollback', '禁止写入', '自动创建所有表'],
               answer: 1,
-              explain: 'pymysql 默认 autocommit=False。不 commit 的话事务一直挂着，连接关闭时通常会被回滚。这是"代码没报错但数据没进去"的头号原因。',
+              explain: 'with conn: 是一个事务上下文：代码块正常结束就提交，抛异常就回滚。连接本身仍要自己 close()。',
             },
           ],
         },
         {
           id: 'my-15',
           no: 15,
-          title: 'Python + MySQL：pymysql 实战',
+          title: 'Python + SQLite：sqlite3 实战',
           minutes: 16,
           level: '实战',
-          objectives: ['用 pymysql 连接数据库', '安全地执行查询和写入', '把查询结果转成字典列表'],
-          summary: 'pymysql 是纯 Python 实现的 MySQL 客户端。记住：参数化传值、用完关闭、DictCursor 拿字典。',
+          objectives: ['用 sqlite3 连接 .db 文件', '安全地执行查询和写入', '把查询结果转成字典列表'],
+          summary: 'sqlite3 是 Python 标准库，不用安装。记住：参数化传值、用完关闭、row_factory 拿字典。',
           blocks: [
-            ['h', '安装'],
-            ['code', 'bash', `pip install pymysql`],
+            ['h', '不用安装'],
+            ['p', 'sqlite3 是 Python 自带的模块，直接 import 就能用。手机上实操区跑的也是同一个 SQLite 引擎，语法完全一致。'],
+            ['code', 'bash', `python -c "import sqlite3; print(sqlite3.sqlite_version)"`],
             ['h', '连接与最小示例'],
-            ['code', 'python', `import pymysql
+            ['code', 'python', `import sqlite3
 
-conn = pymysql.connect(
-    host='127.0.0.1',
-    port=3306,
-    user='root',
-    password='你的密码',
-    database='lab',
-    charset='utf8mb4',        # 一定要 utf8mb4，否则中文和 emoji 会出问题
-    cursorclass=pymysql.cursors.DictCursor,   # 结果以字典返回
-)
+conn = sqlite3.connect("lab.db")      # 文件不存在会自动创建
+conn.row_factory = sqlite3.Row        # 结果可以按列名取值
 
-with conn.cursor() as cur:
-    cur.execute("SELECT code, name, price FROM equipment WHERE dept = %s",
-                ('数码配件',))
-    rows = cur.fetchall()
+with conn:
+    rows = conn.execute(
+        "SELECT code, name, price FROM equipment WHERE dept = ?",
+        ("数码配件",),
+    ).fetchall()
     for r in rows:
-        print(r['code'], r['name'], r['price'])
+        print(r["code"], r["name"], r["price"])
 
 conn.close()`],
             ['h', '三个关键点'],
             ['ol', [
-              'charset="utf8mb4" —— MySQL 的 utf8 是"残缺版"，最多 3 字节，存不了 emoji。一律用 utf8mb4',
-              'cursorclass=DictCursor —— 结果变成字典，用 r["name"] 取值，比 r[1] 可读性高太多',
-              '参数用 %s 占位符 —— 不是 Python 的 {}，是 pymysql 的占位符。它会自动做转义，防注入',
+              'connect("lab.db") —— 数据库就是一个文件，路径写错会悄悄新建一个空库',
+              'row_factory = sqlite3.Row —— 结果按列名取值，比 r[1] 可读性高太多',
+              '参数用 ? 占位符 —— execute 的第二个参数传元组，驱动会自动转义，防注入',
             ]],
-            ['warn', 'pymysql 的占位符是 %s，即使值是数字也要用 %s（不要用 %d）。这是它和 Python 字符串格式化的差异，很容易写错。'],
+            ['warn', '? 占位符和参数一一对应，数量必须一致。即使值是数字也要走参数，不要用 f-string 拼进 SQL。'],
             ['h', '写入数据'],
             ['code', 'python', `data = [
-    ('SKU-030', '智能音箱', 218000, '影音商品'),
-    ('SKU-031', '迷你主机',      35000, '数码配件'),
+    ("SKU-030", "智能音箱", 218000, "影音商品"),
+    ("SKU-031", "迷你主机",      35000, "数码配件"),
 ]
 
-with conn.cursor() as cur:
-    cur.executemany(
-        "INSERT INTO equipment (code, name, price, dept) VALUES (%s, %s, %s, %s)",
-        data
+with conn:
+    conn.executemany(
+        "INSERT INTO equipment (code, name, price, dept) VALUES (?, ?, ?, ?)",
+        data,
     )
-conn.commit()                     # 别忘了！
 print(f"插入了 {len(data)} 条")`],
-            ['tip', 'executemany 比循环 execute 快得多，因为它把多条合并成一次网络交互。批量导入数据时必用。'],
+            ['tip', 'executemany 一次处理一批数据，比循环 execute 快；with conn 会在成功时自动提交。'],
             ['h', '一个可复用的查询函数'],
-            ['code', 'python', `import pymysql
+            ['code', 'python', `import sqlite3
 
-def query(sql, params=None):
-    """执行查询，返回字典列表"""
-    conn = pymysql.connect(
-        host='127.0.0.1', user='root', password='***',
-        database='lab', charset='utf8mb4',
-        cursorclass=pymysql.cursors.DictCursor,
-    )
+def query(sql, params=()):
+    """执行查询，返回 sqlite3.Row 列表"""
+    conn = sqlite3.connect("lab.db")
+    conn.row_factory = sqlite3.Row
     try:
-        with conn.cursor() as cur:
-            cur.execute(sql, params or ())
-            return cur.fetchall()
+        return conn.execute(sql, params).fetchall()
     finally:
         conn.close()
 
 
-def execute(sql, params=None):
-    """执行写入，返回影响行数"""
-    conn = pymysql.connect(
-        host='127.0.0.1', user='root', password='***',
-        database='lab', charset='utf8mb4',
-    )
+def execute(sql, params=()):
+    """执行写入，返回受影响行数"""
+    conn = sqlite3.connect("lab.db")
     try:
-        with conn.cursor() as cur:
-            n = cur.execute(sql, params or ())
-        conn.commit()
-        return n
-    except Exception:
-        conn.rollback()
-        raise
+        with conn:
+            cur = conn.execute(sql, params)
+        return cur.rowcount
     finally:
         conn.close()`],
-            ['note', '真实项目里不会每次查询都新建连接（开销大），而是用连接池（DBUtils 的 PooledDB）或 ORM（SQLAlchemy）。但上面的写法适合脚本和小工具，清晰够用。'],
+            ['note', '脚本和小工具每次新建连接足够清晰。高频调用时再考虑复用连接，或使用 ORM（SQLAlchemy）。'],
             ['h', '实战：把销售数据存进数据库'],
-            ['code', 'python', `import pymysql
+            ['code', 'python', `import sqlite3
 
 records = [
-    ('SKU-001', '退货率',   2.0,   '>= 1',   '合格', '2024-08-01'),
-    ('SKU-003', '缺货率',  -41.5,  '-40±2',  '不合格', '2024-05-19'),
-    ('SKU-005', '月销售额', -118.0,  '<= -110', '合格', '2024-08-20'),
+    ("SKU-001", "退货率",   2.0,   ">= 1",   "合格",   "2024-08-01"),
+    ("SKU-003", "缺货率",  -41.5,  "-40±2",  "不合格", "2024-05-19"),
+    ("SKU-005", "月销售额", -118.0,  "<= -110", "合格",   "2024-08-20"),
 ]
 
-conn = pymysql.connect(host='127.0.0.1', user='root', password='***',
-                       database='lab', charset='utf8mb4')
+conn = sqlite3.connect("lab.db")
+conn.row_factory = sqlite3.Row
 try:
-    with conn.cursor() as cur:
-        cur.executemany(
+    with conn:
+        conn.executemany(
             """INSERT INTO test_record
                (equipment_code, item, value, limit_value, verdict, test_date)
-               VALUES (%s, %s, %s, %s, %s, %s)""",
-            records
+               VALUES (?, ?, ?, ?, ?, ?)""",
+            records,
         )
-    conn.commit()
 
-    with conn.cursor(pymysql.cursors.DictCursor) as cur:
-        cur.execute("""
-            SELECT t.item, t.value, t.verdict, e.name
-            FROM test_record t
-            JOIN equipment e ON e.code = t.equipment_code
-            WHERE t.verdict = '不合格'
-        """)
-        for r in cur.fetchall():
-            print(f"{r['name']} 的 {r['item']} 不合格，实测 {r['value']}")
+    rows = conn.execute("""
+        SELECT t.item, t.value, t.verdict, e.name
+        FROM test_record t
+        JOIN equipment e ON e.code = t.equipment_code
+        WHERE t.verdict = ?
+    """, ("不合格",)).fetchall()
+    for r in rows:
+        print(f"{r['name']} 的 {r['item']} 不合格，实测 {r['value']}")
 finally:
     conn.close()`],
-            ['tip', '上面这段就是"销售数据入库 + 异常项汇总"的完整雏形。把它改成从 Excel 读数据，就是一个真实可用的销售数据管理脚本了。'],
+            ['tip', '上面这段就是"销售数据入库 + 异常项汇总"的完整雏形。把它改成从 Excel 读数据，就是一个真实可用的销售数据管理脚本。'],
             ['h', '常见报错对照'],
             ['kv', [
-              ["Access denied for user", '账号密码错，或该用户没有从这台机器连接的权限'],
-              ["Unknown database 'lab'", '库不存在，先去 MySQL 里 CREATE DATABASE lab'],
-              ["Can't connect to MySQL server", '服务没启动，或 host/port 写错，或防火墙拦截'],
-              ["Incorrect string value", '字符集问题，检查表和连接都用 utf8mb4'],
-              ['(2006, "MySQL server has gone away")', '连接闲置超时了，用连接池或加 ping 机制'],
+              ['no such table: equipment', '库文件不对，或表还没建'],
+              ['UNIQUE constraint failed', '插入了重复的编号'],
+              ['Incorrect number of bindings', '? 的个数和参数个数不一致'],
+              ['database is locked', '另一个写事务还没结束；缩短事务或开启 WAL'],
+              ['no such column: xxx', '字段名写错了'],
             ]],
           ],
           exercise: {
-            task: '写一个函数 top_expensive(n)，返回销售额最高的 n 件商品（编号、名称、销售额）。在没装 MySQL 的情况下，可以先用实操区的 SQL 把语句调通，再套进 Python。',
-            hint: 'SQL 用 ORDER BY price DESC LIMIT %s，注意 pymysql 里 LIMIT 的值也能参数化。',
-            starter: `import pymysql
+            task: '写一个函数 top_expensive(n)，返回销售额最高的 n 件商品（编号、名称、销售额）。先用实操区的 SQL 把语句调通，再套进 sqlite3。',
+            hint: 'SQL 用 ORDER BY price DESC LIMIT ?，把 n 作为参数传入。',
+            starter: `import sqlite3
 
 def top_expensive(n):
     # 补全
     pass
 `,
-            answer: `import pymysql
+            answer: `import sqlite3
 
 def top_expensive(n):
     """返回销售额最高的 n 件商品"""
-    conn = pymysql.connect(
-        host='127.0.0.1', user='root', password='***',
-        database='lab', charset='utf8mb4',
-        cursorclass=pymysql.cursors.DictCursor,
-    )
+    conn = sqlite3.connect("lab.db")
+    conn.row_factory = sqlite3.Row
     try:
-        with conn.cursor() as cur:
-            cur.execute(
-                "SELECT code, name, price FROM equipment ORDER BY price DESC LIMIT %s",
-                (n,)
-            )
-            return cur.fetchall()
+        return conn.execute(
+            "SELECT code, name, price FROM equipment ORDER BY price DESC LIMIT ?",
+            (n,),
+        ).fetchall()
     finally:
         conn.close()
 
 
 for r in top_expensive(3):
     print(f"{r['code']}  {r['name']}  {r['price']:,.0f} 元")`,
-            note: 'LIMIT 的参数化在部分 MySQL 版本里需要用字符串，如果报错就把 n 转成 int 后直接拼进去（n 必须是自己可控的整数，绝不能让用户输入直接拼）。',
+            note: 'sqlite3 支持用 ? 参数化 LIMIT。n 必须是整数，不能把用户输入直接拼进 SQL。',
           },
           quiz: [
             {
-              q: 'pymysql 里防止 SQL 注入的正确做法是？',
+              q: 'sqlite3 里防止 SQL 注入的正确做法是？',
               options: [
                 '用 f-string 拼接',
-                '用 %s 占位符并把参数作为第二个参数传给 execute',
+                '用 ? 占位符并把参数作为第二个参数传给 execute',
                 '手动把引号替换掉',
                 '只在查询时防，写入不用管',
               ],
               answer: 1,
-              explain: 'pymysql 的 %s 占位符会做安全转义，参数和数据分离。任何形式的字符串拼接都是危险的。',
+              explain: 'sqlite3 的 ? 占位符会把值当作数据处理并自动转义，参数和数据分离。任何形式的字符串拼接都是危险的。',
             },
           ],
         },
@@ -1570,19 +1495,16 @@ LEFT JOIN (
 ORDER BY d.总销售额值 DESC;`],
             ['tip', '记住这个模式：「先分组聚合，再 JOIN」是解决"JOIN 导致重复计数"的通用解法。这在做报表时几乎每天都会遇到。'],
             ['h', '第二步：用 Python 串成报告'],
-            ['code', 'python', `import pymysql
+            ['code', 'python', `import sqlite3
 
-CONF = dict(host='127.0.0.1', user='root', password='***',
-            database='lab', charset='utf8mb4',
-            cursorclass=pymysql.cursors.DictCursor)
+DB_PATH = "lab.db"
 
 
-def q(sql, params=None):
-    conn = pymysql.connect(**CONF)
+def q(sql, params=()):
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
     try:
-        with conn.cursor() as cur:
-            cur.execute(sql, params or ())
-            return cur.fetchall()
+        return conn.execute(sql, params).fetchall()
     finally:
         conn.close()
 
@@ -1733,185 +1655,156 @@ WHERE e.code IS NULL;`,
     {
       id: 'my-c5',
       no: 5,
-      title: '从练习场到真 MySQL',
-      desc: '把实操台里学的 SQLite 本事，一条条对到 MySQL 上，并完成数据迁移。',
+      title: '从练习到真实数据库',
+      desc: '把实操区写的 SQL 落到真实的 .db 文件，学会导入导出、备份与查询计划。',
       lessons: [
         {
           id: 'my-17',
           no: 17,
-          title: '从 SQLite 到 MySQL：迁移对照实战',
+          title: '从实操台到真实 .db 文件',
           minutes: 15,
           level: '实战',
-          objectives: ['分清哪些 SQL 学了就能直接用在 MySQL', '掌握两侧写法有差异的少数函数', '会用 Python 把 SQLite 的数据搬进 MySQL'],
-          summary: '查询语句原样通用，只有少数函数换马甲（日期、拼接、类型）；最后用 Python 做桥，把清单数据真正搬进 MySQL。',
+          objectives: ['把实操区的表结构复制到本地 .db 文件', '用 Python 批量导入和导出 CSV', '会做备份并看懂查询计划'],
+          summary: '实操区是内存库，真实项目是一个 .db 文件。SQL 基本不变，换的是连接方式与数据来源。',
           blocks: [
-            ['p', '前面 16 节，你一直在实操台的 **SQLite** 上练手。这一节回答你最关心的问题：**这些本事到 MySQL 还剩多少？**'],
-            ['p', '答案：**查询语句一条都不用改**。你写过的 SELECT / WHERE / JOIN / GROUP BY / 子查询 / CASE WHEN / INSERT / UPDATE / DELETE / LIMIT / 事务，MySQL 里逐字通用——它们本来就是同一门语言。要换的只是少数几个"函数马甲"，和建表时的类型写法。'],
-            ['h', '要换马甲的写法（全表就在这）'],
-            ['table',
-              ['场景', '你练过的（SQLite）', 'MySQL 写法'],
-              ["格式化日期", "strftime('%Y-%m', test_date)", "DATE_FORMAT(test_date, '%Y-%m')"],
-              ["当前时间", "date('now')", "NOW() 或 CURDATE()"],
-              ["字符串拼接", "name || '（在用）'", "CONCAT(name, '（在用）')"],
-              ["聚合拼接", "GROUP_CONCAT(t.item)", "GROUP_CONCAT(t.item SEPARATOR ', ')"],
-              ["自增主键", "INTEGER PRIMARY KEY AUTOINCREMENT", "INT PRIMARY KEY AUTO_INCREMENT"],
-              ["取年份", "strftime('%Y', buy_date)", "YEAR(buy_date)（更简洁）"],
-            ],
-            ['note', '判空两边一模一样：IFNULL(x, 0) 在 SQLite 和 MySQL 里都合法，通用的 COALESCE 也一样。所以你练过的判空技巧全部直接带走。'],
-            ['h', '实战一：同一份报表，两边各写一遍'],
-            ['p', '按月统计销售次数和不合格数——这是销售室报表里最常见的需求。先看 SQLite 版（**在实操台就能跑**）：'],
-            ['code', 'sql', `-- SQLite 版：实操台直接运行
-SELECT
-  strftime('%Y-%m', test_date) AS 月份,
-  COUNT(*)                     AS 销售次数,
-  SUM(CASE WHEN verdict = '不合格' THEN 1 ELSE 0 END) AS 不合格数
-FROM test_record
-GROUP BY strftime('%Y-%m', test_date)
-ORDER BY 月份;`],
-            ['p', '再看 MySQL 版。先自己扫一眼，找找哪些地方变了：'],
-            ['code', 'sql', `-- MySQL 版：只有日期函数换了个名字，其余一字不差
-SELECT
-  DATE_FORMAT(test_date, '%Y-%m') AS 月份,
-  COUNT(*)                        AS 销售次数,
-  SUM(CASE WHEN verdict = '不合格' THEN 1 ELSE 0 END) AS 不合格数
-FROM test_record
-GROUP BY DATE_FORMAT(test_date, '%Y-%m')
-ORDER BY 月份;`],
-            ['tip', '变化只有 strftime → DATE_FORMAT 这一处，连参数顺序的套路都一样（先日期、后格式）。这就是"迁移"的真实工作量：不是重学，是查表替换。'],
-            ['h', '实战二：聚合拼接的升级'],
-            ['p', '第 9 节你练过 GROUP_CONCAT。MySQL 版不但写法兼容，还多了一个本领——自定义分隔符：'],
-            ['code', 'sql', `-- SQLite：分隔符固定是逗号
-SELECT e.code, GROUP_CONCAT(t.item) AS 销售指标
-FROM equipment e
-JOIN test_record t ON t.equipment_code = e.code
-GROUP BY e.code;
-
--- MySQL：可以用 SEPARATOR 换成任何分隔符
-SELECT e.code, GROUP_CONCAT(t.item SEPARATOR ' / ') AS 销售指标
-FROM equipment e
-JOIN test_record t ON t.equipment_code = e.code
-GROUP BY e.code;`],
-            ['h', '差异最大的地方：建表语句'],
-            ['p', '查询语句迁移几乎零成本，**建表才是真正要动脑的一步**——因为 MySQL 的类型系统是严格的，建表时就要想清楚每一列装什么。对比一下同一张商品表：'],
-            ['code', 'sql', `-- SQLite 版（宽松：列写什么类型都行）
-CREATE TABLE equipment (
-  id       INTEGER PRIMARY KEY,
-  code     TEXT NOT NULL,
-  name     TEXT NOT NULL,
-  price    REAL,
-  dept     TEXT,
-  buy_date TEXT
-);`],
-            ['code', 'sql', `-- MySQL 版（严格：每列都要想清楚）
-CREATE TABLE equipment (
-  id       INT PRIMARY KEY AUTO_INCREMENT,
-  code     VARCHAR(20)  NOT NULL COMMENT '商品编号',
-  name     VARCHAR(50)  NOT NULL COMMENT '商品名称',
-  price    DECIMAL(12,2)          COMMENT '进货销售额（元）',
-  dept     VARCHAR(30)            COMMENT '使用品类',
-  buy_date DATE                   COMMENT '上架日期'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`],
-            ['warn', '两个新手最容易踩的坑：① 金额一律用 DECIMAL(12,2)，不要用 FLOAT/REAL——浮点数算钱会有精度误差，SUM 起来对不上账；② 字符集必须 utf8mb4，否则插入中文可能报错或变成问号。'],
-            ['h', '把数据搬过去：Python 做桥'],
-            ['p', '数据迁移有两条路：导出 CSV 再导入（适合超大表），或者 **Python 读一边写一边**（量级不大时最可控）。你学过 sqlite3 的思路，pymysql 也在第 15 节练过，桥就是把它俩接起来：'],
+            ['p', '前面 16 节，你一直在实操区的内存 SQLite 上练手。这一节把它落到一个真实的 .db 文件里。'],
+            ['h', '先确认：SQL 不用重学'],
+            ['p', '你写过的 SELECT / WHERE / JOIN / GROUP BY / 子查询 / CASE WHEN / INSERT / UPDATE / DELETE / LIMIT / 事务，在文件数据库里逐字通用。要适应的只有两件事：连接文件，以及数据从哪来。'],
+            ['h', '第一步：把表结构建进 lab.db'],
             ['code', 'python', `import sqlite3
-import pymysql
 
-# ① 读：SQLite 这边（实操台同款结构的本地库文件）
-src = sqlite3.connect("lab.db")
-src.row_factory = sqlite3.Row   # 让每行能按列名取值
+SCHEMA = """
+CREATE TABLE IF NOT EXISTS equipment (
+  id       INTEGER PRIMARY KEY,
+  code     TEXT NOT NULL UNIQUE,
+  name     TEXT NOT NULL,
+  price    REAL DEFAULT 0,
+  dept     TEXT,
+  buy_date TEXT,
+  status   TEXT DEFAULT '在用'
+);
 
-# ② 写：MySQL 那边（先在 MySQL 里按上面的建表语句建好 lab 库）
-dst = pymysql.connect(
-    host="127.0.0.1", user="root", password="***",
-    database="lab", charset="utf8mb4",
-)
+CREATE TABLE IF NOT EXISTS test_record (
+  id             INTEGER PRIMARY KEY,
+  equipment_code TEXT,
+  item           TEXT,
+  value          REAL,
+  verdict        TEXT,
+  test_date      TEXT
+);
+"""
 
-rows = src.execute(
-    "SELECT code, name, model, maker, price, dept, buy_date, status FROM equipment"
-).fetchall()
+conn = sqlite3.connect("lab.db")
+conn.executescript(SCHEMA)
+conn.close()`],
+            ['note', 'executescript 可以一次执行多条用分号隔开的语句，适合初始化表结构。IF NOT EXISTS 保证重复运行不会报错。'],
+            ['h', '第二步：从 CSV 导入数据'],
+            ['code', 'python', `import csv
+import sqlite3
 
+with open("equipment.csv", encoding="utf-8-sig", newline="") as f:
+    rows = list(csv.DictReader(f))
+
+conn = sqlite3.connect("lab.db")
 try:
-    with dst.cursor() as cur:
-        cur.execute("DELETE FROM equipment")   # 幂等：先清空再灌入，重复跑不出重复数据
-        for r in rows:
-            cur.execute(
-                "INSERT INTO equipment "
-                "(code, name, model, maker, price, dept, buy_date, status) "
-                "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                (r["code"], r["name"], r["model"], r["maker"],
-                 r["price"], r["dept"], r["buy_date"], r["status"]),
-            )
-    dst.commit()
-    print(f"迁移完成，共 {len(rows)} 件商品")
+    with conn:
+        conn.executemany(
+            """INSERT OR REPLACE INTO equipment
+               (id, code, name, price, dept, buy_date, status)
+               VALUES (:id, :code, :name, :price, :dept, :buy_date, :status)""",
+            rows,
+        )
+    print(f"导入 {len(rows)} 条")
 finally:
-    src.close()
-    dst.close()`],
-            ['note', '手机上不用装任何东西——把这段当"读懂即可"的范文。等你在电脑上装好 MySQL，把它跑通，就是你在真数据库上完成的第一件作品。'],
-            ['h', '到电脑上装 MySQL 的最短路径'],
-            ['ol', [
-              '安装：官网下 MySQL Community Server，或者用 phpStudy / XAMPP 一键装（新手推荐后者）',
-              '建库：CREATE DATABASE lab CHARACTER SET utf8mb4; （字符集在建库时就定好）',
-              '建表：把上面的 MySQL 版建表语句跑一遍',
-              '迁移：跑通 Python 桥脚本，12 件商品入库',
-              '验证：把第 16 节的清单核对查询原样贴进去跑——你会发现一条都不用改',
-            ]],
-            ['tip', '最后一遍验证是最有成就感的时刻：你在"练习场"里写的所有查询，在真 MySQL 里原样跑通。这就是这门课敢用 SQLite 当实操引擎的底气。'],
+    conn.close()`],
+            ['tip', 'executemany 配合命名参数 :name，可以直接把 DictReader 产生的字典喂进去。INSERT OR REPLACE 让重复导入变成"更新"而不是报错。'],
+            ['h', '第三步：把查询结果导出成 CSV'],
+            ['code', 'python', `import csv
+import sqlite3
+
+conn = sqlite3.connect("lab.db")
+conn.row_factory = sqlite3.Row
+rows = conn.execute("""
+    SELECT code, name, dept, price
+    FROM equipment
+    WHERE status = ?
+    ORDER BY price DESC
+""", ("在用",)).fetchall()
+conn.close()
+
+with open("在用商品.csv", "w", encoding="utf-8-sig", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerow(["编号", "名称", "品类", "销售额"])
+    for r in rows:
+        writer.writerow([r["code"], r["name"], r["dept"], r["price"]])
+
+print(f"导出 {len(rows)} 行")`],
+            ['warn', 'CSV 用 utf-8-sig 编码，Excel 打开中文才不会乱码；newline="" 可以避免 Windows 上多出空行。'],
+            ['h', '备份：别直接复制正在写入的文件'],
+            ['code', 'python', `import sqlite3
+
+src = sqlite3.connect("lab.db")
+dst = sqlite3.connect("lab-backup.db")
+with dst:
+    src.backup(dst)      # 一致性备份，写入过程中也能安全执行
+dst.close()
+src.close()`],
+            ['warn', '如果数据库正在被写入，直接复制 .db 文件可能得到不一致的副本。用 Connection.backup()，或先停止写入再复制。'],
+            ['h', '看懂查询计划'],
+            ['code', 'sql', `EXPLAIN QUERY PLAN
+SELECT * FROM equipment WHERE code = 'SKU-001';
+
+-- 输出里看到 SEARCH ... USING INDEX 说明走了索引
+-- 看到 SCAN equipment 说明是全表扫描`],
+            ['tip', '数据量小的时候全表扫描也很快，不必为了消除 SCAN 而乱加索引。等表大了、查询慢了，再回来看查询计划。'],
+            ['note', '到这里，你已经能把课程里的 SQL 用到真实 .db 文件、CSV 导入导出和备份上。剩下的就是拿自己的数据练。'],
           ],
           exercise: {
-            task: '在实操台跑通：按"年份"统计每年进货的商品台数和总金额（用 buy_date 取年份）。跑出结果后，把 MySQL 版的写法写在 SQL 注释里交上来。',
-            hint: "SQLite 取年份是 strftime('%Y', buy_date)；MySQL 对应的是 YEAR(buy_date) 或 DATE_FORMAT(buy_date, '%Y')。",
-            starter: `-- 按年份统计进货台数与总金额
--- MySQL 版写法（注释）：
-`,
-            answer: `SELECT
-  strftime('%Y', buy_date) AS 年份,
-  COUNT(*)   AS 台数,
-  SUM(price) AS 总金额
-FROM equipment
-GROUP BY strftime('%Y', buy_date)
-ORDER BY 年份;
+            task: '写一段 Python：连接 lab.db，查询每个品类的商品数与总销售额值，按总销售额值降序打印。',
+            hint: 'SQL 用 GROUP BY dept、SUM(price)；结果用 row_factory 按列名取值。',
+            starter: `import sqlite3
 
--- MySQL 版：
--- SELECT YEAR(buy_date) AS 年份, COUNT(*) AS 台数, SUM(price) AS 总金额
--- FROM equipment
--- GROUP BY YEAR(buy_date)
--- ORDER BY 年份;`,
-            note: 'MySQL 里 YEAR(buy_date) 比 DATE_FORMAT 更简洁直接。注意两边 GROUP BY 里也要用同样的表达式（或列别名），这是聚合查询的通用规则。',
+conn = sqlite3.connect("lab.db")
+conn.row_factory = sqlite3.Row
+# 补全查询与打印
+conn.close()
+`,
+            answer: `import sqlite3
+
+conn = sqlite3.connect("lab.db")
+conn.row_factory = sqlite3.Row
+
+rows = conn.execute("""
+    SELECT dept AS 品类, COUNT(*) AS 商品数, SUM(price) AS 总销售额值
+    FROM equipment
+    GROUP BY dept
+    ORDER BY 总销售额值 DESC
+""").fetchall()
+
+for r in rows:
+    print(f"{r['品类']:<12} {r['商品数']:>4} 台  {r['总销售额值']:>12,.0f} 元")
+
+conn.close()`,
+            note: 'GROUP BY 后 SELECT 的列必须能按组唯一确定；这里按 dept 分组，取 dept、COUNT、SUM 都是安全的。',
           },
           quiz: [
             {
-              q: 'MySQL 里把销售日期格式化成 "2024-03" 这种年-月，用哪个函数？',
-              options: [
-                "strftime(test_date, '%Y-%m')",
-                "DATE_FORMAT(test_date, '%Y-%m')",
-                'FORMAT(test_date)',
-                "TO_CHAR(test_date, '%Y-%m')",
-              ],
+              q: 'sqlite3.connect("new.db") 时文件不存在，会怎样？',
+              options: ['报错', '自动创建一个空数据库文件', '连接内存库', '只读打开'],
               answer: 1,
-              explain: "DATE_FORMAT 是 MySQL 的日期格式化函数，strftime 是 SQLite 的。TO_CHAR 是 Oracle/PostgreSQL 的——三家各叫各的名字，但都是「日期 + 格式串」这一个概念。",
+              explain: 'SQLite 默认在文件不存在时自动创建。路径写错时最容易"悄悄建了个空库"，然后报 no such table。',
             },
             {
-              q: "表达式 '合格' || ' ✓' 在 MySQL 默认设置下的行为是？",
-              options: [
-                '拼接两个字符串',
-                '直接报语法错误',
-                '被当作逻辑或运算，结果不是你想要的拼接',
-                '和 CONCAT 完全等价',
-              ],
-              answer: 2,
-              explain: "MySQL 默认把 || 当逻辑 OR（除非开启 PIPES_AS_CONCAT 模式），字符串拼接必须用 CONCAT。这是 SQLite 老手迁到 MySQL 最常踩的静默错误——不报错，但结果不对。",
+              q: 'EXPLAIN QUERY PLAN 输出 SCAN equipment 表示？',
+              options: ['走了索引', '全表扫描', '语法错误', '使用了缓存'],
+              answer: 1,
+              explain: 'SCAN 表示逐行扫描整张表；SEARCH ... USING INDEX 才表示用到了索引。',
             },
             {
-              q: '清单里的"进货销售额"字段，MySQL 里最合适的类型是？',
-              options: [
-                'FLOAT',
-                'REAL',
-                'DECIMAL(12,2)',
-                'VARCHAR(20)',
-              ],
-              answer: 2,
-              explain: '金额用定点数 DECIMAL(12,2)：精确表示到分，SUM/比较都不会有浮点误差。FLOAT/REAL 是浮点数，算钱会出精度问题；用 VARCHAR 存数字则没法直接求和排序。',
+              q: '数据库正在被写入时，最稳妥的备份方式是？',
+              options: ['直接复制 .db 文件', '用 Connection.backup()', '把表导出成截图', '停止程序后删除原文件'],
+              answer: 1,
+              explain: 'backup() 会做一致性快照，写入过程中也能安全执行；直接复制可能拿到写了一半的文件。',
             },
           ],
         },
@@ -1920,15 +1813,15 @@ ORDER BY 年份;
   ],
 }
 
-export const MY_LESSONS = MYSQL_COURSE.chapters.flatMap((c) =>
-  c.lessons.map((l) => ({ ...l, chapterId: c.id, chapterTitle: c.title, track: 'mysql' }))
+export const SQL_LESSONS = SQL_COURSE.chapters.flatMap((c) =>
+  c.lessons.map((l) => ({ ...l, chapterId: c.id, chapterTitle: c.title, track: 'sql' }))
 )
 
-export function findMyLesson(id) {
-  return MY_LESSONS.find((l) => l.id === id) || null
+export function findSqlLesson(id) {
+  return SQL_LESSONS.find((l) => l.id === id) || null
 }
 
 export const COURSES = {
   python: { ...PYTHON_COURSE, lessons: PY_LESSONS },
-  mysql: { ...MYSQL_COURSE, lessons: MY_LESSONS },
+  sql: { ...SQL_COURSE, lessons: SQL_LESSONS },
 }

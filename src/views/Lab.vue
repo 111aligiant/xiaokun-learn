@@ -53,6 +53,9 @@
 
       <!-- ============ Python ============ -->
       <template v-if="tab === 'python'">
+        <div class="tiny muted" style="margin-bottom:6px">
+          🎯 示例取材：{{ pySampleLabel }}（可在「设置 → 学员背景」里调整）
+        </div>
         <CodeEditor
           v-model="pyCode"
           filename="main.py"
@@ -165,8 +168,9 @@
         <div class="note" style="margin-top:4px">
           <span>ℹ️</span>
           <span>
-            这里是 SQLite 内核。本课程覆盖的语法（SELECT / WHERE / JOIN / GROUP BY / 增删改 / 建表）
-            与 MySQL 一致；MySQL 专属语法（ENGINE、DATE_FORMAT、权限等）会报错，属正常。
+            这里是真实的 SQLite 内核（sql.js/WASM），和 Python 的 sqlite3 语法一致：
+            SELECT / WHERE / JOIN / GROUP BY / 增删改 / 建表 / 事务都能跑。
+            数据存在内存里，点「重置演示库」可恢复初始数据。
           </span>
         </div>
       </template>
@@ -180,6 +184,7 @@ import { useRouter } from 'vue-router'
 import CodeEditor from '../components/CodeEditor.vue'
 import { labBus, sendToChat } from '../store/lab-bus.js'
 import { state, bumpRun, markLessonDone } from '../store/app.js'
+import { domainOf } from '../data/profile.js'
 import {
   ensurePyodide, runPython, countInputs, pyState,
 } from '../runtime/python.js'
@@ -191,20 +196,83 @@ const router = useRouter()
 
 const tab = ref(localStorage.getItem('xiaokun.lab') || 'python')
 
-const PY_SAMPLE = `# 试试看：改改数字再运行
-values = [38.2, 55.4, 62.0, 18.0, 71.5]
+/** 示例主题按学员背景切换，避免一上来就是某个行业的场景 */
+const PY_SAMPLE_THEMES = {
+  general: {
+    label: '日常消费',
+    values: [45, 12, 399, 88, 168],
+    threshold: 100,
+    unit: '元',
+    noun: '笔',
+    high: '偏高',
+    low: '正常',
+  },
+  data: {
+    label: '门店销售额',
+    values: [8200, 12500, 4600, 15800, 9300],
+    threshold: 10000,
+    unit: '元',
+    noun: '个门店',
+    high: '高于参考线',
+    low: '低于参考线',
+  },
+  office: {
+    label: '报销单金额',
+    values: [45, 12, 399, 88, 168],
+    threshold: 200,
+    unit: '元',
+    noun: '笔',
+    high: '超预算',
+    low: '在预算内',
+  },
+  backend: {
+    label: '接口响应耗时',
+    values: [45, 12, 399, 88, 168],
+    threshold: 200,
+    unit: 'ms',
+    noun: '个接口',
+    high: '偏慢',
+    low: '正常',
+  },
+  'ai-app': {
+    label: '单次调用 Token 消耗',
+    values: [1200, 3400, 800, 5600, 2100],
+    threshold: 3000,
+    unit: 'tokens',
+    noun: '次调用',
+    high: '用量偏大',
+    low: '正常',
+  },
+}
 
-over = [v for v in values if v > 50]
-print(f"原始数据：{values}")
-print(f"超限项：{over}")
-print(f"平均值：{sum(values) / len(values):.2f}")
+function buildPySample() {
+  const profile = state.settings.profile || {}
+  const custom = (profile.exampleDomainText || '').trim()
+  const domain = domainOf(profile)
+  const t = custom ? PY_SAMPLE_THEMES.general : (PY_SAMPLE_THEMES[domain.id] || PY_SAMPLE_THEMES.general)
+  const title = custom ? `通用场景（你的举例领域：${custom.replace(/\n/g, ' ')}）` : t.label
+  const values = `[${t.values.join(', ')}]`
+  return `# 示例：${title}（单位：${t.unit}）—— 改改数字再运行
+values = ${values}
+
+over = [v for v in values if v > ${t.threshold}]
+print(f"全部数据：{values}")
+print(f"${t.high}：{over}")
+print(f"平均值：{sum(values) / len(values):.2f} ${t.unit}")
 
 for i, v in enumerate(values, start=1):
-    flag = "超限" if v > 50 else "正常"
-    print(f"  第 {i} 个测点：{v:>6}  {flag}")
+    flag = "${t.high}" if v > ${t.threshold} else "${t.low}"
+    print(f"  第 {i} ${t.noun}：{v:>7} ${t.unit}  {flag}")
 
 # 试试自己加一句：打印最大值和它的下标
 `
+}
+
+const pySampleLabel = computed(() => {
+  const profile = state.settings.profile || {}
+  const custom = (profile.exampleDomainText || '').trim()
+  return custom || domainOf(profile).label
+})
 
 const SQL_SAMPLE = `-- 查销售额最高的 5 件商品
 SELECT code, name, dept, price
@@ -217,7 +285,7 @@ LIMIT 5;
 -- FROM equipment GROUP BY dept ORDER BY 总销售额值 DESC;
 `
 
-const pyCode = ref(PY_SAMPLE)
+const pyCode = ref(buildPySample())
 const sqlCode = ref(SQL_SAMPLE)
 const stdinText = ref('')
 const pyOutput = ref('')
@@ -325,7 +393,7 @@ function onEditorReset(kind) {
     return
   }
   if (tab.value === 'python') {
-    pyCode.value = PY_SAMPLE
+    pyCode.value = buildPySample()
     pyOutput.value = ''
   } else {
     sqlCode.value = SQL_SAMPLE
@@ -335,7 +403,7 @@ function onEditorReset(kind) {
 
 function loadSample(kind) {
   if (kind === 'python') {
-    pyCode.value = PY_SAMPLE
+    pyCode.value = buildPySample()
     pyOutput.value = ''
   } else {
     sqlCode.value = SQL_SAMPLE

@@ -5,10 +5,12 @@
 """
 import re
 import sys
+from pathlib import Path
 
+ROOT = Path(__file__).resolve().parent.parent
 FILES = [
-    r"C:\Users\ymc\Desktop\手机学习python\xiaokun-learn\src\data\mysql-course.js",
-    r"C:\Users\ymc\Desktop\手机学习python\xiaokun-learn\src\data\python-course.js",
+    str(ROOT / "src" / "data" / "sql-course.js"),
+    str(ROOT / "src" / "data" / "python-course.js"),
 ]
 
 

@@ -1,6 +1,6 @@
 # 课程包格式
 
-课程包是普通的 JS 数据文件。内置的 `python-course.js` / `mysql-course.js` 就是两个完整示例。
+课程包是普通的 JS 数据文件。内置的 `python-course.js` / `sql-course.js` 就是两个完整示例。
 
 ## 1. 一条路线（track）
 
@@ -38,8 +38,8 @@ export const TRACKS = [
 ## 2. 课程（course）
 
 ```js
-export const MY_COURSE = {
-  id: 'mysql',
+export const SQL_COURSE = {
+  id: 'sql',
   tagline: '从零把数据管起来',
   desc: '一句话介绍这条路线',
   notice: '',            // 可选，显示在课程页顶部

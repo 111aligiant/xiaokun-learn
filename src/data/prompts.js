@@ -54,7 +54,7 @@ export const PLACEMENT_QUESTIONS = [
   },
   {
     q: '数据库 / SQL 你接触过吗？',
-    options: ['没接触过', '知道 SELECT，写得很生疏', '能写 JOIN 和 GROUP BY', '工作中在用 MySQL'],
+    options: ['没接触过', '知道 SELECT，写得很生疏', '能写 JOIN 和 GROUP BY', '平时工作就在用数据库'],
   },
   {
     q: '每天大概能挤出多少时间学？',
@@ -92,7 +92,7 @@ export const QUICK_ACTIONS = [
     id: 'quiz3',
     label: '出3道题',
     icon: '✍️',
-    prompt: '根据我当前正在学的进度，出 3 道难度递进的练习题（不要给答案，我做完再发给你批改）。每题说明考察的知识点。',
+    prompt: '根据我当前正在学的进度，出 3 道难度递进的练习题（不要给答案，我做完再发给你批改）。每题说明考察的知识点。场景按「学员背景 → 举例取材」来选；如果我还没填背景，就用购物、订单、记账这类通用场景，不要套用某个特定行业设定。',
   },
   {
     id: 'review_code',
