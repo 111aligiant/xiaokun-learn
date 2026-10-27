@@ -123,7 +123,7 @@ x = "十"        # 现在变成字符串了，完全合法
 print(type(x))  # <class 'str'>  type() 用来查看类型`],
           ],
           exercise: {
-            task: '定义三个变量：商品名称、单价、数量。计算总价并输出成「蓝牙耳机 共 2 件，总价 598 元」。',
+            task: '定义三个变量：商品名称、单价、数量。计算总价并输出成「蓝牙耳机 × 2，总价 598 元」。',
             hint: '用 print 一次输出多个值，逗号隔开；总价用 单价 * 数量。',
             starter: `name = "蓝牙耳机"
 price = 299
@@ -133,7 +133,7 @@ qty = 2
             answer: `name = "蓝牙耳机"
 price = 299
 qty = 2
-print(name, "共", qty, "件，总价", price * qty, "元")`,
+print(name, "×", qty, "，总价", price * qty, "元")`,
             note: 'print 用逗号分隔多个值时，会自动在中间插入空格，正好符合中文习惯。',
           },
           quiz: [
@@ -265,7 +265,7 @@ print(f"总价 {total:.2f} 元")`],
             ['note', '在「练习台」里运行带 input() 的代码时，App 会自动弹出输入框，你把要输入的内容按行填进去即可。'],
           ],
           exercise: {
-            task: '写一个程序：问用户商品名称和购买数量，然后输出「XX 需要买 N 件」。',
+            task: '写一个程序：问用户商品名称和数量，然后输出「XX × N」。',
             hint: '第一个用普通 input()，第二个要参与运算或直接用，按需求决定要不要转换。',
             starter: `name = input("商品名称：")
 qty = input("数量：")
@@ -273,7 +273,7 @@ qty = input("数量：")
 `,
             answer: `name = input("商品名称：")
 qty = input("数量：")
-print(f"{name} 需要买 {qty} 件")`,
+print(f"{name} × {qty}")`,
             note: '这里 qty 不需要参与计算，所以不用转 int，直接用在 f-string 里就行。这就是"按需转换"。',
           },
           quiz: [
@@ -1006,7 +1006,7 @@ print(parse_line("A-001,蓝牙耳机,299,2"))
 
 r = parse_line("A-001,蓝牙耳机,299,2")
 print(r)
-print(f"{r['name']} 单价 {r['price']}，共 {r['qty']} 件")`,
+print(f"{r['name']} 单价 {r['price']} × {r['qty']}")`,
             note: 'pass 是"占位符"，表示这里先什么都不做，避免语法错误。写函数骨架时常用。',
           },
           quiz: [

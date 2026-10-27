@@ -87,8 +87,9 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { isLessonDone } from '../store/app.js'
+import { state, isLessonDone } from '../store/app.js'
 import { TRACKS, trackOf } from '../data/courses.js'
+import { packForProfile, localizeText } from '../data/domain-packs.js'
 
 const router = useRouter()
 
@@ -97,7 +98,25 @@ const tracks = TRACKS
 const active = ref(trackOf(localStorage.getItem('xiaokun.track')).id)
 watch(active, (v) => localStorage.setItem('xiaokun.track', v))
 
-const course = computed(() => trackOf(active.value).course)
+const pack = computed(() => packForProfile(state.settings.profile || {}))
+const opts = { identifiers: false }
+
+const course = computed(() => {
+  const c = trackOf(active.value).course
+  const p = pack.value
+  return {
+    ...c,
+    tagline: localizeText(c.tagline, p, opts),
+    desc: localizeText(c.desc, p, opts),
+    notice: localizeText(c.notice, p, opts),
+    chapters: c.chapters.map((ch) => ({
+      ...ch,
+      title: localizeText(ch.title, p, opts),
+      desc: localizeText(ch.desc, p, opts),
+      lessons: ch.lessons.map((l) => ({ ...l, title: localizeText(l.title, p, opts) })),
+    })),
+  }
+})
 const lessons = computed(() => trackOf(active.value).lessons)
 
 const pct = computed(() => {

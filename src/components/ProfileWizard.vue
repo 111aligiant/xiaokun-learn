@@ -1,4 +1,5 @@
 <template>
+  <Teleport to="body">
   <div class="wiz" role="dialog" aria-modal="true">
     <header class="wiz__head">
       <div class="wiz__step">第 {{ step + 1 }} / 3 步 · {{ STEPS[step] }}</div>
@@ -201,6 +202,7 @@
       </button>
     </footer>
   </div>
+  </Teleport>
 </template>
 
 <script setup>

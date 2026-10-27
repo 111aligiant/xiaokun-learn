@@ -106,6 +106,7 @@ import {
 } from '../store/app.js'
 import { sendToChat } from '../store/lab-bus.js'
 import { TRACKS, trackOf, findTrackByLesson, totalLessonCount } from '../data/courses.js'
+import { packForProfile, localizeText } from '../data/domain-packs.js'
 
 const router = useRouter()
 const s = computed(() => state.settings)
@@ -146,7 +147,11 @@ const nextPick = computed(() => {
   return null
 })
 
-const nextLesson = computed(() => nextPick.value?.lesson || null)
+const nextLesson = computed(() => {
+  const l = nextPick.value?.lesson
+  if (!l) return null
+  return { ...l, title: localizeText(l.title, packForProfile(s.value.profile || {}), { identifiers: false }) }
+})
 const nextTrack = computed(() => {
   const t = trackOf(nextPick.value?.track)
   return { name: t.name, icon: t.icon }

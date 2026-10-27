@@ -216,6 +216,7 @@ import { state, createSession, deleteSession, startNewSession, renameSession, cl
 import { labBus } from '../store/lab-bus.js'
 import { chat } from '../api/llm.js'
 import { findLesson, trackOf } from '../data/courses.js'
+import { packForProfile, localizeLesson } from '../data/domain-packs.js'
 import {
   buildSystemPrompt, QUICK_ACTIONS, PLACEMENT_QUESTIONS, resolveLevelFromPlacement,
 } from '../data/prompts.js'
@@ -270,7 +271,13 @@ function resolveCtx(ctx) {
   if (!ctx?.track || !ctx?.lessonId) return null
   return findLesson(ctx.track, ctx.lessonId)
 }
-const currentLesson = computed(() => resolveCtx(currentSession.value?.ctx))
+function localizedCtx(ctx) {
+  const lesson = resolveCtx(ctx)
+  if (!lesson) return null
+  const pack = packForProfile(s.value.profile || {})
+  return localizeLesson(lesson, pack, { identifiers: ctx.track === 'sql' })
+}
+const currentLesson = computed(() => localizedCtx(currentSession.value?.ctx))
 
 /** 确保有一个可用会话，返回它 */
 function ensureSession() {
@@ -440,7 +447,7 @@ async function send() {
   })
   scrollToBottom()
 
-  const lesson = s.value.useLessonContext ? resolveCtx(sess.ctx) : null
+  const lesson = s.value.useLessonContext ? localizedCtx(sess.ctx) : null
   const ctx = lesson
     ? { track: sess.ctx.track, lesson, trackName: trackOf(sess.ctx.track).name }
     : {}

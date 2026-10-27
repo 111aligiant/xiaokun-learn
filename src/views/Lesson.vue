@@ -158,14 +158,24 @@ import {
 } from '../store/app.js'
 import { sendToLab, sendToChat } from '../store/lab-bus.js'
 import { trackOf, findLesson } from '../data/courses.js'
+import { packForProfile, localizeLesson, localizeText } from '../data/domain-packs.js'
 
 const route = useRoute()
 const router = useRouter()
 
 const track = computed(() => trackOf(route.params.track).id)
 const trackObj = computed(() => trackOf(track.value))
-const lesson = computed(() => findLesson(track.value, route.params.lessonId))
-const list = computed(() => trackObj.value.lessons)
+const pack = computed(() => packForProfile(state.settings.profile || {}))
+const localizeOptions = computed(() => ({ identifiers: track.value === 'sql' }))
+const lesson = computed(() =>
+  localizeLesson(findLesson(track.value, route.params.lessonId), pack.value, localizeOptions.value)
+)
+const list = computed(() =>
+  trackObj.value.lessons.map((l) => ({
+    ...l,
+    title: localizeText(l.title, pack.value, { identifiers: false }),
+  }))
+)
 const lang = computed(() => trackObj.value.lang)
 const fileName = computed(() => `practice.${trackObj.value.extension}`)
 

@@ -109,7 +109,7 @@
         <CodeEditor
           v-model="sqlCode"
           filename="practice.sql"
-          placeholder="SELECT * FROM equipment LIMIT 5;"
+          :placeholder="sqlPlaceholder"
           :dot-color="'#1a7a4a'"
           @reset="onEditorReset"
         />
@@ -184,73 +184,28 @@ import { useRouter } from 'vue-router'
 import CodeEditor from '../components/CodeEditor.vue'
 import { labBus, sendToChat } from '../store/lab-bus.js'
 import { state, bumpRun, markLessonDone } from '../store/app.js'
-import { domainOf } from '../data/profile.js'
+import { packForProfile, localizeText, SQL_SAMPLE_TEMPLATE } from '../data/domain-packs.js'
 import {
   ensurePyodide, runPython, countInputs, pyState,
 } from '../runtime/python.js'
 import {
-  ensureSql, runSql, listTables, resetDemo, emptyDb, sqlState,
+  ensureSql, runSql, listTables, resetDemo, emptyDb, setSqlPack, sqlState,
 } from '../runtime/sql.js'
 
 const router = useRouter()
 
 const tab = ref(localStorage.getItem('xiaokun.lab') || 'python')
 
-/** 示例主题按学员背景切换，避免一上来就是某个行业的场景 */
-const PY_SAMPLE_THEMES = {
-  general: {
-    label: '日常消费',
-    values: [45, 12, 399, 88, 168],
-    threshold: 100,
-    unit: '元',
-    noun: '笔',
-    high: '偏高',
-    low: '正常',
-  },
-  data: {
-    label: '门店销售额',
-    values: [8200, 12500, 4600, 15800, 9300],
-    threshold: 10000,
-    unit: '元',
-    noun: '个门店',
-    high: '高于参考线',
-    low: '低于参考线',
-  },
-  office: {
-    label: '报销单金额',
-    values: [45, 12, 399, 88, 168],
-    threshold: 200,
-    unit: '元',
-    noun: '笔',
-    high: '超预算',
-    low: '在预算内',
-  },
-  backend: {
-    label: '接口响应耗时',
-    values: [45, 12, 399, 88, 168],
-    threshold: 200,
-    unit: 'ms',
-    noun: '个接口',
-    high: '偏慢',
-    low: '正常',
-  },
-  'ai-app': {
-    label: '单次调用 Token 消耗',
-    values: [1200, 3400, 800, 5600, 2100],
-    threshold: 3000,
-    unit: 'tokens',
-    noun: '次调用',
-    high: '用量偏大',
-    low: '正常',
-  },
-}
+/** 示例主题、演示库、课程正文都来自同一个领域包，随画像实时切换 */
+const pack = computed(() => packForProfile(state.settings.profile || {}))
 
 function buildPySample() {
-  const profile = state.settings.profile || {}
-  const custom = (profile.exampleDomainText || '').trim()
-  const domain = domainOf(profile)
-  const t = custom ? PY_SAMPLE_THEMES.general : (PY_SAMPLE_THEMES[domain.id] || PY_SAMPLE_THEMES.general)
-  const title = custom ? `通用场景（你的举例领域：${custom.replace(/\n/g, ' ')}）` : t.label
+  const p = pack.value
+  const t = p.python
+  const custom = (state.settings.profile?.exampleDomainText || '').trim()
+  const title = p.isCustom
+    ? `通用场景（你的举例领域：${custom.replace(/\n/g, ' ')}）`
+    : p.label
   const values = `[${t.values.join(', ')}]`
   return `# 示例：${title}（单位：${t.unit}）—— 改改数字再运行
 values = ${values}
@@ -268,25 +223,13 @@ for i, v in enumerate(values, start=1):
 `
 }
 
-const pySampleLabel = computed(() => {
-  const profile = state.settings.profile || {}
-  const custom = (profile.exampleDomainText || '').trim()
-  return custom || domainOf(profile).label
-})
+const pySampleLabel = computed(() => pack.value.label)
 
-const SQL_SAMPLE = `-- 查销售额最高的 5 件商品
-SELECT code, name, dept, price
-FROM equipment
-ORDER BY price DESC
-LIMIT 5;
-
--- 按品类统计（再执行一次看看）
--- SELECT dept, COUNT(*) AS 商品数, SUM(price) AS 总销售额值
--- FROM equipment GROUP BY dept ORDER BY 总销售额值 DESC;
-`
+const sqlSample = computed(() => localizeText(SQL_SAMPLE_TEMPLATE, pack.value))
+const sqlPlaceholder = computed(() => `SELECT * FROM ${pack.value.ids.equipment} LIMIT 5;`)
 
 const pyCode = ref(buildPySample())
-const sqlCode = ref(SQL_SAMPLE)
+const sqlCode = ref(sqlSample.value)
 const stdinText = ref('')
 const pyOutput = ref('')
 const pyOk = ref(true)
@@ -374,7 +317,8 @@ async function resetDemoDb() {
     await ensureSql()
     await resetDemo()
     await refreshTables()
-    sqlResult.value = { ok: true, blocks: [{ type: 'info', text: '已重置为初始演示库（12 件商品 + 15 条销售记录）' }], rowsModified: 0, ms: 0 }
+    const msg = localizeText('已重置为初始演示库（12 件商品 + 15 条销售记录）', pack.value)
+    sqlResult.value = { ok: true, blocks: [{ type: 'info', text: msg }], rowsModified: 0, ms: 0 }
   } catch (e) {
     sqlResult.value = { ok: false, blocks: [], error: String(e?.message || e), rowsModified: 0, ms: 0 }
   }
@@ -396,7 +340,7 @@ function onEditorReset(kind) {
     pyCode.value = buildPySample()
     pyOutput.value = ''
   } else {
-    sqlCode.value = SQL_SAMPLE
+    sqlCode.value = sqlSample.value
     sqlResult.value = null
   }
 }
@@ -406,7 +350,7 @@ function loadSample(kind) {
     pyCode.value = buildPySample()
     pyOutput.value = ''
   } else {
-    sqlCode.value = SQL_SAMPLE
+    sqlCode.value = sqlSample.value
     sqlResult.value = null
   }
 }
@@ -441,7 +385,18 @@ watch(() => labBus.nonce, () => {
   })
 })
 
+/* 画像里的举例领域变了：示例代码、演示库一起换 */
+watch(pack, (p) => {
+  setSqlPack(p)
+  pyCode.value = buildPySample()
+  pyOutput.value = ''
+  sqlCode.value = sqlSample.value
+  sqlResult.value = null
+  refreshTables()
+})
+
 onMounted(async () => {
+  setSqlPack(pack.value)
   if (labBus.code) {
     const lang = labBus.lang || 'python'
     tab.value = lang === 'sql' ? 'sql' : 'python'
