@@ -20,7 +20,7 @@
     <div ref="scrollEl" class="chat-scroll">
       <!-- 空态：欢迎 + 定级 -->
       <div v-if="!messages.length" class="welcome">
-        <div class="welcome__avatar">{{ s.assistantName.slice(0, 1) }}</div>
+        <div class="welcome__avatar"><img :src="logoUrl" alt="" /></div>
         <div class="welcome__title">我是{{ s.assistantName }}</div>
         <div class="welcome__sub">
           带你从零学 Python 和 SQLite。<br />
@@ -73,7 +73,10 @@
 
       <!-- 消息列表 -->
       <div v-for="(m, i) in messages" :key="i" class="msg" :class="{ 'msg--me': m.role === 'user' }">
-        <div class="msg__avatar">{{ m.role === 'user' ? (s.profile?.name || '我').slice(0, 1) : s.assistantName.slice(0, 1) }}</div>
+        <div class="msg__avatar" :class="{ 'msg__avatar--bot': m.role !== 'user' }">
+          <img v-if="m.role !== 'user'" :src="logoUrl" alt="" />
+          <template v-else>{{ (s.profile?.name || '我').slice(0, 1) }}</template>
+        </div>
         <div class="msg__body">
           <div class="msg__bubble">
             <div v-if="m.role === 'user'" class="usertext">{{ m.content }}</div>
@@ -223,6 +226,7 @@ import {
 
 const router = useRouter()
 const s = computed(() => state.settings)
+const logoUrl = import.meta.env.BASE_URL + 'icon-192.png'
 const keyOk = computed(() => !!state.settings.apiKey.trim())
 
 const draft = ref('')
@@ -629,11 +633,10 @@ onUnmounted(() => {
 .welcome { padding: 26px 20px 10px; text-align: center; }
 .welcome__avatar {
   width: 54px; height: 54px; margin: 0 auto 12px; border-radius: 18px;
-  background: linear-gradient(135deg, var(--brand-mid), var(--brand));
-  color: #fff; display: grid; place-items: center;
-  font-size: 24px; font-weight: 800;
+  background: #0A503D; overflow: hidden;
   box-shadow: 0 6px 18px rgba(15,81,50,.2);
 }
+.welcome__avatar img { width: 100%; height: 100%; display: block; object-fit: cover; }
 .welcome__title { font-size: 18px; font-weight: 700; }
 .welcome__sub { font-size: 13px; color: var(--muted); margin-top: 7px; line-height: 1.7; }
 .welcome__grid {

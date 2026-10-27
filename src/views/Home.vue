@@ -9,7 +9,7 @@
             {{ streakDays > 0 ? `已连续学习 ${streakDays} 天` : '今天开个头吧' }}
           </div>
         </div>
-        <div class="hero__avatar">{{ s.assistantName.slice(0, 1) }}</div>
+        <div class="hero__avatar"><img :src="logoUrl" alt="" /></div>
       </div>
 
       <div class="hero__bar">
@@ -110,6 +110,7 @@ import { packForProfile, localizeText } from '../data/domain-packs.js'
 
 const router = useRouter()
 const s = computed(() => state.settings)
+const logoUrl = import.meta.env.BASE_URL + 'icon-192.png'
 const hasKey = hasApiKey
 const version = __APP_VERSION__
 
@@ -185,10 +186,11 @@ function goChat(prompt, options) {
 .hero__hi { font-size: 18px; font-weight: 700; }
 .hero__sub { font-size: 12.5px; color: rgba(242,251,245,.75); margin-top: 2px; }
 .hero__avatar {
-  width: 40px; height: 40px; border-radius: 13px;
-  background: rgba(255,255,255,.16); color: #fff;
-  display: grid; place-items: center; font-size: 18px; font-weight: 800;
+  flex: none; width: 40px; height: 40px; border-radius: 13px;
+  background: #0A503D; overflow: hidden;
+  box-shadow: 0 0 0 2px rgba(255,255,255,.28);
 }
+.hero__avatar img { width: 100%; height: 100%; display: block; object-fit: cover; }
 .hero__bar {
   height: 6px; border-radius: 99px; background: rgba(255,255,255,.2);
   margin-top: 14px; overflow: hidden;
