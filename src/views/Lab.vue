@@ -213,7 +213,8 @@ values = ${values}
 over = [v for v in values if v > ${t.threshold}]
 print(f"全部数据：{values}")
 print(f"${t.high}：{over}")
-print(f"平均值：{sum(values) / len(values):.2f} ${t.unit}")
+avg = sum(values) / len(values)
+print(f"平均值：{avg:.2f} ${t.unit}")
 
 for i, v in enumerate(values, start=1):
     flag = "${t.high}" if v > ${t.threshold} else "${t.low}"
