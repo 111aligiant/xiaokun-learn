@@ -70,7 +70,7 @@
 
       <div class="field">
         <label class="field__label">模型</label>
-        <input class="input" v-model="form.model" placeholder="例如 deepseek-chat / gpt-4o-mini" />
+        <input class="input" v-model="form.model" placeholder="例如 deepseek-flash / gpt-4o-mini" />
         <div class="field__hint">
           填服务商文档里的模型 ID。不同平台的速度和价格不同，日常学习用便宜的即可。
         </div>
@@ -363,7 +363,7 @@ function saveApi() {
   updateSettings({
     apiKey: form.apiKey.trim(),
     baseUrl,
-    model: form.model.trim() || providerOfBaseUrl(baseUrl)?.model || 'deepseek-chat',
+    model: form.model.trim() || providerOfBaseUrl(baseUrl)?.model || 'deepseek-flash',
     temperature: form.temperature,
     stream: form.stream,
   })

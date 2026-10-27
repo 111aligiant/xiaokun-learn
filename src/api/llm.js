@@ -38,7 +38,7 @@ export async function chat({ messages, settings, onDelta, signal }) {
 
   const url = normalizeBase(settings.baseUrl) + '/chat/completions'
   const body = {
-    model: settings.model || 'deepseek-chat',
+    model: settings.model || 'deepseek-flash',
     messages,
     temperature: typeof settings.temperature === 'number' ? settings.temperature : 0.6,
     stream: !!settings.stream,
@@ -139,7 +139,7 @@ export async function testConnection(settings) {
       Authorization: `Bearer ${(settings.apiKey || '').trim()}`,
     },
     body: JSON.stringify({
-      model: settings.model || 'deepseek-chat',
+      model: settings.model || 'deepseek-flash',
       messages: [{ role: 'user', content: 'ping' }],
       max_tokens: 4,
       stream: false,

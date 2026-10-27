@@ -10,7 +10,7 @@ const LS_KEY = 'xiaokun.state.v1'
 const DEFAULT_SETTINGS = {
   apiKey: '',
   baseUrl: 'https://api.deepseek.com',
-  model: 'deepseek-chat',
+  model: 'deepseek-flash',
   temperature: 0.6,
   /** 'guide' = 引导式（不直接给答案，先提问引导） | 'direct' = 直接讲透 */
   teachMode: 'guide',

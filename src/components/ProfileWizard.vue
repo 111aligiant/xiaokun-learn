@@ -201,7 +201,7 @@
                 </li>
                 <li>
                   <span class="wiz__steps-t">填回这里</span>
-                  粘贴到上面的输入框，接口地址填 <code class="code--inline">https://api.deepseek.com</code>，模型填 <code class="code--inline">deepseek-chat</code>。保存后可在「我的」里点「测试连接」验证。
+                  粘贴到上面的输入框，接口地址填 <code class="code--inline">https://api.deepseek.com</code>，模型填 <code class="code--inline">deepseek-flash</code>。保存后可在「我的」里点「测试连接」验证。
                 </li>
               </ol>
               <p class="wiz__help-warn">
@@ -218,7 +218,7 @@
 
         <div class="field">
           <label class="field__label">模型名</label>
-          <input class="input" v-model="form.model" placeholder="deepseek-chat / gpt-4o-mini" />
+          <input class="input" v-model="form.model" placeholder="deepseek-flash / gpt-4o-mini" />
           <div class="field__hint">填平台文档里的模型 ID；不确定就先用平台默认的便宜模型。</div>
         </div>
       </template>
@@ -310,7 +310,7 @@ function finish() {
     teachMode: form.teachMode,
     apiKey: form.apiKey.trim() || st.apiKey || '',
     baseUrl: form.baseUrl.trim() || st.baseUrl || 'https://api.deepseek.com',
-    model: form.model.trim() || providerOfBaseUrl(form.baseUrl)?.model || st.model || 'deepseek-chat',
+    model: form.model.trim() || providerOfBaseUrl(form.baseUrl)?.model || st.model || 'deepseek-flash',
   })
   state.onboarded = true
   emit('close')

@@ -9,7 +9,7 @@ export const PROVIDERS = [
     id: 'deepseek',
     label: 'DeepSeek',
     baseUrl: 'https://api.deepseek.com',
-    model: 'deepseek-chat',
+    model: 'deepseek-flash',
   },
   {
     id: 'openai',

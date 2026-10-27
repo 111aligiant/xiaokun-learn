@@ -13,7 +13,7 @@ const ok = (name, cond, extra = '') =>
 const settings = {
   apiKey: 'sk-test',
   baseUrl: 'https://api.deepseek.com',
-  model: 'deepseek-chat',
+  model: 'deepseek-flash',
   temperature: 0.6,
   teachMode: 'guide',
   stream: false,
@@ -67,7 +67,7 @@ await page.route('**/chat/completions', async (route) => {
     status: 200,
     headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' },
     body: JSON.stringify({
-      model: 'deepseek-chat',
+      model: 'deepseek-flash',
       choices: [{ message: { role: 'assistant', content: '收到。' } }],
     }),
   })

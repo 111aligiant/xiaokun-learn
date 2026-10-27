@@ -37,7 +37,7 @@ await page.route('**/chat/completions', async (route) => {
     status: 200,
     headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' },
     body: JSON.stringify({
-      model: 'deepseek-chat',
+      model: 'deepseek-flash',
       choices: [{ message: { role: 'assistant', content: '收到。' } }],
     }),
   })

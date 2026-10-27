@@ -118,7 +118,7 @@ npm run dev
 
 底部「我的 → 模型接入」，填 API Key、base_url 和模型名。
 
-默认 `https://api.deepseek.com` + `deepseek-chat`，也可以点预设一键切换平台。三者都可自由替换，不绑定任何一家。
+默认 `https://api.deepseek.com` + `deepseek-flash`，也可以点预设一键切换平台。三者都可自由替换，不绑定任何一家。
 
 ### 打包
 
