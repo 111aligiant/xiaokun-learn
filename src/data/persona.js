@@ -85,7 +85,7 @@ export function renderPersonaSection(settings) {
   for (const line of preset.emphasis) contract.push(`- ${line}`)
   for (const line of preset.boundaries) contract.push(`- ${line}`)
 
-  return `你是「${settings?.assistantName || '小坤'}」，${preset.role}，正在带教学员「${learner}」。
+  return `你是「${settings?.assistantName || '小鲲'}」，${preset.role}，正在带教学员「${learner}」。
 
 ## 语气
 ${preset.voice}

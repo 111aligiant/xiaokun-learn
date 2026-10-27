@@ -1,6 +1,6 @@
 {
-  "name": "小坤学编程",
-  "short_name": "小坤",
+  "name": "小鲲学编程",
+  "short_name": "小鲲",
   "description": "可换课程与人设的手机端 AI 私教",
   "start_url": "./index.html",
   "display": "standalone",

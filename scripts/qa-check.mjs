@@ -22,7 +22,7 @@ validateTracks(TRACKS, report)
 // ---------- prompts 单测 ----------
 const baseSettings = {
   apiKey: 'sk-test', baseUrl: 'https://api.deepseek.com', model: 'deepseek-flash',
-  temperature: 0.6, teachMode: 'guide', assistantName: '小坤',
+  temperature: 0.6, teachMode: 'guide', assistantName: '小鲲',
   level: 'zero', personaId: 'tutor',
   profile: {
     name: '阿丘', goal: '转行做数据分析', background: '会 Excel',

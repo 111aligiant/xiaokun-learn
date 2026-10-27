@@ -4,7 +4,7 @@
     <header class="wiz__head">
       <div class="wiz__step">第 {{ step + 1 }} / 3 步 · {{ STEPS[step] }}</div>
       <div class="wiz__title">
-        {{ edit ? '编辑学员背景' : `先认识一下，我是${form.assistantName || '小坤'}` }}
+        {{ edit ? '编辑学员背景' : `先认识一下，我是${form.assistantName || '小鲲'}` }}
       </div>
       <button class="wiz__skip" @click="skip">{{ edit ? '关闭' : '以后再说' }}</button>
     </header>
@@ -134,7 +134,7 @@
         <div class="wiz__row">
           <div class="field grow">
             <label class="field__label">助教叫什么</label>
-            <input class="input" v-model="form.assistantName" maxlength="12" placeholder="小坤" />
+            <input class="input" v-model="form.assistantName" maxlength="12" placeholder="小鲲" />
           </div>
           <div class="field grow">
             <label class="field__label">教学方式</label>
@@ -267,7 +267,7 @@ const form = reactive({
   language: st.profile?.language || 'zh-CN',
   level: st.level || 'auto',
   personaId: st.personaId || 'tutor',
-  assistantName: st.assistantName || '小坤',
+  assistantName: st.assistantName || '小鲲',
   teachMode: st.teachMode || 'guide',
   apiKey: st.apiKey || '',
   baseUrl: st.baseUrl || '',
@@ -306,7 +306,7 @@ function finish() {
   updateSettings({
     level: form.level,
     personaId: form.personaId,
-    assistantName: form.assistantName.trim() || '小坤',
+    assistantName: form.assistantName.trim() || '小鲲',
     teachMode: form.teachMode,
     apiKey: form.apiKey.trim() || st.apiKey || '',
     baseUrl: form.baseUrl.trim() || st.baseUrl || 'https://api.deepseek.com',

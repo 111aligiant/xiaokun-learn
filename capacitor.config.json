@@ -1,6 +1,6 @@
 {
   "appId": "com.xiaokun.learn.v2",
-  "appName": "小坤学编程",
+  "appName": "小鲲学编程",
   "webDir": "dist",
   "bundledWebRuntime": false,
   "android": {

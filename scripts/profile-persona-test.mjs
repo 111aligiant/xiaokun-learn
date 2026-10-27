@@ -74,7 +74,7 @@ await sleep(200)
 // ---------- ④ 第 3 步：人设 / 名字 / 教学方式 / Key ----------
 ok('进入第 3 步', (await page.locator('.wiz__step').innerText()).includes('3 / 3'))
 await page.click('.wiz__card:has-text("陪练搭子")')
-await page.fill('.wiz input[placeholder="小坤"]', '小豆')
+await page.fill('.wiz input[placeholder="小鲲"]', '小豆')
 await page.click('.wiz .seg__item:has-text("直接讲")')
 await page.fill('.wiz input[placeholder="sk-..."]', 'sk-test-phase2')
 await page.fill('.wiz input[placeholder*="https://api.deepseek.com"]', 'https://api.openai.com/v1')

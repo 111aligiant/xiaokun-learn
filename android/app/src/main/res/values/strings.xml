@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">小坤学编程</string>
-    <string name="title_activity_main">小坤学编程</string>
+    <string name="app_name">小鲲学编程</string>
+    <string name="title_activity_main">小鲲学编程</string>
     <string name="package_name">com.xiaokun.learn</string>
     <string name="custom_url_scheme">com.xiaokun.learn.v2</string>
 </resources>

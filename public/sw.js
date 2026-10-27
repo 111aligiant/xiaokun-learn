@@ -2,7 +2,7 @@
    - 导航请求：网络优先，断网回退到缓存的 index.html
    - 静态资源：缓存优先，命中后直接返回；未命中则请求并写入缓存
    - 不缓存跨域的模型 API 请求 */
-const CACHE = 'xiaokun-v5'
+const CACHE = 'xiaokun-v6'
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png', './avatar.png']
 
 self.addEventListener('install', (event) => {

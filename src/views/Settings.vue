@@ -202,7 +202,7 @@
       <div class="row" style="gap:10px">
         <div class="field grow" style="margin-bottom:0">
           <label class="field__label">助教叫什么</label>
-          <input class="input" v-model="form.assistantName" placeholder="小坤" />
+          <input class="input" v-model="form.assistantName" placeholder="小鲲" />
         </div>
         <div class="field grow" style="margin-bottom:0">
           <label class="field__label">怎么称呼你</label>
@@ -312,7 +312,7 @@ const form = reactive({
   teachMode: 'guide',
   useLessonContext: true,
   personaId: 'tutor',
-  assistantName: '小坤',
+  assistantName: '小鲲',
   level: 'auto',
 })
 

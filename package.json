@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "license": "MIT",
-  "description": "小坤学编程 - 可换课程与人设的手机端编程 AI 私教模板",
+  "description": "小鲲学编程 - 可换课程与人设的手机端编程 AI 私教模板",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

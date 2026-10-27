@@ -19,7 +19,7 @@ const settings = {
   stream: false,
   useLessonContext: true,
   myName: '测试学员',
-  assistantName: '小坤',
+  assistantName: '小鲲',
   level: 'basic',
 }
 

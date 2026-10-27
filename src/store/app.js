@@ -23,7 +23,7 @@ const DEFAULT_SETTINGS = {
   /** 助教人设预设 id，见 data/persona.js */
   personaId: 'tutor',
   /** 助教名字 */
-  assistantName: '小坤',
+  assistantName: '小鲲',
   /**
    * 学员基础水平：'zero' | 'basic' | 'intermediate' | 'advanced' | 'auto'
    * 会注入每一条 system prompt，决定讲多深。'auto' = 首次由助教探底。
@@ -66,8 +66,8 @@ function normalizeState(parsed = {}) {
     settings.profile.background = parsed.settings.levelNote
   }
   // 旧默认名跟随模板改名；用户自己改过的名字不动
-  if (settings.assistantName === '小鲲' || settings.assistantName === '坤坤') {
-    settings.assistantName = '小坤'
+  if (settings.assistantName === '小坤' || settings.assistantName === '坤坤') {
+    settings.assistantName = '小鲲'
   }
   delete settings.myName
   delete settings.levelNote
