@@ -226,7 +226,7 @@ import {
 
 const router = useRouter()
 const s = computed(() => state.settings)
-const logoUrl = import.meta.env.BASE_URL + 'icon-192.png'
+const logoUrl = import.meta.env.BASE_URL + 'avatar.png'
 const keyOk = computed(() => !!state.settings.apiKey.trim())
 
 const draft = ref('')

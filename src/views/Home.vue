@@ -110,7 +110,7 @@ import { packForProfile, localizeText } from '../data/domain-packs.js'
 
 const router = useRouter()
 const s = computed(() => state.settings)
-const logoUrl = import.meta.env.BASE_URL + 'icon-192.png'
+const logoUrl = import.meta.env.BASE_URL + 'avatar.png'
 const hasKey = hasApiKey
 const version = __APP_VERSION__
 
