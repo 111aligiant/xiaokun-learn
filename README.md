@@ -6,10 +6,15 @@
 
 <p><strong>手机上的 AI 编程私教。代码在手机上真跑，模型用你自己的 Key，课程和人设可以整个换掉。</strong></p>
 
+<p>不需要服务器，不需要账号，代码和学习数据都不离开手机。<br />
+学员画像会实时改写课程例子、练习题和实操台的演示数据。</p>
+
 <p>Python / SQLite 各 17 节 · 本地执行 · 0 后端 · 离线优先 · PWA + Android</p>
 
 <p>
   <a href="https://github.com/111aligiant/xiaokun-learn/actions/workflows/ci.yml"><img src="https://github.com/111aligiant/xiaokun-learn/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://github.com/111aligiant/xiaokun-learn/releases/latest"><img src="https://img.shields.io/github/v/release/111aligiant/xiaokun-learn?display_name=tag&sort=semver&color=0f5132" alt="Latest release" /></a>
+  <a href="https://github.com/111aligiant/xiaokun-learn/stargazers"><img src="https://img.shields.io/github/stars/111aligiant/xiaokun-learn?color=f0a622" alt="GitHub stars" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT" /></a>
   <a href="./public/manifest.webmanifest"><img src="https://img.shields.io/badge/PWA-ready-5a0fc8.svg" alt="PWA" /></a>
   <a href="https://github.com/111aligiant/xiaokun-learn/releases/latest"><img src="https://img.shields.io/badge/Android-APK-3ddc84.svg" alt="Android APK" /></a>
@@ -32,6 +37,19 @@
 </div>
 
 > 截图为演示数据。应用本身不含任何预置账号或 API Key。
+
+---
+
+## 一分钟看懂
+
+| 你关心的 | 这里的情况 |
+| --- | --- |
+| 学什么 | Python 17 节 + SQLite 17 节，34 节课全部可在手机上运行 |
+| 怎么跑代码 | Pyodide（CPython/WASM）+ sql.js（SQLite/WASM），不经过服务器 |
+| 怎么因材施教 | 5 种取材领域，课程正文、练习题、演示库随学员画像实时改写 |
+| 怎么接模型 | 任意 OpenAI 兼容平台，Key 只存本机，随时能换 |
+| 怎么改成自己的 | 人设、画像字段、课程包都是普通 JS 数据，视图层不用动 |
+| 能跑在哪 | PWA（可加到手机桌面）+ Android APK，同一套代码 |
 
 ---
 
@@ -82,6 +100,8 @@
 - 自带课程包校验 CLI、提示词单测、Playwright E2E 和 GitHub Actions
 - 同一套代码可发网页（PWA）、可打 Android APK
 
+> 如果这个方向对你有用，点个 **Star** 能让更多正在找「手机上学编程」的人看到它。
+
 ---
 
 ## 界面
@@ -118,7 +138,7 @@ npm run dev
 
 底部「我的 → 模型接入」，填 API Key、base_url 和模型名。
 
-默认 `https://api.deepseek.com` + `deepseek-flash`，也可以点预设一键切换平台。三者都可自由替换，不绑定任何一家。
+默认 `https://api.deepseek.com` + `deepseek-chat`，也可以点预设一键切换平台。三者都可自由替换，不绑定任何一家。
 
 ### 打包
 
@@ -336,6 +356,30 @@ PLAYWRIGHT_NODE_MODULES=/path/to/node_modules npm run test:e2e
 
 ---
 
+## 常见问题
+
+**要自己买 API Key 吗？**
+
+要，但只有你主动提问时才产生调用。不配 Key 也能看课程、做练习、在实操台跑代码，只是助教不能回答。
+
+**手机跑 Python 慢吗？**
+
+首次进入实操台需要加载约 10MB 运行时，之后走缓存；课程里的示例都是毫秒级。`pandas`、`openpyxl` 这类重型包在手机端装不了。
+
+**学习数据会被上传吗？**
+
+不会。课程、进度、笔记、对话都在本机；代码在设备本地执行。只有你发给助教的文字会发送到你配置的模型服务。
+
+**能改成别的学科吗？**
+
+能。换掉课程包、人设和画像字段，就是另一个学科的「讲解 → 练习 → 反馈」App，视图层不用改。
+
+**为什么不做账号和云同步？**
+
+0 后端是设计选择：不用维护服务器，也没有数据托管责任。换设备用导出 / 导入 JSON 即可。
+
+---
+
 ## 参与贡献
 
 欢迎提 Issue 和 PR，尤其是这些方向：
@@ -357,11 +401,18 @@ PLAYWRIGHT_NODE_MODULES=/path/to/node_modules npm run test:e2e
 
 ## English
 
-**Xiaokun Learn** is a phone-first AI coding tutor that runs **real Python (Pyodide)** and **SQL (SQLite)** locally on your device. Bring your own OpenAI-compatible API key — there is no backend, no account, and no server cost.
+**Xiaokun Learn** is a phone-first AI coding tutor you can fork. It runs **real Python (Pyodide)** and **SQLite (sql.js)** locally on the device, so code actually executes and the errors are real — no server, no account, and no code upload.
 
-Courses, persona, and the learner profile are plain JS data, so you can fork it into a tutor for any subject with a cycle of explain → practice → feedback. Ships as a PWA and an Android app via Capacitor.
+Bring your own OpenAI-compatible API key. Courses, persona, and the learner profile are plain JS data, and the profile rewrites lesson examples, exercises, and practice-lab demo data in real time.
 
-> The UI is currently Simplified Chinese.
+**Why it stands out**
+
+- A real local runtime, not another chat wrapper
+- Profile-driven lessons instead of one-size-fits-all content
+- BYOK + zero backend: no subscription, no server to maintain
+- Persona / profile / course packs are data — fork it for any subject
+
+Ships as a PWA and an Android app via Capacitor. The UI is currently Simplified Chinese.
 
 [Live demo](https://111aligiant.github.io/xiaokun-learn/) · [Download APK](https://github.com/111aligiant/xiaokun-learn/releases/latest) · [Course pack format](./docs/course-pack.md)
 
