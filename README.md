@@ -136,9 +136,46 @@ npm run dev
 
 ### 接上模型
 
-底部「我的 → 模型接入」，填 API Key、base_url 和模型名。
+模型不写死在代码里。底部「我的 → 模型接入」填三项就能用：
 
-默认 `https://api.deepseek.com` + `deepseek-chat`，也可以点预设一键切换平台。三者都可自由替换，不绑定任何一家。
+| 字段 | 填什么 |
+| --- | --- |
+| API Key | `sk-` 开头的一长串 |
+| 接口地址 base_url | `https://api.deepseek.com` |
+| 模型名 | `deepseek-flash` |
+
+#### 没有 Key？手把手申请一个
+
+以 DeepSeek 为例，手机和电脑都能操作，大约 3 分钟：
+
+1. **注册开放平台**
+   打开 <https://platform.deepseek.com>，用手机号或邮箱注册登录。注意是「开放平台」，不是平时聊天的网页版。
+2. **创建 API Key**
+   左侧菜单点「API keys」→「创建 API key」，名字随手起（比如 `xiaokun`），然后复制弹窗里 `sk-` 开头的那一串。
+   > 它只显示这一次，关掉弹窗就再也看不到了，先粘到备忘录里。
+3. **充值一点余额**
+   左侧点「充值」，需要先实名，支持支付宝 / 微信。API 按量计费、先充值后调用，充 10 块钱够学很久；余额为 0 时接口会直接报错。
+4. **填回 App**
+   打开底部「我的 → 模型接入」，Key 粘进输入框，base_url 填 `https://api.deepseek.com`，模型名填 `deepseek-flash`，保存。
+5. **测试连接**
+   在「我的」里点「测试连接」，看到成功提示，就可以回首页开始了。
+
+Key 相当于你账户余额的钥匙：它只保存在本机，不经过任何中转服务器；也别发到群里或截图分享，万一泄露，回平台删掉重开一个就行。
+
+#### 想换别家
+
+「模型接入」页有一排预设，点一下就自动填好 base_url 和模型名，你只需要补自己的 Key：
+
+| 预设 | 接口地址 | 模型名 |
+| --- | --- | --- |
+| DeepSeek | `https://api.deepseek.com` | `deepseek-flash` |
+| OpenAI | `https://api.openai.com/v1` | `gpt-4o-mini` |
+| 通义千问 | `https://dashscope.aliyuncs.com/compatible-mode/v1` | `qwen-plus` |
+| 智谱 GLM | `https://open.bigmodel.cn/api/paas/v4` | `glm-4-flash` |
+| Kimi | `https://api.moonshot.cn/v1` | `moonshot-v1-8k` |
+| 硅基流动 | `https://api.siliconflow.cn/v1` | `deepseek-ai/DeepSeek-V3` |
+
+任何 OpenAI 兼容的平台都能用，三项都可自由替换，不绑定任何一家。
 
 ### 打包
 
@@ -404,6 +441,8 @@ PLAYWRIGHT_NODE_MODULES=/path/to/node_modules npm run test:e2e
 **Xiaokun Learn** is a phone-first AI coding tutor you can fork. It runs **real Python (Pyodide)** and **SQLite (sql.js)** locally on the device, so code actually executes and the errors are real — no server, no account, and no code upload.
 
 Bring your own OpenAI-compatible API key. Courses, persona, and the learner profile are plain JS data, and the profile rewrites lesson examples, exercises, and practice-lab demo data in real time.
+
+No key yet? Create one at [platform.deepseek.com](https://platform.deepseek.com), then paste it under **Me → Model access** with `https://api.deepseek.com` and `deepseek-flash`. Step-by-step screenshots-free walkthrough is in [接上模型](#接上模型).
 
 **Why it stands out**
 
