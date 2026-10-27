@@ -179,6 +179,36 @@
           <div class="field__hint">
             任意 OpenAI 兼容平台都可以。Key 只保存在本机，不经过任何中转服务器。
           </div>
+
+          <div class="wiz__help">
+            <button type="button" class="wiz__help-head" @click="keyHelpOpen = !keyHelpOpen">
+              <span class="wiz__help-title">没有 Key？3 分钟申请一个 DeepSeek Key</span>
+              <span class="wiz__help-toggle">{{ keyHelpOpen ? '收起' : '展开' }}</span>
+            </button>
+            <div v-if="keyHelpOpen" class="wiz__help-body">
+              <ol class="wiz__steps">
+                <li>
+                  <span class="wiz__steps-t">注册开放平台</span>
+                  手机浏览器打开 <a class="wiz__link" href="https://platform.deepseek.com">platform.deepseek.com</a>，用手机号或邮箱注册登录。注意是「开放平台」，不是平时聊天的网页。
+                </li>
+                <li>
+                  <span class="wiz__steps-t">创建 API Key</span>
+                  左侧菜单点「API keys」→「创建 API key」，名字随手起（比如 xiaokun）。复制弹窗里 <code class="code--inline">sk-</code> 开头的一长串，它只显示这一次，关掉就再也看不到。
+                </li>
+                <li>
+                  <span class="wiz__steps-t">充值一点余额</span>
+                  API 按量计费、先充值后调用。左侧「充值」需先实名，支持支付宝/微信，充 10 块钱够学很久；余额为 0 时接口会直接报错。
+                </li>
+                <li>
+                  <span class="wiz__steps-t">填回这里</span>
+                  粘贴到上面的输入框，接口地址填 <code class="code--inline">https://api.deepseek.com</code>，模型填 <code class="code--inline">deepseek-chat</code>。保存后可在「我的」里点「测试连接」验证。
+                </li>
+              </ol>
+              <p class="wiz__help-warn">
+                Key 相当于你账户里余额的钥匙：别发到群里、别截图分享。万一泄露，回到同一页面删掉它、重新建一个即可。
+              </p>
+            </div>
+          </div>
         </div>
 
         <div class="field">
@@ -243,6 +273,8 @@ const form = reactive({
   baseUrl: st.baseUrl || '',
   model: st.model || '',
 })
+
+const keyHelpOpen = ref(!(st.apiKey || '').trim())
 
 function pickDomain(d) {
   form.exampleDomain = d.id
@@ -325,6 +357,49 @@ function skip() {
 .wiz__card--on .wiz__card-t { color: var(--brand); }
 .wiz__chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .wiz__row { display: flex; gap: 10px; }
+
+/* DeepSeek Key 申请教程 */
+.wiz__help {
+  margin-top: 10px;
+  border: 1px solid var(--brand-soft2);
+  border-radius: var(--radius-sm);
+  background: var(--brand-soft);
+  overflow: hidden;
+}
+.wiz__help-head {
+  width: 100%;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 10px 12px;
+  border: 0; background: transparent; cursor: pointer; text-align: left;
+}
+.wiz__help-title { font-size: 12.5px; font-weight: 700; color: var(--brand); line-height: 1.45; }
+.wiz__help-toggle { flex: none; font-size: 11.5px; font-weight: 700; color: var(--brand-mid); }
+.wiz__help-body { padding: 0 12px 12px; }
+.wiz__steps {
+  margin: 0; padding: 0; list-style: none;
+  counter-reset: step;
+  display: flex; flex-direction: column; gap: 9px;
+}
+.wiz__steps li {
+  counter-increment: step;
+  position: relative; padding-left: 25px;
+  font-size: 12px; line-height: 1.65; color: var(--ink-2);
+}
+.wiz__steps li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: 1px;
+  width: 17px; height: 17px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--brand); color: #fff;
+  font-size: 10.5px; font-weight: 700;
+}
+.wiz__steps-t { display: block; font-weight: 700; color: var(--ink); }
+.wiz__link { color: var(--brand-mid); font-weight: 700; text-decoration: underline; word-break: break-all; }
+.wiz__help-warn {
+  margin: 9px 0 0; padding-top: 8px;
+  border-top: 1px dashed var(--brand-soft2);
+  font-size: 11px; line-height: 1.6; color: var(--muted);
+}
 .wiz__foot {
   flex: none;
   display: flex; gap: 10px;
