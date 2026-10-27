@@ -33,7 +33,7 @@ self.addEventListener('fetch', (event) => {
 
   if (req.mode === 'navigate') {
     event.respondWith(
-      fetch(req).catch(() => caches.match('./index.html'))
+      fetch(req, { cache: 'no-store' }).catch(() => caches.match('./index.html'))
     )
     return
   }
