@@ -41,7 +41,7 @@ export const EXAMPLE_DOMAINS = [
   {
     id: 'office',
     label: '办公自动化',
-    hint: '文件批处理、清单核对',
+    hint: '文件批处理、表格汇总',
     rule: '举例优先用办公自动化场景：批量改文件名、汇总多个 Excel、核对清单、按模板生成文档。',
   },
   {
@@ -96,7 +96,7 @@ export function renderProfileSection(profile = DEFAULT_PROFILE) {
 
   let out = `\n\n## 学员背景（用它来决定讲什么、怎么举例）\n${lines.join('\n')}`
   if (!customDomain && domainOf(p).id === 'general') {
-    out += '\n- 学员没有指定行业：出题和举例一律用通用场景（购物、订单、记账、成绩、天气、文件整理），**不要**默认套用品类、商品识别、工业等特定行业。'
+    out += '\n- 学员没有指定行业：出题和举例一律用通用场景（购物、订单、记账、成绩、天气、文件整理），**不要**默认绑定某个特定行业。'
   }
   if (!p.goal || !p.background) {
     out += '\n- 学员还没填写完整的目标或基础：第一次对话先用 1~2 个一句话能答完的问题补齐，别假设。'

@@ -99,7 +99,7 @@ export const SQL_COURSE = {
               '数据库服务器：单独常驻运行，客户端通过网络连上去',
               'SQLite 不需要账号、端口、安装包，复制一个 .db 文件就是复制整个数据库',
             ]],
-            ['p', '因为足够简单可靠，SQLite 被大量用在手机 App、桌面软件、浏览器和嵌入式商品里。'],
+            ['p', '因为足够简单可靠，SQLite 被大量用在手机 App、桌面软件、浏览器和嵌入式硬件里。'],
             ['h', '本 App 里的 SQLite'],
             ['table',
               ['环境', '运行方式', '数据在哪'],
@@ -233,7 +233,7 @@ DELETE FROM equipment;    -- 清空数据，保留表结构`],
 );
 
 INSERT INTO calibration (equipment_code, cal_date, cal_org, result)
-VALUES ('SKU-001', '2026-08-01', '浙江省平台质检组', '合格');
+VALUES ('SKU-001', '2026-08-01', '平台质检组', '合格');
 
 SELECT * FROM calibration;`,
             note: '注意 INSERT 时 id 没有写 —— 它是 AUTOINCREMENT 主键，数据库会自动分配。',
@@ -279,13 +279,13 @@ SELECT * FROM calibration;`,
           blocks: [
             ['h', '插入单行'],
             ['code', 'sql', `INSERT INTO equipment (code, name, model, price, dept, status)
-VALUES ('SKU-013', '智能音箱', 'E5071C', 218000, '影音商品', '在用');`],
+VALUES ('SKU-013', '智能音箱', 'SoundX-10', 218000, '影音设备', '在用');`],
             ['p', '字段顺序和值顺序要一一对应。字段名写全是个好习惯 —— 即使表结构以后加字段，你的语句也不会错位。'],
             ['h', '一次插多行（效率高得多）'],
             ['code', 'sql', `INSERT INTO equipment (code, name, model, price, dept, status) VALUES
-  ('SKU-014', '充电宝',     'N1911A',   62000, '影音商品', '在用'),
-  ('SKU-015', '无线鼠标', 'SMB100A', 156000, '影音商品', '在用'),
-  ('SKU-016', '桌面风扇',     'FAN-01',  48000, '智能穿戴', '维修');`],
+  ('SKU-014', '移动电源',     '20000mAh', 62000, '数码配件', '在用'),
+  ('SKU-015', '无线鼠标', 'M330',     156000, '电脑外设', '在用'),
+  ('SKU-016', '桌面风扇',     'FAN-01',  48000, '日用百货', '维修');`],
             ['tip', '插 1000 行时，一条 INSERT 带 1000 组 VALUES 比执行 1000 条 INSERT 快几十倍。因为网络往返和事务提交的次数少得多。'],
             ['h', '省略字段（用默认值 / 允许空）'],
             ['code', 'sql', `-- 只给必填字段，其余用默认值
@@ -312,13 +312,13 @@ cursor.execute(sql, (user_input,))`],
             ['warn', 'SQL 注入是最经典的安全漏洞之一。记住一条规则：**值永远走参数占位符，只有表名/字段名这类标识符才可能拼接（且必须白名单校验）**。'],
           ],
           exercise: {
-            task: '往 equipment 表插入两台新商品，然后查询验证插入成功。',
+            task: '往 equipment 表插入两件新商品，然后查询验证插入成功。',
             hint: 'INSERT 之后用 SELECT * FROM equipment WHERE code IN (...)；',
             starter: `-- 插入两件商品
 `,
             answer: `INSERT INTO equipment (code, name, model, maker, price, dept, buy_date, status) VALUES
-  ('SKU-018', '降噪耳机', 'Buds Pro', '索尼', 286000, '数码配件', '2025-03-10', '在用'),
-  ('SKU-019', '游戏手柄',   'G502', '罗技', 32000, '日用百货', '2025-01-15', '在用');
+  ('SKU-018', '降噪耳机', 'Buds Pro', '索尼', 286000, '影音设备', '2025-03-10', '在用'),
+  ('SKU-019', '游戏手柄',   'G502', '罗技', 32000, '电脑外设', '2025-01-15', '在用');
 
 SELECT * FROM equipment WHERE code IN ('SKU-018', 'SKU-019');`,
             note: '如果这条 SQL 重复执行两次，第二条会因为 code 重复而报 UNIQUE 错误 —— 这正是唯一约束在保护数据。',
@@ -360,7 +360,7 @@ FROM equipment;
 
 -- 别名也可以用来改表达式结果的表头
 SELECT COUNT(*) AS 商品总数 FROM equipment;`],
-            ['note', '别名里如果有空格或特殊字符，要用双引号或反引号包起来：price AS "进货销售额(元)"。'],
+            ['note', '别名里如果有空格或特殊字符，要用双引号或反引号包起来：price AS "销售额(元)"。'],
             ['h', 'DISTINCT 去重'],
             ['code', 'sql', `-- 有哪些品类？（每件商品重复出现会很难看）
 SELECT DISTINCT dept FROM equipment;
@@ -383,7 +383,7 @@ SELECT name, COALESCE(model, maker, '未填') AS model FROM equipment;`],
             ['note', 'COALESCE 是标准 SQL 函数，返回参数里第一个非 NULL 的值。SQLite 里和 IFNULL 一样好用。'],
           ],
           exercise: {
-            task: '查询所有品类的名称（去重），并按品类名排序。再列出商品名称和销售额，要求销售额放大 10000 倍后除以 10000 显示成「万元」列。',
+            task: '查询所有品类的名称（去重），并按品类名排序。再列出商品名称和销售额，把销售额除以 10000 显示成「万元」列。',
             hint: 'DISTINCT + ORDER BY；第二个用 price / 10000 AS 万元。',
             starter: `-- 品类清单
 `,
@@ -425,7 +425,7 @@ WHERE status = '在用' AND dept = '数码配件';
 
 -- OR：满足一个就行（记得加括号！）
 SELECT * FROM equipment
-WHERE dept = '数码配件' OR dept = '影音商品';
+WHERE dept = '数码配件' OR dept = '影音设备';
 
 -- NOT：取反
 SELECT * FROM equipment WHERE NOT status = '在用';`],
@@ -435,14 +435,14 @@ SELECT * FROM equipment WHERE NOT status = '在用';`],
 SELECT * FROM equipment WHERE price BETWEEN 50000 AND 200000;
 
 -- IN：命中列表里任意一个
-SELECT * FROM equipment WHERE dept IN ('数码配件', '影音商品');
+SELECT * FROM equipment WHERE dept IN ('数码配件', '影音设备');
 SELECT * FROM equipment WHERE status IN ('维修', '报废');`],
             ['note', 'IN 列表里放几百个值时会变慢，可以考虑用临时表 + JOIN。但几百个以内放心用。'],
             ['h', '模糊匹配：LIKE'],
             ['code', 'sql', `-- % 匹配任意多个字符
-SELECT * FROM equipment WHERE name LIKE '频谱%';        -- 以"频谱"开头
-SELECT * FROM equipment WHERE name LIKE '%分析仪';      -- 以"分析仪"结尾
-SELECT * FROM equipment WHERE name LIKE '%销售%';       -- 包含"销售"
+SELECT * FROM equipment WHERE name LIKE '蓝牙%';        -- 以"蓝牙"开头
+SELECT * FROM equipment WHERE name LIKE '%耳机';      -- 以"耳机"结尾
+SELECT * FROM equipment WHERE name LIKE '%耳机%';       -- 包含"耳机"
 
 -- _ 匹配单个字符
 SELECT * FROM equipment WHERE code LIKE 'SKU-00_';       -- SKU-001 到 SKU-009`],
@@ -456,25 +456,25 @@ SELECT * FROM equipment WHERE model IS NULL;
 SELECT * FROM equipment WHERE model IS NOT NULL;`],
             ['warn', 'NULL 表示"未知"。任何和 NULL 的比较运算结果都是"未知"（既不是真也不是假），所以必须用 IS NULL。这是 SQL 新手第一大坑。'],
             ['h', '组合实战'],
-            ['code', 'sql', `-- 找出：数码配件或影音商品里、状态为在用、且销售额超过 10 万的商品
+            ['code', 'sql', `-- 找出：数码配件或影音设备里、状态为在用、且销售额超过 10 万的商品
 SELECT code, name, dept, price
 FROM equipment
-WHERE dept IN ('数码配件', '影音商品')
+WHERE dept IN ('数码配件', '影音设备')
   AND status = '在用'
   AND price > 100000
 ORDER BY price DESC;`],
             ['tip', '复杂 WHERE 建议每个条件单独一行，缩进对齐。三个月后你自己看也能秒懂。'],
           ],
           exercise: {
-            task: '查出所有「销售」相关商品（名称里含"销售"）以及所有状态为「维修」或「报废」的商品编号和状态。',
+            task: '查出所有耳机类商品（名称里含「耳机」）以及所有状态为「维修」或「报废」的商品编号和状态。',
             hint: '两个条件用 OR 连接，每个条件加括号；用 IN 处理两个状态。',
             starter: `-- 补全
 `,
             answer: `SELECT code, name, status
 FROM equipment
-WHERE name LIKE '%销售%'
+WHERE name LIKE '%耳机%'
    OR status IN ('维修', '报废');`,
-            note: '注意 OR 两侧分别是一个完整条件。这个查询会返回所有销售类商品（不管状态）+ 所有维修/报废的商品。',
+            note: '注意 OR 两侧分别是一个完整条件。这个查询会返回所有耳机类商品（不管状态）+ 所有维修/报废的商品。',
           },
           quiz: [
             {
@@ -549,7 +549,7 @@ SELECT name, price
 FROM equipment
 ORDER BY price DESC
 LIMIT 3;`,
-            note: '销售额最高的 3 台：无线耳机 Buds Pro（512000）、智能手表 Watch S2（456000）、无线耳机 WH-1000XM5（398000）。',
+            note: '销售额最高的 3 件：无线耳机 Buds Pro（512000）、智能手表 Watch S2（456000）、头戴耳机 WH-1000XM5（398000）。',
           },
           quiz: [
             {
@@ -671,7 +671,7 @@ SELECT * FROM equipment WHERE code = 'SKU-003';`,
             ['h', '五个基本聚合'],
             ['code', 'sql', `SELECT
   COUNT(*)        AS 商品总数,
-  SUM(price)      AS 总销售额值,
+  SUM(price)      AS 总销售额,
   AVG(price)      AS 平均销售额,
   MAX(price)      AS 最贵,
   MIN(price)      AS 最便宜
@@ -710,13 +710,13 @@ FROM test_record;`],
             ['p', '注意 100.0 而不是 100 —— 整数相除在 SQL 里会截断成整数（部分数据库如此），乘个 100.0 就能强制走浮点。'],
           ],
           exercise: {
-            task: '统计：商品总数、总销售额值、平均销售额、最贵商品的销售额；再统计有多少个不同品类。',
+            task: '统计：商品总数、总销售额、平均销售额、最贵商品的销售额；再统计有多少个不同品类。',
             hint: '一条 SELECT 全搞定，用 COUNT / SUM / AVG / MAX，品类数用 COUNT(DISTINCT dept)。',
             starter: `-- 补全
 `,
             answer: `SELECT
   COUNT(*)             AS 商品总数,
-  SUM(price)           AS 总销售额值,
+  SUM(price)           AS 总销售额,
   ROUND(AVG(price), 2) AS 平均销售额,
   MAX(price)           AS 最贵销售额,
   COUNT(DISTINCT dept) AS 品类数量
@@ -745,11 +745,11 @@ FROM equipment;`,
             ['code', 'sql', `SELECT
   dept                       AS 品类,
   COUNT(*)                   AS 商品数,
-  SUM(price)                 AS 总销售额值,
+  SUM(price)                 AS 总销售额,
   ROUND(AVG(price), 2)       AS 平均销售额
 FROM equipment
 GROUP BY dept
-ORDER BY 总销售额值 DESC;`],
+ORDER BY 总销售额 DESC;`],
             ['p', '理解方式：数据库先把所有行按 dept 分成几堆，然后对每一堆分别做 Count/Sum/Avg，最后每个品类输出一行。'],
             ['h', '一个铁律'],
             ['warn', 'SELECT 列表里只能出现「分组字段」和「聚合函数」，其他字段不允许出现。'],
@@ -762,7 +762,7 @@ SELECT dept, COUNT(*) FROM equipment GROUP BY dept;
 -- SQLite 里上面那句"错"的写法通常不报错，
 -- 但结果里的 name 是随机的，千万不要依赖这个行为。`],
             ['h', 'HAVING：对分组结果再筛'],
-            ['code', 'sql', `-- 找出商品数超过 2 台的品类
+            ['code', 'sql', `-- 找出商品数超过 2 件的品类
 SELECT dept, COUNT(*) AS cnt
 FROM equipment
 GROUP BY dept
@@ -801,19 +801,19 @@ GROUP BY dept, status
 ORDER BY dept, status;`],
           ],
           exercise: {
-            task: '按品类统计：商品数量、总销售额值；只要「在用」状态的商品；筛出商品数 ≥ 2 的品类，按总销售额值降序排列。',
+            task: '按品类统计：商品数量、总销售额；只要「在用」状态的商品；筛出商品数 ≥ 2 的品类，按总销售额降序排列。',
             hint: 'WHERE status = ... 在 GROUP BY 前，HAVING COUNT(*) >= 2 在 GROUP BY 后。',
             starter: `-- 补全
 `,
             answer: `SELECT
   dept                 AS 品类,
   COUNT(*)             AS 商品数,
-  SUM(price)           AS 总销售额值
+  SUM(price)           AS 总销售额
 FROM equipment
 WHERE status = '在用'
 GROUP BY dept
 HAVING COUNT(*) >= 2
-ORDER BY 总销售额值 DESC;`,
+ORDER BY 总销售额 DESC;`,
             note: '注意 HAVING 里的条件用的是聚合函数 COUNT(*)，这正是 HAVING 存在的意义。',
           },
           quiz: [
@@ -836,12 +836,12 @@ ORDER BY 总销售额值 DESC;`,
           blocks: [
             ['p', 'JOIN 是 SQL 最重要也最难的一块。理解了它，你的查询能力会有质变。'],
             ['h', '为什么需要 JOIN'],
-            ['p', '两张表示例如下。商品名称只在 equipment 里，销售结果只在 test_record 里。想知道"每台销售商品叫什么"，就必须把两张表连起来。'],
+            ['p', '两张表示例如下。商品名称只在 equipment 里，销售结果只在 test_record 里。想知道"每件商品叫什么"，就必须把两张表连起来。'],
             ['table',
               ['equipment.code', 'equipment.name', 'test_record.equipment_code', 'test_record.item'],
               ['SKU-001', '蓝牙耳机', 'SKU-001', '退货率'],
               ['SKU-002', '智能手表', 'SKU-002', '销售额'],
-              ['SKU-004', '机械键盘', 'SKU-004', '客销售额'],
+              ['SKU-004', '机械键盘', 'SKU-004', '客单价'],
             ],
             ['h', 'INNER JOIN：只要两边都有的'],
             ['code', 'sql', `SELECT
@@ -1119,7 +1119,7 @@ WHERE c = 3`],
             ['h', '索引失效的常见情况'],
             ['ul', [
               '在索引字段上做运算或函数：WHERE YEAR(buy_date) = 2024 → 改成 WHERE buy_date >= \'2024-01-01\' AND buy_date < \'2025-01-01\'',
-              'LIKE 以 % 开头：WHERE name LIKE \'%分析仪\'',
+              'LIKE 以 % 开头：WHERE name LIKE \'%耳机\'',
               '隐式类型转换：code 是 TEXT，却写 WHERE code = 123',
               'OR 连接了非索引字段',
               '使用了 != 或 NOT IN（多数情况下无法走索引）',
@@ -1226,7 +1226,7 @@ finally:
             ['tip', 'sqlite3 的占位符是 ?（也支持 :name 命名参数）。值一律走参数占位符，不要拼字符串。'],
           ],
           exercise: {
-            task: '在一个事务里：给 equipment 插入一台新商品，然后故意执行一条会报错的语句（如插入重复编号），观察是否整体回滚。',
+            task: '在一个事务里：给 equipment 插入一件新商品，然后故意执行一条会报错的语句（如插入重复编号），观察是否整体回滚。',
             hint: '先 BEGIN，插入一条，再用 ROLLBACK 或 COMMIT 看结果差异。',
             starter: `BEGIN;
 
@@ -1306,8 +1306,8 @@ conn.close()`],
             ['warn', '? 占位符和参数一一对应，数量必须一致。即使值是数字也要走参数，不要用 f-string 拼进 SQL。'],
             ['h', '写入数据'],
             ['code', 'python', `data = [
-    ("SKU-030", "智能音箱", 218000, "影音商品"),
-    ("SKU-031", "迷你主机",      35000, "数码配件"),
+    ("SKU-030", "智能音箱", 218000, "影音设备"),
+    ("SKU-031", "迷你主机",      35000, "电脑外设"),
 ]
 
 with conn:
@@ -1344,9 +1344,9 @@ def execute(sql, params=()):
             ['code', 'python', `import sqlite3
 
 records = [
-    ("SKU-001", "退货率",   2.0,   ">= 1",   "合格",   "2024-08-01"),
-    ("SKU-003", "缺货率",  -41.5,  "-40±2",  "不合格", "2024-05-19"),
-    ("SKU-005", "月销售额", -118.0,  "<= -110", "合格",   "2024-08-20"),
+    ("SKU-001", "退货率",   2.0,   "<= 3",   "合格",   "2024-08-01"),
+    ("SKU-003", "缺货率",  41.5,   "<= 30",  "不合格", "2024-05-19"),
+    ("SKU-005", "月销售额", 118.0,  ">= 100", "合格",   "2024-08-20"),
 ]
 
 conn = sqlite3.connect("lab.db")
@@ -1429,9 +1429,9 @@ for r in top_expensive(3):
           minutes: 18,
           level: '实战',
           objectives: ['把建表、插入、多表查询、统计串起来', '写出一个"清单核对"实用脚本', '掌握分页查询与条件组装'],
-          summary: '把前面 15 节全部用上：建表 → 灌数据 → 复杂查询 → 输出报表。这是最接近真实工作的一节。',
+          summary: '把前面 15 节全部用上：建表 → 灌数据 → 复杂查询 → 输出报表。这是最接近真实业务的一节。',
           blocks: [
-            ['p', '最后这节，我们做一个你工作里真会遇到的东西：**商品清单与销售记录的核对系统**。'],
+            ['p', '最后这节，我们做一个真实业务里常见的东西：**商品清单与销售记录的核对系统**。'],
             ['h', '需求'],
             ['ol', [
               '找出所有"有销售记录但不合格"的商品',
@@ -1453,7 +1453,7 @@ WHERE NOT EXISTS (
   SELECT 1 FROM test_record t WHERE t.equipment_code = e.code
 );
 
--- ③ 按品类统计：商品数、总销售额值、销售总数、不合格数、合格率
+-- ③ 按品类统计：商品数、总销售额、销售总数、不合格数、合格率
 SELECT
   e.dept                                            AS 品类,
   COUNT(DISTINCT e.code)                            AS 商品数,
@@ -1469,18 +1469,18 @@ SELECT e.dept, SUM(e.price)
 FROM equipment e
 LEFT JOIN test_record t ON t.equipment_code = e.code
 GROUP BY e.dept;
--- 数码配件 3 件商品 700000 元，但因为有 5 条销售记录，会算成 1180000
+-- 数码配件 3 件商品 315500 元，但因为有 5 条销售记录，会算成 611500
 
 
 -- 正确解法 A：先算商品侧，再算销售侧，最后合并
 SELECT
   d.dept        AS 品类,
   d.商品数,
-  d.总销售额值,
+  d.总销售额,
   COALESCE(t.销售记录数, 0)   AS 销售记录数,
   COALESCE(t.不合格数, 0) AS 不合格数
 FROM (
-  SELECT dept, COUNT(*) AS 商品数, SUM(price) AS 总销售额值
+  SELECT dept, COUNT(*) AS 商品数, SUM(price) AS 总销售额
   FROM equipment
   GROUP BY dept
 ) AS d
@@ -1492,7 +1492,7 @@ LEFT JOIN (
   JOIN equipment e ON e.code = t.equipment_code
   GROUP BY e.dept
 ) AS t ON t.dept = d.dept
-ORDER BY d.总销售额值 DESC;`],
+ORDER BY d.总销售额 DESC;`],
             ['tip', '记住这个模式：「先分组聚合，再 JOIN」是解决"JOIN 导致重复计数"的通用解法。这在做报表时几乎每天都会遇到。'],
             ['h', '第二步：用 Python 串成报告'],
             ['code', 'python', `import sqlite3
@@ -1522,7 +1522,7 @@ def build_report():
         JOIN test_record t ON e.code = t.equipment_code
         WHERE t.verdict = '不合格'
     """)
-    lines.append(f"\\n【一】存在不合格销售记录的商品（{len(bad)} 台）")
+    lines.append(f"\\n【一】存在不合格销售记录的商品（{len(bad)} 件）")
     for r in bad:
         lines.append(f"  ! {r['code']}  {r['name']}  （{r['dept']}）")
 
@@ -1534,17 +1534,17 @@ def build_report():
           SELECT 1 FROM test_record t WHERE t.equipment_code = e.code
         )
     """)
-    lines.append(f"\\n【二】从未做过销售的商品（{len(miss)} 台）")
+    lines.append(f"\\n【二】从未做过销售的商品（{len(miss)} 件）")
     for r in miss:
         lines.append(f"  ? {r['code']}  {r['name']}  （{r['dept']}）")
 
     # ③ 品类统计
     stat = q("""
-        SELECT d.dept AS dept, d.商品数, d.总销售额值,
+        SELECT d.dept AS dept, d.商品数, d.总销售额,
                COALESCE(t.销售记录数, 0) AS 销售记录数,
                COALESCE(t.不合格数, 0) AS 不合格数
         FROM (
-          SELECT dept, COUNT(*) AS 商品数, SUM(price) AS 总销售额值
+          SELECT dept, COUNT(*) AS 商品数, SUM(price) AS 总销售额
           FROM equipment GROUP BY dept
         ) d
         LEFT JOIN (
@@ -1553,14 +1553,14 @@ def build_report():
           FROM test_record t JOIN equipment e ON e.code = t.equipment_code
           GROUP BY e.dept
         ) t ON t.dept = d.dept
-        ORDER BY d.总销售额值 DESC
+        ORDER BY d.总销售额 DESC
     """)
     lines.append("\\n【三】品类汇总")
-    lines.append(f"  {'品类':<12}{'商品数':>6}{'总销售额值(万元)':>14}{'销售记录数':>8}{'不合格':>8}")
+    lines.append(f"  {'品类':<12}{'商品数':>6}{'总销售额(万元)':>14}{'销售记录数':>8}{'不合格':>8}")
     for r in stat:
         lines.append(
             f"  {r['dept']:<12}{r['商品数']:>6}"
-            f"{float(r['总销售额值'] or 0) / 10000:>14.2f}"
+            f"{float(r['总销售额'] or 0) / 10000:>14.2f}"
             f"{r['销售记录数']:>8}{r['不合格数']:>8}"
         )
 
@@ -1575,20 +1575,22 @@ if __name__ == '__main__':
            商品清单核对报告
 ==============================================
 
-【一】存在不合格销售记录的商品（1 台）
-  ! SKU-003  便携音箱  （智能穿戴）
+【一】存在不合格销售记录的商品（2 件）
+  ! SKU-003  便携音箱  （影音设备）
+  ! SKU-009  车载支架  （数码配件）
 
-【二】从未做过销售的商品（7 台）
+【二】从未做过销售的商品（3 件）
   ? SKU-006  充电宝  （日用百货）
-  ? SKU-007  数据线  （日用百货）
-  ...
+  ? SKU-008  智能手环  （智能穿戴）
+  ? SKU-010  头戴耳机  （影音设备）
 
 【三】品类汇总
-  品类             商品数    总销售额值(万元)    销售记录数    不合格
-  数码配件            3         72.00        5        0
-  智能穿戴            3         18.50        2        1
-  影音商品            2         91.00        1        0
-  ...`],
+  品类             商品数    总销售额(万元)    销售记录数    不合格
+  影音设备            3         99.60        3        1
+  智能穿戴            3         56.48        4        0
+  电脑外设            2         41.40        3        0
+  数码配件            3         31.55        5        2
+  日用百货            1          0.68        0        0`],
             ['h', '这个脚本能直接用的原因'],
             ['ul', [
               'SQL 集中在一处，改查询不用动 Python 逻辑',
@@ -1603,7 +1605,7 @@ if __name__ == '__main__':
               '加个 --date 参数，只核对某个月的数据',
               '做成定时任务，每周一自动跑并邮件发出',
             ]],
-            ['note', '到这里，你已经走完了「Python 语法 → SQL 查询 → 两者结合解决真实问题」的完整路径。接下来最有销售额的动作是：拿你手上真实的一份清单，用这套方法重新做一遍。'],
+            ['note', '到这里，你已经走完了「Python 语法 → SQL 查询 → 两者结合解决真实问题」的完整路径。接下来最有价值的动作是：拿你手上真实的一份清单，用这套方法重新做一遍。'],
           ],
           exercise: {
             task: '在上面基础上增加一个查询：找出「销售记录中涉及的商品编号，在 equipment 表里不存在」的情况（也就是销售记录引用了不存在的商品，属于数据质量问题）。',
@@ -1760,7 +1762,7 @@ SELECT * FROM equipment WHERE code = 'SKU-001';
             ['note', '到这里，你已经能把课程里的 SQL 用到真实 .db 文件、CSV 导入导出和备份上。剩下的就是拿自己的数据练。'],
           ],
           exercise: {
-            task: '写一段 Python：连接 lab.db，查询每个品类的商品数与总销售额值，按总销售额值降序打印。',
+            task: '写一段 Python：连接 lab.db，查询每个品类的商品数与总销售额，按总销售额降序打印。',
             hint: 'SQL 用 GROUP BY dept、SUM(price)；结果用 row_factory 按列名取值。',
             starter: `import sqlite3
 
@@ -1775,14 +1777,14 @@ conn = sqlite3.connect("lab.db")
 conn.row_factory = sqlite3.Row
 
 rows = conn.execute("""
-    SELECT dept AS 品类, COUNT(*) AS 商品数, SUM(price) AS 总销售额值
+    SELECT dept AS 品类, COUNT(*) AS 商品数, SUM(price) AS 总销售额
     FROM equipment
     GROUP BY dept
-    ORDER BY 总销售额值 DESC
+    ORDER BY 总销售额 DESC
 """).fetchall()
 
 for r in rows:
-    print(f"{r['品类']:<12} {r['商品数']:>4} 台  {r['总销售额值']:>12,.0f} 元")
+    print(f"{r['品类']:<12} {r['商品数']:>4} 件  {r['总销售额']:>12,.0f} 元")
 
 conn.close()`,
             note: 'GROUP BY 后 SELECT 的列必须能按组唯一确定；这里按 dept 分组，取 dept、COUNT、SUM 都是安全的。',

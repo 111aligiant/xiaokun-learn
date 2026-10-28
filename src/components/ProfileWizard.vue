@@ -82,7 +82,7 @@
             style="margin-top:10px"
             v-model="form.exampleDomainText"
             maxlength="40"
-            placeholder="也可以直接写：通用电子、医学影像、财务审计…"
+            placeholder="也可以直接写：电商零售、教育培训、医疗健康…"
             @input="onDomainInput"
           />
           <div class="field__hint">自己写的领域优先于上面的选择；留空就用所选领域。</div>

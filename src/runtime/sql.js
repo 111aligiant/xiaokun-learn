@@ -138,7 +138,7 @@ ${ddl(tRecords, recordCols, recordTypes)}
 INSERT INTO ${tRecords} (${recordCols.join(', ')}) VALUES
 ${recordRows.join(',\n')};
 
--- 采购/流水表：留给事务章节练习，初始为空
+-- 进货/流水表：留给事务章节练习，初始为空
 ${ddl(tLog, ['id', col(pack, 'equipment_code'), 'amount', 'created_at'], [
     'INTEGER PRIMARY KEY', 'TEXT', 'REAL', 'TEXT',
   ])}`
